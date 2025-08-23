@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Estação Meteorológica</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Estação Meteorológica Escolar</h1>
+        <p>Monitorando temperatura, umidade e outros dados climáticos</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#dados-atuais">Dados Atuais</a></li>
+            <li><a href="#historico">Histórico</a></li>
+            <li><a href="#sobre">Sobre o Projeto</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="dados-atuais">
+            <h2>Dados Atuais</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Temperatura</h3>
+                    <p id="temperatura">-- °C</p>
+                </div>
+                <div class="card">
+                    <h3>Umidade</h3>
+                    <p id="umidade">-- %</p>
+                </div>
+                <div class="card">
+                    <h3>Pressão</h3>
+                    <p id="pressao">-- hPa</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="historico">
+            <h2>Histórico de Leituras</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Temperatura</th>
+                        <th>Umidade</th>
+                        <th>Pressão</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>08:00</td>
+                        <td>25°C</td>
+                        <td>60%</td>
+                        <td>1012 hPa</td>
+                    </tr>
+                    <tr>
+                        <td>09:00</td>
+                        <td>26°C</td>
+                        <td>58%</td>
+                        <td>1011 hPa</td>
+                    </tr>
+                    <!-- Mais linhas podem ser adicionadas -->
+                </tbody>
+            </table>
+        </section>
+
+        <section id="sobre">
+            <h2>Sobre o Projeto</h2>
+            <p>Este projeto escolar visa monitorar e registrar dados meteorológicos de forma prática, utilizando sensores de temperatura, umidade e pressão atmosférica. As informações coletadas ajudam a entender melhor o clima local e aprender sobre tecnologia e ciência de dados.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Projeto Escolar - Estação Meteorológica</p>
+    </footer>
+</body>
+</html>
