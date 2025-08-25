@@ -7,9 +7,9 @@ O projeto da Estação Meterológica tem como objetivo trazer engajamento e conh
 
 ## Integrantes
 - `Álefe Alexandre de Toledo`
-- `Felipe Ferreira de Moura`
-- `Luiz Francisco Charleaux e Caetano`
-- `Mateus Motta Bueno Ribeiro`
-- `Thiago de Oliveira Motta`
+- `Felipe Ferreira de Moura` | fmoura.dev@gmail.com
+- `Luiz Francisco Charleaux e Caetano` | luizcharleauxecaetano@gmail.com
+- `Mateus Motta Bueno Ribeiro` | matribeiromota@gmail.com
+- `Thiago de Oliveira Motta` | thiago.oliveiramotta@gmail.com
 
 Copyright (c) 2025. All Rights Reserved.
