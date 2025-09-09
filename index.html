@@ -1,82 +1,113 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Estação Meteorológica</title>
-    <link rel="stylesheet" href="estilo.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projeto Estação Meteorológica</title>
+  <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-    <header>
-        <h1>Estação Meteorológica Escolar</h1>
-        <h1>Pagina em Desenvolvimento</h1>
-        <p>Monitorando temperatura, umidade e outros dados climáticos</p>
-    </header>
+  <header>
+    <h1>Estação Meteorológica Escolar</h1>
+    <h1>Página em Desenvolvimento</h1>
+    <p>Monitorando temperatura, umidade e outros dados climáticos</p>
+  </header>
 
-    <nav>
-        <ul>
-            <li><a href="#dados-atuais">Dados Atuais</a></li>
-            <li><a href="#historico">Histórico</a></li>
-            <li><a href="#sobre">Sobre o Projeto</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="#dados-atuais">Dados Atuais</a></li>
+      <li><a href="#historico">Histórico</a></li>
+      <li><a href="#sobre">Sobre o Projeto</a></li>
+    </ul>
+  </nav>
 
-    <main>
-        <section id="dados-atuais">
-            <h2>Dados Atuais</h2>
-            <div class="cards">
-                <div class="card">
-                    <h3>Temperatura</h3>
-                    <p id="temperatura">-- °C</p>
-                </div>
-                <div class="card">
-                    <h3>Umidade</h3>
-                    <p id="umidade">-- %</p>
-                </div>
-                <div class="card">
-                    <h3>Pressão</h3>
-                    <p id="pressao">-- hPa</p>
-                </div>
-            </div>
-        </section>
+  <main>
+    <section id="dados-atuais">
+      <h2>Dados Atuais</h2>
+      <div class="cards" id="dados-atuais-container">
+        <p>Carregando dados...</p>
+      </div>
+    </section>
 
-        <section id="historico">
-            <h2>Histórico de Leituras</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Hora</th>
-                        <th>Temperatura</th>
-                        <th>Umidade</th>
-                        <th>Pressão</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>08:00</td>
-                        <td>25°C</td>
-                        <td>60%</td>
-                        <td>1012 hPa</td>
-                    </tr>
-                    <tr>
-                        <td>09:00</td>
-                        <td>26°C</td>
-                        <td>58%</td>
-                        <td>1011 hPa</td>
-                    </tr>
-                    <!-- Mais linhas podem ser adicionadas -->
-                </tbody>
-            </table>
-        </section>
+    <section id="historico">
+      <h2>Histórico de Leituras</h2>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>DataHora</th>
+            <th>Temperatura (°C)</th>
+            <th>Umidade (%)</th>
+            <th>Pressão (hPa)</th>
+            <th>Pressão Nível do Mar (hPa)</th>
+            <th>Ponto de Orvalho (°C)</th>
+          </tr>
+        </thead>
+        <tbody id="historico-body">
+          <!-- Preenchido pelo JavaScript -->
+        </tbody>
+      </table>
+    </section>
 
-        <section id="sobre">
-            <h2>Sobre o Projeto</h2>
-            <p>Este projeto escolar visa monitorar e registrar dados meteorológicos de forma prática, utilizando sensores de temperatura, umidade e pressão atmosférica. As informações coletadas ajudam a entender melhor o clima local e aprender sobre tecnologia e ciência de dados.</p>
-        </section>
-    </main>
+    <section id="sobre">
+      <h2>Sobre o Projeto</h2>
+      <p>Este projeto escolar visa monitorar e registrar dados meteorológicos de forma prática, utilizando sensores de temperatura, umidade e pressão atmosférica. As informações coletadas ajudam a entender melhor o clima local e aprender sobre tecnologia e ciência de dados.</p>
+    </section>
+  </main>
 
-    <footer>
-        <p>&copy; 2025 Projeto Escolar - Estação Meteorológica</p>
-    </footer>
+  <footer>
+    <p>&copy; 2025 Projeto Escolar - Estação Meteorológica</p>
+  </footer>
+
+  <script>
+    const channelID = 3022907; 
+    const url = `https://api.thingspeak.com/channels/${channelID}/feeds.json?results=10`;
+
+    async function carregarDados() {
+      try {
+        const resposta = await fetch(url);
+        const dados = await resposta.json();
+
+        // Última leitura
+        const ultimo = dados.feeds[dados.feeds.length - 1];
+
+        document.getElementById("dados-atuais-container").innerHTML = `
+          <div>
+            <h3>📅 ${ultimo.created_at}</h3>
+            <p>🌡️ Temperatura: ${ultimo.field2} °C</p>
+            <p>💧 Umidade: ${ultimo.field3} %</p>
+            <p>⏲️ Pressão: ${ultimo.field4} hPa</p>
+            <p>🌊 Pressão Nível do Mar: ${ultimo.field5} hPa</p>
+            <p>🌫️ Ponto de Orvalho: ${ultimo.field6} °C</p>
+          </div>
+        `;
+
+        // Preenche histórico
+        let linhas = "";
+        dados.feeds.forEach(feed => {
+          linhas += `
+            <tr>
+              <td>${feed.created_at}</td>
+              <td>${feed.field2}</td>
+              <td>${feed.field3}</td>
+              <td>${feed.field4}</td>
+              <td>${feed.field5}</td>
+              <td>${feed.field6}</td>
+            </tr>
+          `;
+        });
+        document.getElementById("historico-body").innerHTML = linhas;
+
+      } catch (erro) {
+        console.error("Erro ao carregar dados:", erro);
+        document.getElementById("dados-atuais-container").innerHTML = "<p>⚠️ Erro ao carregar dados</p>";
+      }
+    }
+
+    // Carrega os dados ao abrir a página
+    carregarDados();
+
+    // Atualiza a cada 60 segundos
+    setInterval(carregarDados, 60000);
+  </script>
 </body>
 </html>
