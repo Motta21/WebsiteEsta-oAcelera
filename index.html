@@ -1,113 +1,218 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projeto Estação Meteorológica</title>
-  <link rel="stylesheet" href="estilo.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WeatherMonitor — Estação Meteorológica</title>
+
+  <!-- Fonte -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome (ícones) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="estilo.css" />
 </head>
 <body>
-  <header>
-    <h1>Estação Meteorológica Escolar</h1>
-    <h1>Página em Desenvolvimento</h1>
-    <p>Monitorando temperatura, umidade e outros dados climáticos</p>
-  </header>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <button class="btn-icon toggle-sidebar" id="toggleSidebar" aria-label="Alternar sidebar">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <span class="brand-logo"><i class="fa-solid fa-cloud-sun-rain"></i></span>
+      <span class="brand-text">WeatherMonitor</span>
+    </div>
 
-  <nav>
-    <ul>
-      <li><a href="#dados-atuais">Dados Atuais</a></li>
-      <li><a href="#historico">Histórico</a></li>
-      <li><a href="#sobre">Sobre o Projeto</a></li>
-    </ul>
-  </nav>
+    <nav class="nav">
+      <a class="nav-link active" href="#dashboard"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a class="nav-link" href="#graficos"><i class="fa-solid fa-chart-line"></i><span>Gráficos</span></a>
+      <a class="nav-link" href="#historico"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a>
+      <a class="nav-link" href="#sobre"><i class="fa-solid fa-circle-info"></i><span>Sobre</span></a>
+    </nav>
 
-  <main>
-    <section id="dados-atuais">
-      <h2>Dados Atuais</h2>
-      <div class="cards" id="dados-atuais-container">
-        <p>Carregando dados...</p>
+    <div class="sidebar-footer">
+      <a class="nav-link small" href="https://thingspeak.com/" target="_blank" rel="noopener">
+        <i class="fa-brands fa-think-peaks"></i><span>ThingSpeak</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Conteúdo -->
+  <main class="content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1>Estação Meteorológica</h1>
+        <p class="subtitle">Monitoramento em tempo real com análise visual</p>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-icon" id="toggleTheme" aria-label="Alternar tema">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <div class="clock" id="hora">--:--:--</div>
+      </div>
+    </header>
+
+    <!-- Cards -->
+    <section id="dashboard" class="section">
+      <div class="cards">
+        <div class="card metric" id="card-temp">
+          <div class="metric-head">
+            <i class="fa-solid fa-temperature-three-quarters metric-icon"></i>
+            <span>Temperatura</span>
+          </div>
+          <div class="metric-value" id="temp-atual">-- °C</div>
+          <div class="metric-foot">
+            <span id="temp-status">—</span>
+          </div>
+        </div>
+
+        <div class="card metric" id="card-umid">
+          <div class="metric-head">
+            <i class="fa-solid fa-droplet metric-icon"></i>
+            <span>Umidade</span>
+          </div>
+          <div class="metric-value" id="umid-atual">-- %</div>
+          <div class="metric-foot">
+            <span id="umid-status">—</span>
+          </div>
+        </div>
+
+        <div class="card metric" id="card-pressao">
+          <div class="metric-head">
+            <i class="fa-solid fa-gauge-high metric-icon"></i>
+            <span>Pressão</span>
+          </div>
+          <div class="metric-value" id="pressao-atual">-- hPa</div>
+          <div class="metric-foot">
+            <span id="pressao-status">—</span>
+          </div>
+        </div>
+
+        <div class="card metric" id="card-pressao-nm">
+          <div class="metric-head">
+            <i class="fa-solid fa-water metric-icon"></i>
+            <span>Pressão Nível do Mar</span>
+          </div>
+          <div class="metric-value" id="pressao-nm-atual">-- hPa</div>
+          <div class="metric-foot">
+            <span id="pressao-nm-status">—</span>
+          </div>
+        </div>
+
+        <div class="card metric" id="card-orvalho">
+          <div class="metric-head">
+            <i class="fa-solid fa-snowflake metric-icon"></i>
+            <span>Ponto de Orvalho</span>
+          </div>
+          <div class="metric-value" id="orvalho-atual">-- °C</div>
+          <div class="metric-foot">
+            <span id="orvalho-status">—</span>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="historico">
-      <h2>Histórico de Leituras</h2>
-      <table border="1">
-        <thead>
-          <tr>
-            <th>DataHora</th>
-            <th>Temperatura (°C)</th>
-            <th>Umidade (%)</th>
-            <th>Pressão (hPa)</th>
-            <th>Pressão Nível do Mar (hPa)</th>
-            <th>Ponto de Orvalho (°C)</th>
-          </tr>
-        </thead>
-        <tbody id="historico-body">
-          <!-- Preenchido pelo JavaScript -->
-        </tbody>
-      </table>
+    <!-- Gráficos -->
+    <section id="graficos" class="section">
+      <div class="section-head">
+        <h2><i class="fa-solid fa-chart-line"></i> Análise Detalhada</h2>
+        <div class="section-actions">
+          <label class="select-wrap">
+            <i class="fa-solid fa-filter"></i>
+            <select id="filtro-historico">
+              <option value="10">Últimas 10</option>
+              <option value="20" selected>Últimas 20</option>
+              <option value="50">Últimas 50</option>
+              <option value="100">Últimas 100</option>
+            </select>
+          </label>
+          <button class="btn" id="btnRefresh"><i class="fa-solid fa-rotate"></i> Atualizar</button>
+        </div>
+      </div>
+
+      <div class="grid-charts">
+        <div class="card chart-card">
+          <div class="chart-title"><i class="fa-solid fa-temperature-half"></i> Temperatura (°C)</div>
+          <div class="chart-wrap"><canvas id="graficoTemp"></canvas></div>
+        </div>
+        <div class="card chart-card">
+          <div class="chart-title"><i class="fa-solid fa-droplet"></i> Umidade (%)</div>
+          <div class="chart-wrap"><canvas id="graficoUmidade"></canvas></div>
+        </div>
+        <div class="card chart-card">
+          <div class="chart-title"><i class="fa-solid fa-gauge"></i> Pressão (hPa)</div>
+          <div class="chart-wrap"><canvas id="graficoPressao"></canvas></div>
+        </div>
+        <div class="card chart-card">
+          <div class="chart-title"><i class="fa-solid fa-water"></i> Pressão Nível do Mar (hPa)</div>
+          <div class="chart-wrap"><canvas id="graficoPressaoNM"></canvas></div>
+        </div>
+        <div class="card chart-card">
+          <div class="chart-title"><i class="fa-solid fa-snowflake"></i> Ponto de Orvalho (°C)</div>
+          <div class="chart-wrap"><canvas id="graficoOrvalho"></canvas></div>
+        </div>
+      </div>
     </section>
 
-    <section id="sobre">
-      <h2>Sobre o Projeto</h2>
-      <p>Este projeto escolar visa monitorar e registrar dados meteorológicos de forma prática, utilizando sensores de temperatura, umidade e pressão atmosférica. As informações coletadas ajudam a entender melhor o clima local e aprender sobre tecnologia e ciência de dados.</p>
+    <!-- Histórico -->
+    <section id="historico" class="section">
+      <div class="section-head">
+        <h2><i class="fa-solid fa-clock-rotate-left"></i> Histórico de Leituras</h2>
+        <div class="section-actions">
+          <label class="search-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="search" id="buscaTabela" placeholder="Buscar na tabela..." />
+          </label>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table" id="tabelaHistorico">
+          <thead>
+            <tr>
+              <th data-sort="data">Data/Hora</th>
+              <th data-sort="num">Temp (°C)</th>
+              <th data-sort="num">Umidade (%)</th>
+              <th data-sort="num">Pressão (hPa)</th>
+              <th data-sort="num">Pressão Nível do Mar (hPa)</th>
+              <th data-sort="num">Ponto de Orvalho (°C)</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
     </section>
+
+    <!-- Sobre -->
+    <section id="sobre" class="section">
+      <div class="card about">
+        <h2><i class="fa-solid fa-circle-info"></i> Sobre o Projeto</h2>
+        <p>
+          Projeto escolar para monitorar dados meteorológicos (temperatura, umidade, pressão, pressão ao nível do mar e ponto de orvalho)
+          utilizando ThingSpeak. Este painel oferece visual moderno, temas claro/escuro, alertas e
+          gráficos com gradientes para análise intuitiva.
+        </p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>&copy; 2025 WeatherMonitor — Estação Meteorológica</span>
+    </footer>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Projeto Escolar - Estação Meteorológica</p>
-  </footer>
+  <!-- Loader -->
+  <div id="loader" class="loader hidden" aria-hidden="true">
+    <div class="spinner"></div>
+    <span>Carregando dados...</span>
+  </div>
 
-  <script>
-    const channelID = 3022907; 
-    const url = `https://api.thingspeak.com/channels/${channelID}/feeds.json?results=10`;
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-    async function carregarDados() {
-      try {
-        const resposta = await fetch(url);
-        const dados = await resposta.json();
-
-        // Última leitura
-        const ultimo = dados.feeds[dados.feeds.length - 1];
-
-        document.getElementById("dados-atuais-container").innerHTML = `
-          <div>
-            <h3>📅 ${ultimo.created_at}</h3>
-            <p>🌡️ Temperatura: ${ultimo.field2} °C</p>
-            <p>💧 Umidade: ${ultimo.field3} %</p>
-            <p>⏲️ Pressão: ${ultimo.field4} hPa</p>
-            <p>🌊 Pressão Nível do Mar: ${ultimo.field5} hPa</p>
-            <p>🌫️ Ponto de Orvalho: ${ultimo.field6} °C</p>
-          </div>
-        `;
-
-        // Preenche histórico
-        let linhas = "";
-        dados.feeds.forEach(feed => {
-          linhas += `
-            <tr>
-              <td>${feed.created_at}</td>
-              <td>${feed.field2}</td>
-              <td>${feed.field3}</td>
-              <td>${feed.field4}</td>
-              <td>${feed.field5}</td>
-              <td>${feed.field6}</td>
-            </tr>
-          `;
-        });
-        document.getElementById("historico-body").innerHTML = linhas;
-
-      } catch (erro) {
-        console.error("Erro ao carregar dados:", erro);
-        document.getElementById("dados-atuais-container").innerHTML = "<p>⚠️ Erro ao carregar dados</p>";
-      }
-    }
-
-    // Carrega os dados ao abrir a página
-    carregarDados();
-
-    // Atualiza a cada 60 segundos
-    setInterval(carregarDados, 60000);
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
