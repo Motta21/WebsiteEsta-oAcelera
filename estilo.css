@@ -30,13 +30,18 @@ html[data-theme="light"] {
   --shadow: 0 8px 24px rgba(2,6,23,.12);
 }
 
+*{
+  padding: 0px;
+  margin: 0px;  
+}
+
 * { box-sizing: border-box; }
-html, body { height: 100%; }
 html { scroll-behavior: smooth; }
 
 body {
   display: flex;
   min-height: 100vh; /* 🔑 garante altura mínima da tela */
+  min-width: 100vw;
   margin: 0;
   font-family: "Inter", system-ui, -apple-system, Arial, sans-serif;
   background: radial-gradient(1200px 600px at 20% -10%, rgba(34,211,238,.08), transparent 40%),
@@ -55,8 +60,7 @@ body {
 
   /* 🔑 ajustes */
   position: relative;
-  height: auto;
-  min-height: 100vh;
+
 
   padding: 20px 16px;
   display: flex;
