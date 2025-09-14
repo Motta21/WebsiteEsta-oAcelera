@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeatherMonitor — Dashboard</title>
+  <link rel="stylesheet" href="estilo.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <button class="btn-icon toggle-sidebar" id="toggleSidebar"><i class="fa-solid fa-bars"></i></button>
+      <span class="brand-logo"><i class="fa-solid fa-cloud-sun-rain"></i></span>
+      <span class="brand-text">WeatherMonitor</span>
+    </div>
+    <nav class="nav">
+      <a class="nav-link active" href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a class="nav-link" href="graficos.html"><i class="fa-solid fa-chart-line"></i><span>Gráficos</span></a>
+      <a class="nav-link" href="historico.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a>
+      <a class="nav-link" href="sobre.html"><i class="fa-solid fa-circle-info"></i><span>Sobre</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="nav-link small" href="https://thingspeak.com/" target="_blank" rel="noopener">
+        <i class="fa-brands fa-think-peaks"></i><span>ThingSpeak</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1>Estação Meteorológica</h1>
+        <p class="subtitle">Monitoramento em tempo real com análise visual</p>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-icon" id="toggleTheme"><i class="fa-solid fa-moon"></i></button>
+        <div class="clock" id="hora">--:--:--</div>
+      </div>
+    </header>
+
+    <section id="dashboard" class="section">
+      <div class="cards">
+        <div class="card metric" id="card-temp">
+          <div class="metric-head"><i class="fa-solid fa-temperature-three-quarters metric-icon"></i><span>Temperatura</span></div>
+          <div class="metric-value" id="temp-atual">-- °C</div>
+          <div class="metric-foot"><span id="temp-status">—</span></div>
+        </div>
+        <div class="card metric" id="card-umid">
+          <div class="metric-head"><i class="fa-solid fa-droplet metric-icon"></i><span>Umidade</span></div>
+          <div class="metric-value" id="umid-atual">-- %</div>
+          <div class="metric-foot"><span id="umid-status">—</span></div>
+        </div>
+        <div class="card metric" id="card-pressao">
+          <div class="metric-head"><i class="fa-solid fa-gauge-high metric-icon"></i><span>Pressão</span></div>
+          <div class="metric-value" id="pressao-atual">-- hPa</div>
+          <div class="metric-foot"><span id="pressao-status">—</span></div>
+        </div>
+        <div class="card metric" id="card-pressao-nm">
+          <div class="metric-head"><i class="fa-solid fa-water metric-icon"></i><span>Pressão Nível do Mar</span></div>
+          <div class="metric-value" id="pressao-nm-atual">-- hPa</div>
+          <div class="metric-foot"><span id="pressao-nm-status">—</span></div>
+        </div>
+        <div class="card metric" id="card-orvalho">
+          <div class="metric-head"><i class="fa-solid fa-snowflake metric-icon"></i><span>Ponto de Orvalho</span></div>
+          <div class="metric-value" id="orvalho-atual">-- °C</div>
+          <div class="metric-foot"><span id="orvalho-status">—</span></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>&copy; 2025 WeatherMonitor — Estação Meteorológica</span>
+    </footer>
+  </main>
+
+  <div id="loader" class="loader hidden"><div class="spinner"></div><span>Carregando dados...</span></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

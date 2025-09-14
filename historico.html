@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeatherMonitor — Histórico</title>
+  <link rel="stylesheet" href="estilo.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <button class="btn-icon toggle-sidebar" id="toggleSidebar"><i class="fa-solid fa-bars"></i></button>
+      <span class="brand-logo"><i class="fa-solid fa-cloud-sun-rain"></i></span>
+      <span class="brand-text">WeatherMonitor</span>
+    </div>
+    <nav class="nav">
+      <a class="nav-link" href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a class="nav-link" href="graficos.html"><i class="fa-solid fa-chart-line"></i><span>Gráficos</span></a>
+      <a class="nav-link active" href="historico.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a>
+      <a class="nav-link" href="sobre.html"><i class="fa-solid fa-circle-info"></i><span>Sobre</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="nav-link small" href="https://thingspeak.com/" target="_blank" rel="noopener">
+        <i class="fa-brands fa-think-peaks"></i><span>ThingSpeak</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1>Estação Meteorológica</h1>
+        <p class="subtitle">Histórico de leituras meteorológicas</p>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-icon" id="toggleTheme"><i class="fa-solid fa-moon"></i></button>
+        <div class="clock" id="hora">--:--:--</div>
+      </div>
+    </header>
+
+    <section id="historico" class="section">
+      <div class="section-head">
+        <h2><i class="fa-solid fa-clock-rotate-left"></i> Histórico de Leituras</h2>
+        <div class="section-actions">
+          <label class="search-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="search" id="buscaTabela" placeholder="Buscar na tabela..." />
+          </label>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table" id="tabelaHistorico">
+          <thead>
+            <tr>
+              <th data-sort="data">Data/Hora</th>
+              <th data-sort="num">Temp (°C)</th>
+              <th data-sort="num">Umidade (%)</th>
+              <th data-sort="num">Pressão (hPa)</th>
+              <th data-sort="num">Pressão Nível do Mar (hPa)</th>
+              <th data-sort="num">Ponto de Orvalho (°C)</th>
+            </tr>
+          </thead>
+          <tbody id="historico-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>&copy; 2025 WeatherMonitor — Estação Meteorológica</span>
+    </footer>
+  </main>
+
+  <div id="loader" class="loader hidden"><div class="spinner"></div><span>Carregando dados...</span></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
