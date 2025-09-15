@@ -53,21 +53,19 @@ body {
 /* ============ Sidebar ============ */
 .sidebar {
   width: 280px;
-  background: linear-gradient(180deg, rgba(15,23,42,.9), rgba(15,23,42,.7));
+  background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 100%);
   backdrop-filter: var(--glass);
-  border-right: 1px solid rgba(255,255,255,.06);
+  border-right: 1px solid rgba(0,0,0,.06);
   box-shadow: var(--shadow);
 
-  /* 🔑 ajustes */
   position: relative;
-
-
   padding: 20px 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   z-index: 5;
 }
+
 
 .sidebar.collapsed { width: 88px; }
 
@@ -89,7 +87,7 @@ body {
   background: transparent; transition: .25s ease;
 }
 .nav-link:hover { background: rgba(255,255,255,.06); transform: translateX(4px); }
-.nav-link.active { background: rgba(34,211,238,.15); color: #e6feff; }
+.nav-link.active { background: rgba(34,211,238,.15); color: var(--text); font-weight: 600; }
 
 .sidebar.collapsed .nav-link span,
 .sidebar.collapsed .brand-text,

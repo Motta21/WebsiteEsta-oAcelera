@@ -58,18 +58,19 @@ const parseNum = (v) => {
 
 // THEME
 (function initTheme(){
-  const saved = localStorage.getItem('wm-theme');
-  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  // Define claro como padrão
+  document.documentElement.setAttribute('data-theme', 'light');
+
   const tbtn = el('toggleTheme');
   if (tbtn) {
     tbtn.addEventListener('click', () => {
-      const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+      const cur = document.documentElement.getAttribute('data-theme');
       const nxt = cur === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', nxt);
-      localStorage.setItem('wm-theme', nxt);
     });
   }
 })();
+
 
 // SIDEBAR
 (function initSidebar(){
@@ -232,19 +233,24 @@ function renderCharts(feeds) {
   });
 
   // Umidade
-  const ctxU = canvasUmid.getContext('2d');
-  charts.umid = new Chart(ctxU, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Umidade (%)',
-        data: umid,
-        backgroundColor: '#38bdf8'
-      }]
-    },
-    options: baseBarOptions('%')
-  });
+const ctxU = canvasUmid.getContext('2d');
+charts.umid = new Chart(ctxU, {
+  type: 'line', // alterado de 'bar' para 'line'
+  data: {
+    labels,
+    datasets: [{
+      label: 'Umidade (%)',
+      data: umid,
+      borderColor: '#38bdf8', // azul
+      backgroundColor: makeGradient(ctxU, 'rgba(56,189,248,0.35)'), // gradiente
+      fill: true,
+      tension: 0.35,
+      pointRadius: 2
+    }]
+  },
+  options: baseLineOptions('%') // mesmo estilo do gráfico de temperatura
+});
+
 
   // Pressão
   const ctxP = canvasPress.getContext('2d');
@@ -347,7 +353,7 @@ function renderCards(last) {
   if (el('temp-atual')) el('temp-atual').textContent = (t!=null ? `${t.toFixed(1)} °C` : '-- °C');
   if (el('umid-atual')) el('umid-atual').textContent = (u!=null ? `${u.toFixed(0)} %` : '-- %');
   if (el('pressao-atual')) el('pressao-atual').textContent = (p!=null ? `${p.toFixed(0)} hPa` : '-- hPa');
-  if (el('pressaonm-atual')) el('pressaonm-atual').textContent = (pnm!=null ? `${pnm.toFixed(0)} hPa` : '-- hPa');
+  if (el('pressao-nm-atual')) el('pressao-nm-atual').textContent = (pnm!=null ? `${pnm.toFixed(0)} hPa` : '-- hPa');
   if (el('orvalho-atual')) el('orvalho-atual').textContent = (o!=null ? `${o.toFixed(1)} °C` : '-- °C');
 
   const setStatus = (id, status, text) => {
@@ -368,17 +374,17 @@ function renderCards(last) {
   // Outros status 
   setStatus('umid-status', null, '—');
   setStatus('pressao-status', null, '—');
-  setStatus('pressaonm-status', null, '—');
+  setStatus('pressao-nm-status', null, '—');
   setStatus('orvalho-status', null, '—');
 
-  ['card-temp','card-umid','card-pressao','card-pressaonm','card-orvalho'].forEach(id=>{
-    const c = document.getElementById(id);
-    if (!c) return;
-    c.style.transition = 'transform .25s ease, box-shadow .25s ease';
-    c.style.transform = 'translateY(-3px)';
-    c.style.boxShadow = '0 18px 40px rgba(0,0,0,.25)';
-    setTimeout(()=> { c.style.transform = ''; c.style.boxShadow = ''; }, 250);
-  });
+  ['card-temp','card-umid','card-pressao','card-pressao-nm','card-orvalho'].forEach(id=>{
+  const c = document.getElementById(id);
+  if (!c) return;
+  c.style.transition = 'transform .25s ease, box-shadow .25s ease';
+  c.style.transform = 'translateY(-3px)';
+  c.style.boxShadow = '0 18px 40px rgba(0,0,0,.25)';
+  setTimeout(()=> { c.style.transform = ''; c.style.boxShadow = ''; }, 250);
+});
 }
 
 // RENDER GERAL
