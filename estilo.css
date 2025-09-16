@@ -68,7 +68,16 @@ body {
 
 
 .sidebar.collapsed { width: 88px; }
+/* Logo normal */
+.sidebar .brand-logo {
+  display: inline-block;
+  transition: opacity 0.3s ease; /* opcional: animação suave */
+}
 
+/* Quando a sidebar estiver encolhida */
+.sidebar.collapsed .brand-logo {
+  display: none;
+}
 .brand {
   display: flex; align-items: center; gap: 12px;
 }

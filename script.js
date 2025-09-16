@@ -79,6 +79,7 @@ const parseNum = (v) => {
   if (!btn || !sidebar) return;
   btn.addEventListener('click', ()=> {
     sidebar.classList.toggle('collapsed');
+    
   });
 })();
 
