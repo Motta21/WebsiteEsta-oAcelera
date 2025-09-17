@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="pt-br" data-theme="dark">
+<html lang="pt-br" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WeatherMonitor — Sobre</title>
+  <script>
+    (function() {
+      const saved = sessionStorage.getItem('theme');
+      const html = document.documentElement;
+      html.setAttribute('data-theme', saved || 'light');
+    })();
+  </script>
+
   <link rel="stylesheet" href="estilo.css">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -14,7 +22,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="brand">
       <button class="btn-icon toggle-sidebar" id="toggleSidebar"><i class="fa-solid fa-bars"></i></button>
-      <span class="brand-logo"><i class="fa-solid fa-cloud-sun-rain"></i></span>
+      <a class="nav-link" href="index.html"><i class="fa-solid fa-cloud-sun-rain"></i></a>
       <span class="brand-text">WeatherMonitor</span>
     </div>
     <nav class="nav">
@@ -46,17 +54,51 @@
       <div class="card about">
         <h2><i class="fa-solid fa-circle-info"></i> Sobre o Projeto</h2>
         <p>
-          Projeto escolar para monitorar dados meteorológicos (temperatura, umidade, pressão, pressão ao nível do mar e ponto de orvalho)
-          utilizando ThingSpeak. Este painel oferece visual moderno, temas claro/escuro, alertas e
+          Projeto escolar para monitorar dados meteorológicos 
+          (<strong>temperatura</strong>, <strong>umidade</strong>, <strong>pressão</strong>, 
+          <strong>pressão ao nível do mar</strong> e <strong>ponto de orvalho</strong>)
+          utilizando <a href="https://thingspeak.com/" target="_blank">ThingSpeak</a>. 
+          Este painel oferece visual moderno, temas claro/escuro, alertas e
           gráficos com gradientes para análise intuitiva.
         </p>
-        <h3>Integrantes</h3>
-        <ul>
-          <li>Álefe Alexandre de Toledo | alefetoledo.dev@gmail.com</li>
-          <li>Felipe Ferreira de Moura | fmoura.dev@gmail.com</li>
-          <li>Luiz Francisco Charleaux e Caetano | luizcharleauxecaetano@gmail.com</li>
-          <li>Mateus Motta Bueno Ribeiro | matribeiromota@gmail.com</li>
-          <li>Thiago de Oliveira Motta | thiago.oliveiramotta@gmail.com</li>
+
+        <h3><i class="fa-solid fa-users"></i> Integrantes</h3>
+        <ul class="team-list">
+          <li>
+            <img src="img/alefe.jpg" alt="Álefe Toledo">
+            <div>
+              <strong>Álefe Alexandre de Toledo</strong><br>
+              <span>alefetoledo.dev@gmail.com</span>
+            </div>
+          </li>
+          <li>
+            <img src="img/felipe.jpg" alt="Felipe Moura">
+            <div>
+              <strong>Felipe Ferreira de Moura</strong><br>
+              <span>fmoura.dev@gmail.com</span>
+            </div>
+          </li>
+          <li>
+            <img src="img/luiz.jpg" alt="Luiz Charleaux">
+            <div>
+              <strong>Luiz Francisco Charleaux e Caetano</strong><br>
+              <span>luizcharleauxecaetano@gmail.com</span>
+            </div>
+          </li>
+          <li>
+            <img src="img/mateus.jpg" alt="Mateus Ribeiro">
+            <div>
+              <strong>Mateus Motta Bueno Ribeiro</strong><br>
+              <span>matribeiromota@gmail.com</span>
+            </div>
+          </li>
+          <li>
+            <img src="img/thiago.jpg" alt="Thiago Motta">
+            <div>
+              <strong>Thiago de Oliveira Motta</strong><br>
+              <span>thiago.oliveiramotta@gmail.com</span>
+            </div>
+          </li>
         </ul>
       </div>
     </section>

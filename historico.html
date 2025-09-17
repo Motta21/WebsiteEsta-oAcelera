@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="pt-br" data-theme="dark">
+<html lang="pt-br" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WeatherMonitor — Histórico</title>
+  <script>
+    (function() {
+      const saved = sessionStorage.getItem('theme');
+      const html = document.documentElement;
+      html.setAttribute('data-theme', saved || 'light');
+    })();
+  </script>
+  
   <link rel="stylesheet" href="estilo.css">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -14,7 +22,7 @@
   <aside class="sidebar" id="sidebar">
     <div class="brand">
       <button class="btn-icon toggle-sidebar" id="toggleSidebar"><i class="fa-solid fa-bars"></i></button>
-      <span class="brand-logo"><i class="fa-solid fa-cloud-sun-rain"></i></span>
+      <a class="nav-link" href="index.html"><i class="fa-solid fa-cloud-sun-rain"></i></span></a>
       <span class="brand-text">WeatherMonitor</span>
     </div>
     <nav class="nav">

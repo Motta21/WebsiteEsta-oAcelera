@@ -57,20 +57,24 @@ const parseNum = (v) => {
 };
 
 // THEME
-(function initTheme(){
-  // Define claro como padrão
-  document.documentElement.setAttribute('data-theme', 'light');
+(function initTheme() {
+  const saved = sessionStorage.getItem('theme');
+  const html = document.documentElement;
+
+  if (saved) {
+    html.setAttribute('data-theme', saved);
+  }
 
   const tbtn = el('toggleTheme');
   if (tbtn) {
     tbtn.addEventListener('click', () => {
-      const cur = document.documentElement.getAttribute('data-theme');
+      const cur = html.getAttribute('data-theme') || 'light';
       const nxt = cur === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', nxt);
+      html.setAttribute('data-theme', nxt);
+      sessionStorage.setItem('theme', nxt); // salva preferência
     });
   }
 })();
-
 
 // SIDEBAR
 (function initSidebar(){

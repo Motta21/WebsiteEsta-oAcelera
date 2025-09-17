@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="pt-br" data-theme="dark">
+<html lang="pt-br" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>WeatherMonitor — Estação Meteorológica</title>
+
+  <script>
+    (function() {
+      const saved = sessionStorage.getItem('theme');
+      const html = document.documentElement;
+      html.setAttribute('data-theme', saved || 'light');
+    })();
+  </script>
 
   <!-- Fonte -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,15 +32,15 @@
       <button class="btn-icon toggle-sidebar" id="toggleSidebar" aria-label="Alternar sidebar">
         <i class="fa-solid fa-bars"></i>
       </button>
-      <span class="brand-logo"><i class="fa-solid fa-cloud-sun-rain"></i></span>
+      <a class="nav-link active" href="index.html"><i class="fa-solid fa-cloud-sun-rain"></i></span></a>
       <span class="brand-text">WeatherMonitor</span>
     </div>
 
     <nav class="nav">
-      <a class="nav-link active" href="#dashboard"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
-      <a class="nav-link" href="#graficos"><i class="fa-solid fa-chart-line"></i><span>Gráficos</span></a>
-      <a class="nav-link" href="#historico"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a>
-      <a class="nav-link" href="#sobre"><i class="fa-solid fa-circle-info"></i><span>Sobre</span></a>
+      <a class="nav-link" href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a class="nav-link" href="graficos.html"><i class="fa-solid fa-chart-line"></i><span>Gráficos</span></a>
+      <a class="nav-link" href="historico.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a>
+      <a class="nav-link" href="sobre.html"><i class="fa-solid fa-circle-info"></i><span>Sobre</span></a>
     </nav>
 
     <div class="sidebar-footer">
