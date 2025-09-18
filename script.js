@@ -213,106 +213,116 @@ function renderCharts(feeds) {
   const canvasPress = document.getElementById('graficoPressao');
   const canvasPressNM = document.getElementById('graficoPressaoNM');
   const canvasOrvalho = document.getElementById('graficoOrvalho');
-  if (!canvasTemp || !canvasUmid || !canvasPress || !canvasPressNM || !canvasOrvalho) {
-    showToast('Elementos de gráfico não encontrados no DOM.', 'danger');
+
+  // 👉 Se nenhum canvas existir, apenas sai sem erro
+  if (!canvasTemp && !canvasUmid && !canvasPress && !canvasPressNM && !canvasOrvalho) {
     return;
   }
 
   // Temperatura
-  const ctxT = canvasTemp.getContext('2d');
-  charts.temp = new Chart(ctxT, {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Temperatura (°C)',
-        data: temp,
-        borderColor: '#ef4444',
-        backgroundColor: makeGradient(ctxT, 'rgba(239,68,68,0.35)'),
-        fill: true,
-        tension: 0.35,
-        pointRadius: 2
-      }]
-    },
-    options: baseLineOptions('°C')
-  });
+  if (canvasTemp) {
+    const ctxT = canvasTemp.getContext('2d');
+    charts.temp = new Chart(ctxT, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Temperatura (°C)',
+          data: temp,
+          borderColor: '#ef4444',
+          backgroundColor: makeGradient(ctxT, 'rgba(239,68,68,0.35)'),
+          fill: true,
+          tension: 0.35,
+          pointRadius: 2
+        }]
+      },
+      options: baseLineOptions('°C')
+    });
+  }
 
   // Umidade
-const ctxU = canvasUmid.getContext('2d');
-charts.umid = new Chart(ctxU, {
-  type: 'line', // alterado de 'bar' para 'line'
-  data: {
-    labels,
-    datasets: [{
-      label: 'Umidade (%)',
-      data: umid,
-      borderColor: '#38bdf8', // azul
-      backgroundColor: makeGradient(ctxU, 'rgba(56,189,248,0.35)'), // gradiente
-      fill: true,
-      tension: 0.35,
-      pointRadius: 2
-    }]
-  },
-  options: baseLineOptions('%') // mesmo estilo do gráfico de temperatura
-});
-
+  if (canvasUmid) {
+    const ctxU = canvasUmid.getContext('2d');
+    charts.umid = new Chart(ctxU, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Umidade (%)',
+          data: umid,
+          borderColor: '#38bdf8',
+          backgroundColor: makeGradient(ctxU, 'rgba(56,189,248,0.35)'),
+          fill: true,
+          tension: 0.35,
+          pointRadius: 2
+        }]
+      },
+      options: baseLineOptions('%')
+    });
+  }
 
   // Pressão
-  const ctxP = canvasPress.getContext('2d');
-  charts.press = new Chart(ctxP, {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Pressão (hPa)',
-        data: press,
-        borderColor: '#22c55e',
-        backgroundColor: makeGradient(ctxP, 'rgba(34,197,94,0.35)'),
-        fill: true,
-        tension: 0.35,
-        pointRadius: 2
-      }]
-    },
-    options: baseLineOptions('hPa')
-  });
+  if (canvasPress) {
+    const ctxP = canvasPress.getContext('2d');
+    charts.press = new Chart(ctxP, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Pressão (hPa)',
+          data: press,
+          borderColor: '#22c55e',
+          backgroundColor: makeGradient(ctxP, 'rgba(34,197,94,0.35)'),
+          fill: true,
+          tension: 0.35,
+          pointRadius: 2
+        }]
+      },
+      options: baseLineOptions('hPa')
+    });
+  }
 
   // Pressão Nível do Mar
-  const ctxPNM = canvasPressNM.getContext('2d');
-  charts.pressnm = new Chart(ctxPNM, {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Pressão Nível do Mar (hPa)',
-        data: pressnm,
-        borderColor: '#facc15',
-        backgroundColor: makeGradient(ctxPNM, 'rgba(250,204,21,0.35)'),
-        fill: true,
-        tension: 0.35,
-        pointRadius: 2
-      }]
-    },
-    options: baseLineOptions('hPa')
-  });
+  if (canvasPressNM) {
+    const ctxPNM = canvasPressNM.getContext('2d');
+    charts.pressnm = new Chart(ctxPNM, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Pressão Nível do Mar (hPa)',
+          data: pressnm,
+          borderColor: '#facc15',
+          backgroundColor: makeGradient(ctxPNM, 'rgba(250,204,21,0.35)'),
+          fill: true,
+          tension: 0.35,
+          pointRadius: 2
+        }]
+      },
+      options: baseLineOptions('hPa')
+    });
+  }
 
   // Ponto de Orvalho
-  const ctxO = canvasOrvalho.getContext('2d');
-  charts.orvalho = new Chart(ctxO, {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Ponto de Orvalho (°C)',
-        data: orvalho,
-        borderColor: '#a78bfa',
-        backgroundColor: makeGradient(ctxO, 'rgba(167,139,250,0.35)'),
-        fill: true,
-        tension: 0.35,
-        pointRadius: 2
-      }]
-    },
-    options: baseLineOptions('°C')
-  });
+  if (canvasOrvalho) {
+    const ctxO = canvasOrvalho.getContext('2d');
+    charts.orvalho = new Chart(ctxO, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Ponto de Orvalho (°C)',
+          data: orvalho,
+          borderColor: '#a78bfa',
+          backgroundColor: makeGradient(ctxO, 'rgba(167,139,250,0.35)'),
+          fill: true,
+          tension: 0.35,
+          pointRadius: 2
+        }]
+      },
+      options: baseLineOptions('°C')
+    });
+  }
 }
 
 function baseLineOptions(unit) {
