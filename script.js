@@ -30,7 +30,6 @@ const showToast = (msg, type = 'warn') => {
   if (!toast) return;
   toast.textContent = msg;
 
-  // estilo por tipo
   if (type === 'danger') {
     toast.style.background = 'linear-gradient(135deg, rgba(239,68,68,.95), rgba(244,63,94,.95))';
   } else {
@@ -44,11 +43,8 @@ const showToast = (msg, type = 'warn') => {
 };
 
 const fmtTime = (s) => {
-  try {
-    return new Date(s).toLocaleString();
-  } catch (e) {
-    return s;
-  }
+  try { return new Date(s).toLocaleString(); }
+  catch (e) { return s; }
 };
 const parseNum = (v) => {
   if (v == null || v === '') return null;
@@ -61,9 +57,7 @@ const parseNum = (v) => {
   const saved = sessionStorage.getItem('theme');
   const html = document.documentElement;
 
-  if (saved) {
-    html.setAttribute('data-theme', saved);
-  }
+  if (saved) html.setAttribute('data-theme', saved);
 
   const tbtn = el('toggleTheme');
   if (tbtn) {
@@ -71,20 +65,36 @@ const parseNum = (v) => {
       const cur = html.getAttribute('data-theme') || 'light';
       const nxt = cur === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', nxt);
-      sessionStorage.setItem('theme', nxt); // salva preferência
+      sessionStorage.setItem('theme', nxt);
     });
   }
 })();
 
 // SIDEBAR
 (function initSidebar(){
-  const btn = document.getElementById('toggleSidebar');
-  const sidebar = document.getElementById('sidebar');
+  const btn = el('toggleSidebar');
+  const sidebar = el('sidebar');
   if (!btn || !sidebar) return;
+
+  const savedState = sessionStorage.getItem('sidebarState');
+  if (savedState === 'expanded') sidebar.classList.remove('collapsed');
+  else sidebar.classList.add('collapsed');
+
   btn.addEventListener('click', ()=> {
     sidebar.classList.toggle('collapsed');
-    
+    sessionStorage.setItem('sidebarState', sidebar.classList.contains('collapsed') ? 'collapsed' : 'expanded');
   });
+
+  // Expande sidebar ao clicar nos links quando recolhida
+  // Bloquear clique nos links quando a sidebar estiver recolhida
+sidebar.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', (e) => {
+    if (sidebar.classList.contains('collapsed')) {
+      e.preventDefault(); // impede o redirecionamento
+      // opcional: você pode adicionar um feedback visual aqui, tipo shake ou tooltip
+    }
+  });
+});
 })();
 
 // RELOGIO
@@ -120,9 +130,7 @@ async function fetchData(results = DEFAULT_RESULTS) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
     allFeeds = json.feeds || [];
-    if (!allFeeds.length) {
-      showToast('Nenhuma leitura encontrada (verifique Channel ID / API Key se necessário).', 'warn');
-    }
+    if (!allFeeds.length) showToast('Nenhuma leitura encontrada (verifique Channel ID / API Key se necessário).', 'warn');
     return allFeeds;
   } catch (e) {
     console.error(e);
@@ -136,20 +144,19 @@ async function fetchData(results = DEFAULT_RESULTS) {
 // CONSTRUIR TABELA
 function renderTable(feeds) {
   if (!historicoBody) return;
-  const q = (buscaTabela && buscaTabela.value || '').toLowerCase().trim();
+  const q = (buscaTabela?.value || '').toLowerCase().trim();
   const filtered = (feeds || []).filter(f => {
     if (!q) return true;
     return Object.values(f).some(v => (v ?? '').toString().toLowerCase().includes(q));
   });
 
-  // Ordenação simples
   const rows = filtered.map(f => ([
     f.created_at,
-    parseNum(f.field2), // Temperatura
-    parseNum(f.field3), // Umidade
-    parseNum(f.field4), // Pressão
-    parseNum(f.field5), // Pressão Nível do Mar
-    parseNum(f.field6)  // Ponto de Orvalho
+    parseNum(f.field2),
+    parseNum(f.field3),
+    parseNum(f.field4),
+    parseNum(f.field5),
+    parseNum(f.field6)
   ]));
 
   rows.sort((a,b)=>{
@@ -157,12 +164,8 @@ function renderTable(feeds) {
     const va = a[col], vb = b[col];
     if (va==null && vb==null) return 0;
     if (va==null) return 1; if (vb==null) return -1;
-    if (col === 0) { // data
-      const da = new Date(va).getTime(), db = new Date(vb).getTime();
-      return asc ? da - db : db - da;
-    } else {
-      return asc ? (va - vb) : (vb - va);
-    }
+    if (col === 0) return asc ? new Date(va)-new Date(vb) : new Date(vb)-new Date(va);
+    return asc ? (va-vb) : (vb-va);
   });
 
   historicoBody.innerHTML = rows.map(r => `
