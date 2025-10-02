@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>WeatherMonitor — Estação Meteorológica</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tela Inicial</title>
   <script>
     (function() {
       const saved = sessionStorage.getItem('theme');
@@ -13,35 +12,26 @@
     })();
   </script>
 
-  <!-- Fonte -->
+  <link rel="stylesheet" href="estilo.css">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome (ícones) -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <link rel="stylesheet" href="estilo.css" />
 </head>
 <body>
   <!-- Sidebar -->
-  <aside class="sidebar collapsed" id="sidebar">
+  <aside class="sidebar" id="sidebar">
     <div class="brand">
-      <button class="btn-icon toggle-sidebar" id="toggleSidebar" aria-label="Alternar sidebar">
-        <i class="fa-solid fa-bars"></i>
-      </button>
+      <button class="btn-icon toggle-sidebar" id="toggleSidebar"><i class="fa-solid fa-bars"></i></button>
     </div>
 
     <nav class="nav">
-      <a class="nav-link active" href="index.html"><i class="fa-solid fa-cloud-sun-rain"></i><span>Início</span></a>
+      <a class="nav-link" href="index.html"><i class="fa-solid fa-cloud-sun-rain"></i><span>Início</span></a>
       <a class="nav-link" href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
-      <a class="nav-link" href="graficos.html"><i class="fa-solid fa-chart-line"></i><span>Gráficos</span></a>
+      <a class="nav-link active" href="graficos.html"><i class="fa-solid fa-chart-line"></i><span>Gráficos</span></a>
       <a class="nav-link" href="historico.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a>
       <a class="nav-link" href="sobre.html"><i class="fa-solid fa-circle-info"></i><span>Sobre</span></a>
     </nav>
-
     <div class="sidebar-footer">
       <a class="nav-link small" href="https://thingspeak.com/" target="_blank" rel="noopener">
         <i class="fa-brands fa-think-peaks"></i><span>ThingSpeak</span>
@@ -49,176 +39,57 @@
     </div>
   </aside>
 
-  <!-- Conteúdo -->
-  <main class="content">
+  <!-- Conteúdo principal -->
+  <main class="main-content">
     <header class="topbar">
       <div class="topbar-left">
-        <h1>Estação Meteorológica</h1>
-        <p class="subtitle">Monitoramento em tempo real com análise visual</p>
+        <h1>Seja bem-vindo ao WeatherMonitor!</h1>
+        <p class="subtitle">Sua estação meteorológica ao alcance de um clique</p>
       </div>
       <div class="topbar-right">
-        <button class="btn-icon" id="toggleTheme" aria-label="Alternar tema">
-          <i class="fa-solid fa-moon"></i>
-        </button>
-        <div class="clock" id="hora">--:--:--</div>
-      </div>
-    </header>
+    <!-- Botão usuário -->
+    <button class="btn-icon" id="userLogin" onclick="window.location.href='login.html'">
+      <i class="fa-solid fa-user"></i>
+    </button>
 
-    <!-- Cards -->
-    <section id="dashboard" class="section">
-      <div class="cards">
-        <div class="card metric" id="card-temp">
-          <div class="metric-head">
-            <i class="fa-solid fa-temperature-three-quarters metric-icon"></i>
-            <span>Temperatura</span>
-          </div>
-          <div class="metric-value" id="temp-atual">-- °C</div>
-          <div class="metric-foot">
-            <span id="temp-status">—</span>
-          </div>
-        </div>
+    <!-- Botão tema -->
+    <button class="btn-icon" id="toggleTheme"><i class="fa-solid fa-moon"></i></button>
 
-        <div class="card metric" id="card-umid">
-          <div class="metric-head">
-            <i class="fa-solid fa-droplet metric-icon"></i>
-            <span>Umidade</span>
-          </div>
-          <div class="metric-value" id="umid-atual">-- %</div>
-          <div class="metric-foot">
-            <span id="umid-status">—</span>
-          </div>
-        </div>
-
-        <div class="card metric" id="card-pressao">
-          <div class="metric-head">
-            <i class="fa-solid fa-gauge-high metric-icon"></i>
-            <span>Pressão</span>
-          </div>
-          <div class="metric-value" id="pressao-atual">-- hPa</div>
-          <div class="metric-foot">
-            <span id="pressao-status">—</span>
-          </div>
-        </div>
-
-        <div class="card metric" id="card-pressao-nm">
-          <div class="metric-head">
-            <i class="fa-solid fa-water metric-icon"></i>
-            <span>Pressão Nível do Mar</span>
-          </div>
-          <div class="metric-value" id="pressao-nm-atual">-- hPa</div>
-          <div class="metric-foot">
-            <span id="pressao-nm-status">—</span>
-          </div>
-        </div>
-
-        <div class="card metric" id="card-orvalho">
-          <div class="metric-head">
-            <i class="fa-solid fa-snowflake metric-icon"></i>
-            <span>Ponto de Orvalho</span>
-          </div>
-          <div class="metric-value" id="orvalho-atual">-- °C</div>
-          <div class="metric-foot">
-            <span id="orvalho-status">—</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Gráficos -->
-    <section id="graficos" class="section">
-      <div class="section-head">
-        <h2><i class="fa-solid fa-chart-line"></i> Análise Detalhada</h2>
-        <div class="section-actions">
-          <label class="select-wrap">
-            <i class="fa-solid fa-filter"></i>
-            <select id="filtro-historico">
-              <option value="10">Últimas 10</option>
-              <option value="20" selected>Últimas 20</option>
-              <option value="50">Últimas 50</option>
-              <option value="100">Últimas 100</option>
-            </select>
-          </label>
-          <button class="btn" id="btnRefresh"><i class="fa-solid fa-rotate"></i> Atualizar</button>
-        </div>
-      </div>
-
-      <div class="grid-charts">
-        <div class="card chart-card">
-          <div class="chart-title"><i class="fa-solid fa-temperature-half"></i> Temperatura (°C)</div>
-          <div class="chart-wrap"><canvas id="graficoTemp"></canvas></div>
-        </div>
-        <div class="card chart-card">
-          <div class="chart-title"><i class="fa-solid fa-droplet"></i> Umidade (%)</div>
-          <div class="chart-wrap"><canvas id="graficoUmidade"></canvas></div>
-        </div>
-        <div class="card chart-card">
-          <div class="chart-title"><i class="fa-solid fa-gauge"></i> Pressão (hPa)</div>
-          <div class="chart-wrap"><canvas id="graficoPressao"></canvas></div>
-        </div>
-        <div class="card chart-card">
-          <div class="chart-title"><i class="fa-solid fa-water"></i> Pressão Nível do Mar (hPa)</div>
-          <div class="chart-wrap"><canvas id="graficoPressaoNM"></canvas></div>
-        </div>
-        <div class="card chart-card">
-          <div class="chart-title"><i class="fa-solid fa-snowflake"></i> Ponto de Orvalho (°C)</div>
-          <div class="chart-wrap"><canvas id="graficoOrvalho"></canvas></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Histórico -->
-    <section id="historico" class="section">
-      <div class="section-head">
-        <h2><i class="fa-solid fa-clock-rotate-left"></i> Histórico de Leituras</h2>
-        <div class="section-actions">
-          <label class="search-wrap">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="search" id="buscaTabela" placeholder="Buscar na tabela..." />
-          </label>
-        </div>
-      </div>
-
-      <div class="table-wrap">
-        <table class="table" id="tabelaHistorico">
-          <thead>
-            <tr>
-              <th data-sort="data">Data/Hora</th>
-              <th data-sort="num">Temp (°C)</th>
-              <th data-sort="num">Umidade (%)</th>
-              <th data-sort="num">Pressão (hPa)</th>
-              <th data-sort="num">Pressão Nível do Mar (hPa)</th>
-              <th data-sort="num">Ponto de Orvalho (°C)</th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-    </section>
-
-    <!-- Sobre -->
-    <section id="sobre" class="section">
-      <div class="card about">
-        <h2><i class="fa-solid fa-circle-info"></i> Sobre o Projeto</h2>
-        <p>
-          Projeto escolar para monitorar dados meteorológicos (temperatura, umidade, pressão, pressão ao nível do mar e ponto de orvalho)
-          utilizando ThingSpeak. Este painel oferece visual moderno, temas claro/escuro, alertas e
-          gráficos com gradientes para análise intuitiva.
-        </p>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <span>&copy; 2025 WeatherMonitor — Estação Meteorológica</span>
-    </footer>
-  </main>
-
-  <!-- Loader -->
-  <div id="loader" class="loader hidden" aria-hidden="true">
-    <div class="spinner"></div>
-    <span>Carregando dados...</span>
+    <!-- Relógio -->
+    <div class="clock" id="hora">--:--:--</div>
   </div>
 
-  <!-- Toast -->
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-text">
+        <h2>Monitoramento em tempo real</h2>
+        <p>Acompanhe temperatura, umidade, pressão e muito mais de forma simples e rápida.</p>
+      </div>
+      <div class="hero-image">
+        <img src="https://cdn-icons-png.flaticon.com/512/4149/4149670.png" alt="Dashboard ilustrativo">
+      </div>
+    </section>
+
+    <section class="cards-home">
+      <div class="card-home">
+        <h3>⚡ Atualizações</h3>
+        <p>Dados em tempo real atualizados automaticamente.</p>
+      </div>
+      <div class="card-home">
+        <h3>📊 Gráficos Interativos</h3>
+        <p>Visualize métricas detalhadas em gráficos dinâmicos.</p>
+      </div>
+      <div class="card-home">
+        <h3>📱 Acessível</h3>
+        <p>Interface responsiva e fácil de usar em qualquer dispositivo.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Loader e Toast reaproveitados -->
+  <div id="loader" class="loader hidden"></div>
+  <div id="toast" class="toast"></div>
 
   <script src="script.js"></script>
 </body>
