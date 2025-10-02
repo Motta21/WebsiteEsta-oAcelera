@@ -12,7 +12,7 @@
     })();
   </script>
 
-  <link rel="stylesheet" href="estilo.css">
+  <link rel="stylesheet" href="../css/estilo.css">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -70,7 +70,19 @@
           gráficos com gradientes para análise intuitiva.
         </p>
 
-        <h3><i class="fa-solid fa-users"></i> Integrantes</h3>
+        <div class="carousel-container">
+    <div class="carousel-images" id="carouselImages">
+        <img src="../img/img1.jpg" alt="Foto da Estação Meteorológica montada" class="carousel-image">
+        <img src="../img/img2.jpg" alt="Detalhe do sensor BME280" class="carousel-image">
+        <img src="../img/img3.jpg" alt="Microcontrolador e componentes" class="carousel-image">
+        <img src="../img/img4.jpg" alt="Tela do ThingSpeak" class="carousel-image">
+    </div>
+    <div class="carousel-controls">
+        <button class="btn-icon" id="prevButton"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="btn-icon" id="nextButton"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </div>
+    <h3><i class="fa-solid fa-users"></i> Integrantes</h3>
         <ul class="team-list">
           <li>
             <img src="img/alefe.jpg" alt="Álefe Toledo">
@@ -108,6 +120,7 @@
             </div>
           </li>
         </ul>
+        
       </div>
     </section>
 
@@ -118,6 +131,6 @@
 
   <div id="loader" class="loader hidden"><div class="spinner"></div><span>Carregando dados...</span></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="script.js"></script>
+  <script src="../js/script.js"></script>
 </body>
 </html>
