@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - WeatherMonitor</title>
+    
+    <script>
+        (function() {
+            const saved = sessionStorage.getItem('theme');
+            const html = document.documentElement;
+            html.setAttribute('data-theme', saved || 'light');
+        })();
+    </script>
+    
+    <link rel="stylesheet" href="../css/estilo-login-cadastro.css"> 
+    <link rel="stylesheet" href="../css/estilo-login.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h2>Cadastre-se</h2>
+            <p class="subtitle">Crie sua conta no WeatherMonitor</p>
+            
+            <form id="cadastroForm">
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="email" placeholder="E-mail" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="username" placeholder="Usuário" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" placeholder="Senha" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-key"></i>
+                    <input type="password" id="confirmPassword" placeholder="Confirmar Senha" required>
+                </div>
+                
+                <button type="submit" class="btn-login">Criar Conta</button>
+            </form>
+
+            <p class="info">Já tem uma conta? <a href="login.html">Faça login</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            // 1. Validação de Senhas
+            if (password !== confirmPassword) {
+                alert("As senhas não coincidem!");
+                return;
+            }
+
+            // 2. Envio dos Dados para a API
+            try {
+                const response = await fetch("http://localhost:3000/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert("Cadastro realizado com sucesso! Faça o login agora.");
+                    window.location.href = "login.html"; // Redireciona para o login
+                } else {
+                    // Trata erros específicos da API (ex: usuário já existe)
+                    alert(`Falha no cadastro: ${data.message || 'Erro desconhecido.'}`);
+                }
+            } catch (error) {
+                console.error('Erro de rede:', error);
+                alert("Ocorreu um erro ao tentar se conectar ao servidor.");
+            }
+        });
+    </script>
+</body>
+</html>
