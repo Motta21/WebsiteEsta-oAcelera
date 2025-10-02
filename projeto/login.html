@@ -11,12 +11,18 @@
       html.setAttribute('data-theme', saved || 'light');
     })();
   </script>
+  <link rel="stylesheet" href="../css/estilo.css">
   <link rel="stylesheet" href="../css/estilo-login-cadastro.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="login-container">
     <div class="login-card">
+      <div class="theme-switch-container">
+        <button class="btn-icon" id="toggleThemeLogin">
+            <i class="fa-solid fa-moon"></i> 
+        </button>
+    </div>
       <h2>WeatherMonitor</h2>
       <p class="subtitle">Acesse sua conta</p>
       
@@ -61,4 +67,36 @@
     });
   </script>
 </body>
+<script>
+    // Função para alternar o tema e salvar no sessionStorage
+    function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = html.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        html.setAttribute('data-theme', newTheme);
+        sessionStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    }
+
+    // Função para atualizar o ícone do botão com base no tema
+    function updateThemeIcon(theme) {
+        const button = document.getElementById('toggleThemeLogin');
+        if (button) {
+            const icon = button.querySelector('i');
+            if (theme === 'dark') {
+                icon.className = 'fa-solid fa-sun'; // Sol para trocar para o modo claro
+            } else {
+                icon.className = 'fa-solid fa-moon'; // Lua para trocar para o modo escuro
+            }
+        }
+    }
+
+    // 1. Ouve o clique do botão
+    document.getElementById('toggleThemeLogin').addEventListener('click', toggleTheme);
+    
+    // 2. Garante que o ícone inicial seja o correto ao carregar a página
+    const initialTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    updateThemeIcon(initialTheme);
+</script>
 </html>

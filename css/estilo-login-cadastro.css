@@ -144,3 +144,31 @@ html[data-theme="light"] .input-group {
 .info a:hover {
     text-decoration: underline;
 }
+
+/* Ajuste de Posição do Botão de Tema */
+.theme-switch-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.login-card .btn-icon {
+   
+    background: var(--bg-soft); 
+    border: 1px solid rgba(255,255,255,.1);
+}
+
+@media (max-width: 500px) {
+    .login-container {
+        /* Permite que o card tenha scroll em telas muito pequenas */
+        align-items: flex-start; 
+        padding-top: 20px;
+    }
+
+    .login-card {
+        /* Reduz o padding para ganhar espaço vertical */
+        padding: 30px 20px;
+        margin-bottom: 20px;
+    }
+
+}
