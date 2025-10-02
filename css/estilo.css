@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 :root {
   --bg: #0b1020;
   --bg-soft: #0f172a;
@@ -449,4 +451,67 @@ body {
 .info a {
   color: #4facfe;
   text-decoration: none;
+}
+
+/* ============ CARROSSEL DE IMAGENS ============ */
+
+.carousel-container {
+    margin: 20px auto 30px auto;
+    max-width: 100%;
+    position: relative;
+    overflow: hidden; /* Esconde as imagens que não estão visíveis */
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.carousel-images {
+    display: flex; /* Alinha todas as imagens lado a lado */
+    transition: transform 0.4s ease-in-out; /* Transição suave na troca de slide */
+    width: 100%;
+}
+
+.carousel-image {
+    width: 100%;
+    flex-shrink: 0; /* Impede que as imagens encolham */
+    height: auto;
+    max-height: 400px; /* Limite a altura para telas maiores */
+    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+    border-radius: var(--radius);
+}
+
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 10px;
+}
+
+/* Estilo dos botões de controle*/
+.carousel-controls .btn-icon {
+    /* Efeito de vidro para que as setas se destaquem no escuro e claro */
+    background: rgba(0, 0, 0, 0.4); 
+    color: var(--text);
+    border-radius: 50%;
+    padding: 10px;
+    opacity: 0.8;
+    transition: 0.3s ease;
+}
+
+.carousel-controls .btn-icon:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.6);
+    transform: scale(1.1);
+}
+
+/* Ajuste para o tema Light (para que os botões não sumam no fundo claro) */
+html[data-theme="light"] .carousel-controls .btn-icon {
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--text);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+html[data-theme="light"] .carousel-controls .btn-icon:hover {
+    background: rgba(255, 255, 255, 0.9);
 }
