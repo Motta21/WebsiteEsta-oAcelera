@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherMonitor - Landing Page</title>
+    
+    <script>
+        (function() {
+            const saved = sessionStorage.getItem('theme');
+            const html = document.documentElement;
+            html.setAttribute('data-theme', saved || 'light');
+        })();
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="projeto/estilo.css"> 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="projeto/index.css"> 
+</head>
+<body>
+
+    <aside class="sidebar collapsed" id="sidebar">
+        <div class="brand">
+            <button class="btn-icon toggle-sidebar" id="toggleSidebar"><i class="fa-solid fa-bars"></i></button>
+        </div>
+
+        <nav class="nav">
+            <a class="nav-link active" href="index.html"><i class="fa-solid fa-cloud-sun-rain"></i><span>Início</span></a>
+            <a class="nav-link" href="projeto/dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+            <a class="nav-link" href="projeto/graficos.html"><i class="fa-solid fa-chart-line"></i><span>Gráficos</span></a>
+            <a class="nav-link" href="projeto/historico.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a>
+            <a class="nav-link" href="projeto/sobre.html"><i class="fa-solid fa-circle-info"></i><span>Sobre</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="nav-link small" href="https://thingspeak.com/" target="_blank" rel="noopener">
+                <i class="fa-brands fa-think-peaks"></i><span>ThingSpeak</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="content">
+        
+        <header class="topbar">
+            <div class="topbar-left">
+            </div>
+            <div class="topbar-right">
+                <button class="btn-icon" id="userLogin" onclick="window.location.href='login.html'">
+                    <i class="fa-solid fa-user"></i>
+                </button>
+
+                <button class="btn-icon" id="toggleTheme"><i class="fa-solid fa-moon"></i></button>
+
+                <div class="clock" id="hora">--:--:--</div>
+            </div>
+        </header>
+
+        <div class="landing-page-wrapper">
+            <div class="background-weather-icons">
+    <i class="floating-icon cloud-tl fa-solid fa-cloud"></i>
+    
+    <i class="floating-icon sun-tr fa-solid fa-sun"></i>
+    
+    <i class="floating-icon wind-bl fa-solid fa-wind"></i>
+    
+    <i class="floating-icon cloud-br fa-solid fa-cloud-showers-heavy"></i>
+</div>
+
+            <section id="welcome-section" class="full-height">
+                <div class="weather-monitor-container">
+                    <div class="center-icons">
+                        <i class="fa-solid fa-cloud fa-2x" style="color: var(--cloud-color);"></i>
+                        <i class="fa-solid fa-sun fa-2x" style="color: var(--sun-color);"></i>
+                        <i class="fa-solid fa-cloud-showers-heavy fa-2x" style="color: var(--rain-color);"></i>
+                    </div>
+                    <h1 class="title-welcome">Seja bem vindo ao</h1>
+                    <p class="app-name">WeatherMonitor!</p>
+                    <p class="subtitle-description">Análise avançada de dados meteorológicos em tempo real</p>
+                    
+                    <div class="loading-dot"></div>
+                    
+                    <p class="scroll-prompt">Role para baixo para descobrir mais ⬇️</p>
+                </div>
+            </section>
+
+            <section id="feature-section" class="full-height secondary-section">
+                <div class="content-box">
+                    <h2>Recursos Premium</h2>
+                    <p>Monitore o clima em tempo real em qualquer cidade do mundo.</p>
+                    <ul>
+                        <li>Previsões de 14 dias</li>
+                        <li>Alertas de tempestade por IA</li>
+                        <li>Gráficos de umidade e pressão</li>
+                    </ul>
+                    <a class="btn" href="projeto/dashboard.html">Começar Agora</a>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <script src="projeto/script.js"></script>
+</body>
+</html>
