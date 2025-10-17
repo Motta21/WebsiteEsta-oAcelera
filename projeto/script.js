@@ -85,13 +85,10 @@ const parseNum = (v) => {
     sessionStorage.setItem('sidebarState', sidebar.classList.contains('collapsed') ? 'collapsed' : 'expanded');
   });
 
-  // Expande sidebar ao clicar nos links quando recolhida
-  // Bloquear clique nos links quando a sidebar estiver recolhida
 sidebar.querySelectorAll('.nav-link').forEach(link => {
   link.addEventListener('click', (e) => {
     if (sidebar.classList.contains('collapsed')) {
-      e.preventDefault(); // impede o redirecionamento
-      // opcional: você pode adicionar um feedback visual aqui, tipo shake ou tooltip
+      e.preventDefault(); 
     }
   });
 });
@@ -217,7 +214,6 @@ function renderCharts(feeds) {
   const canvasPressNM = document.getElementById('graficoPressaoNM');
   const canvasOrvalho = document.getElementById('graficoOrvalho');
 
-  // 👉 Se nenhum canvas existir, apenas sai sem erro
   if (!canvasTemp && !canvasUmid && !canvasPress && !canvasPressNM && !canvasOrvalho) {
     return;
   }
@@ -469,29 +465,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevButton = document.getElementById('prevButton');
     const nextButton = document.getElementById('nextButton');
 
-    // Verifica se os elementos do carrossel existem na página atual (sobre.html)
     if (!carousel) return; 
 
     const images = carousel.querySelectorAll('.carousel-image');
     let currentIndex = 0;
     const totalImages = images.length;
 
-    // Função para atualizar a posição do carrossel
     function updateCarousel() {
-        // Calcula a distância para mover (índice * -100% da largura)
         const offset = -currentIndex * 100;
         carousel.style.transform = `translateX(${offset}%)`;
     }
 
     // Navegação para a próxima imagem
     nextButton.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % totalImages; // Volta ao início após a última
+        currentIndex = (currentIndex + 1) % totalImages; 
         updateCarousel();
     });
 
     // Navegação para a imagem anterior
     prevButton.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + totalImages) % totalImages; // Garante que o índice não seja negativo
+        currentIndex = (currentIndex - 1 + totalImages) % totalImages; 
         updateCarousel();
     });
 

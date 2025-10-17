@@ -10,8 +10,6 @@
     --cloud-color: #b0bec5;
     --sun-color: #ffc107;
     --rain-color: #4fc3f7;
-  --sidebar-expanded-width: 
-  --sidebar-collapsed-width:   
 }
 
 * {
@@ -204,49 +202,7 @@
 
 @media (min-width: 801px) {
     #welcome-section {
-        padding-left: 50px;
-        padding-right: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
     }
-}
-
-.content {
-  margin-left: var(--sidebar-expanded-width) !important;
-  transition: margin-left .22s ease;
-}
-
-.sidebar.collapsed {
-  width: var(--sidebar-collapsed-width) !important;
-  border-right: none !important;
-  box-shadow: none !important;
-  padding-left: 6px !important;
-  padding-right: 6px !important;
-  overflow: visible !important;
-  background: transparent !important; 
-}
-
-.sidebar.collapsed .nav,
-.sidebar.collapsed .sidebar-footer,
-.sidebar.collapsed .brand-logo,
-.sidebar.collapsed .brand-text,
-.sidebar.collapsed .nav-link span {
-  display: none !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-}
-
-.sidebar.collapsed .brand {
-  justify-content: center !important;
-  padding: 6px 0 !important;
-}
-
-.sidebar.collapsed + .content,
-.sidebar.collapsed ~ .content {
-  margin-left: var(--sidebar-collapsed-width) !important;
-}
-
-@media (max-width: 800px) {
-  :root {
-    --sidebar-expanded-width: 200px;
-    --sidebar-collapsed-width: 56px;
-  }
 }

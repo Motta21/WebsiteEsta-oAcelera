@@ -7,14 +7,18 @@
   --card-solid: #111827;
   --text: #e5e7eb;
   --muted: #9ca3af;
-  --primary: #22d3ee;   /* ciano */
-  --accent: #22c55e;    /* verde */
+  --primary: #22d3ee;    /* ciano */
+  --accent: #22c55e;     /* verde */
   --danger: #ef4444;
   --warning: #f59e0b;
   --link: #93c5fd;
   --shadow: 0 10px 30px rgba(0,0,0,.35);
   --glass: blur(8px) saturate(120%);
   --radius: 16px;
+  
+  /* Variáveis ESSENCIAIS para o Layout da Sidebar */
+  --sidebar-expanded-width: 280px;
+  --sidebar-collapsed-width: 88px;
 }
 
 html[data-theme="light"] {
@@ -49,7 +53,7 @@ body {
 
 /* ============ Sidebar ============ */
 .sidebar {
-  width: 280px;
+  width: var(--sidebar-expanded-width); /* Usando variável */
   background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 100%);
   backdrop-filter: var(--glass);
   border-right: 1px solid rgba(0,0,0,.06);
@@ -62,7 +66,17 @@ body {
   z-index: 5;
   transition: width 0.3s ease;
 }
-.sidebar.collapsed { width: 88px; }
+
+/* Regras de Sidebar Colapsada MOVIDAS do index.css (GLOBAL) */
+.sidebar.collapsed { 
+  width: var(--sidebar-collapsed-width); 
+  border-right: none;
+  box-shadow: none;
+  padding-left: 6px;
+  padding-right: 6px;
+  overflow: hidden; /* Garantir que o texto escondido não vaze */
+  background: transparent; 
+}
 .sidebar .brand-logo { display: inline-block; transition: opacity 0.3s ease; }
 .sidebar.collapsed .brand-logo { display: none; }
 
@@ -81,14 +95,34 @@ body {
 .nav-link:hover { background: rgba(255,255,255,.06); transform: translateX(4px); }
 .nav-link.active { background: rgba(34,211,238,.15); color: var(--text); font-weight: 600; }
 
+/* Regras para esconder elementos na sidebar colapsada (GLOBAL) */
 .sidebar.collapsed .nav-link span,
 .sidebar.collapsed .brand-text,
-.sidebar.collapsed .sidebar-footer .nav-link span { display: none; }
+.sidebar.collapsed .sidebar-footer .nav-link span { 
+    display: none; 
+    opacity: 0;
+    pointer-events: none;
+}
+.sidebar.collapsed .nav,
+.sidebar.collapsed .sidebar-footer {
+  display: none;
+}
+.sidebar.collapsed .brand {
+  justify-content: center;
+  padding: 6px 0;
+}
 
 .sidebar-footer { margin-top: auto; }
 
-/* ============ Topbar/Content ============ */
-.content { flex: 1; min-width: 0; padding: 28px; }
+/* ============ Topbar/Content (Lógica de Recuo GLOBAL) ============ */
+.content { 
+  flex: 1; 
+  min-width: 0; 
+  padding: 28px; 
+  /* Regra Principal: Garante que o conteúdo comece recuado pela largura expandida */
+  margin-left: var(--sidebar-expanded-width); 
+  transition: margin-left 0.3s ease; 
+}
 
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
@@ -114,6 +148,12 @@ body {
   background: rgba(255,255,255,.06); transition: .2s ease; backdrop-filter: var(--glass);
 }
 .btn-icon:hover { transform: translateY(-1px); }
+
+/* Aplica o recuo MÍNIMO (collapsed width) ao conteúdo */
+.sidebar.collapsed + .content,
+.sidebar.collapsed ~ .content {
+    margin-left: var(--sidebar-collapsed-width);
+}
 
 /* ============ Sections/Cards ============ */
 .section { margin: 24px 0; }
@@ -209,7 +249,8 @@ body {
 }
 .toast.show { transform: translateY(0); opacity: 1; }
 
-/* ============ Responsividade ============ */
+/* ============ Responsividade (Ajustes para Mobile) ============ */
+
 @media (max-width: 1200px) {
   .cards { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
 }
@@ -217,9 +258,32 @@ body {
   .grid-charts { grid-template-columns: 1fr; }
 }
 @media (max-width: 800px) {
-  .sidebar { position: fixed; left: 0; transform: translateX(0); }
-  .sidebar.collapsed { transform: translateX(-100%); }
-  .content { padding: 20px; margin-left: 0; }
+  .sidebar { 
+    position: fixed; 
+    left: 0; 
+    transform: translateX(0); 
+    width: var(--sidebar-expanded-width);
+  }
+  .sidebar.collapsed { 
+    /* Remove a sidebar da vista, exceto pelo ícone, se desejar */
+    transform: translateX(calc(0px - var(--sidebar-collapsed-width))); 
+  }
+  
+  /* Em telas menores, o conteúdo não deve ter margem, pois a sidebar é flutuante/escondida */
+  .content { 
+    padding: 20px; 
+    margin-left: 0 !important; 
+  }
+  .sidebar.collapsed + .content,
+  .sidebar.collapsed ~ .content {
+    margin-left: 0 !important;
+  }
+  
+  /* Permite ajustar as larguras para mobile se necessário, mantendo no escopo do media query */
+  :root {
+     --sidebar-expanded-width: 200px;
+     --sidebar-collapsed-width: 56px;
+  }
 }
 @media (max-width: 600px) {
   .cards { grid-template-columns: 1fr; }
@@ -293,7 +357,7 @@ body {
   font-size: 0.9rem;
 }
 
-/* ============ Layout corrigido ============ */
+/* ============ Layout corrigido (Pode ser removido/integrado se não for usado) ============ */
 .main-content {
   flex: 1;
   padding: 2rem;
@@ -459,23 +523,23 @@ body {
     margin: 20px auto 30px auto;
     max-width: 100%;
     position: relative;
-    overflow: hidden; /* Esconde as imagens que não estão visíveis */
+    overflow: hidden; 
     border-radius: var(--radius);
     box-shadow: var(--shadow);
 }
 
 .carousel-images {
-    display: flex; /* Alinha todas as imagens lado a lado */
-    transition: transform 0.4s ease-in-out; /* Transição suave na troca de slide */
+    display: flex; 
+    transition: transform 0.4s ease-in-out; 
     width: 100%;
 }
 
 .carousel-image {
     width: 100%;
-    flex-shrink: 0; /* Impede que as imagens encolham */
+    flex-shrink: 0; 
     height: auto;
-    max-height: 400px; /* Limite a altura para telas maiores */
-    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+    max-height: 400px; 
+    object-fit: cover; 
     border-radius: var(--radius);
 }
 
@@ -489,9 +553,7 @@ body {
     padding: 0 10px;
 }
 
-/* Estilo dos botões de controle*/
 .carousel-controls .btn-icon {
-    /* Efeito de vidro para que as setas se destaquem no escuro e claro */
     background: rgba(0, 0, 0, 0.4); 
     color: var(--text);
     border-radius: 50%;
@@ -506,7 +568,6 @@ body {
     transform: scale(1.1);
 }
 
-/* Ajuste para o tema Light (para que os botões não sumam no fundo claro) */
 html[data-theme="light"] .carousel-controls .btn-icon {
     background: rgba(255, 255, 255, 0.6);
     color: var(--text);
