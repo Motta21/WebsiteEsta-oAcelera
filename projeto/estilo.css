@@ -579,3 +579,67 @@ html[data-theme="light"] .carousel-controls .btn-icon {
 html[data-theme="light"] .carousel-controls .btn-icon:hover {
     background: rgba(255, 255, 255, 0.9);
 }
+
+/* Adicione ao final do arquivo */
+
+/* Estilos para página de Patrocinadores */
+.sponsors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.sponsor-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+  transition: transform 0.2s ease;
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+.sponsor-card:hover {
+  transform: translateY(-4px);
+}
+
+.sponsor-card img {
+  max-width: 180px;
+  height: auto;
+  margin-bottom: 16px;
+}
+
+.sponsor-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: var(--primary);
+}
+
+.sponsor-card p {
+  color: var(--muted);
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}
+
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--link);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.06);
+  transition: background 0.2s ease;
+}
+
+.btn-link:hover {
+  background: rgba(255,255,255,.1);
+}
+
+@media (max-width: 600px) {
+  .sponsors-grid {
+    grid-template-columns: 1fr;
+  }
+}

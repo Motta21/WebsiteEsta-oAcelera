@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeatherMonitor — Patrocinadores</title>
+  <script>
+    (function() {
+      const saved = sessionStorage.getItem('theme');
+      const html = document.documentElement;
+      html.setAttribute('data-theme', saved || 'light');
+    })();
+  </script>
+
+  <link rel="stylesheet" href="estilo.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <aside class="sidebar collapsed" id="sidebar">
+    <div class="brand">
+      <button class="btn-icon toggle-sidebar" id="toggleSidebar"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    
+    <nav class="nav">
+      <a class="nav-link" href="../index.html"><i class="fa-solid fa-cloud-sun-rain"></i><span>Início</span></a>
+      <a class="nav-link" href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a class="nav-link" href="graficos.html"><i class="fa-solid fa-chart-line"></i><span>Gráficos</span></a>
+      <a class="nav-link" href="historico.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a>
+      <a class="nav-link" href="sobre.html"><i class="fa-solid fa-circle-info"></i><span>Sobre</span></a>
+      <a class="nav-link active" href="patrocinadores.html"><i class="fa-solid fa-handshake"></i><span>Patrocinadores</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="nav-link small" href="https://thingspeak.com/" target="_blank" rel="noopener">
+        <i class="fa-brands fa-think-peaks"></i><span>ThingSpeak</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1>Estação Meteorológica</h1>
+        <p class="subtitle">Nossos Patrocinadores</p>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-icon" id="userLogin" onclick="window.location.href='login.html'">
+          <i class="fa-solid fa-user"></i>
+        </button>
+        <button class="btn-icon" id="toggleTheme"><i class="fa-solid fa-moon"></i></button>
+        <div class="clock" id="hora">--:--:--</div>
+      </div>
+    </header>
+
+    <section id="patrocinadores" class="section">
+      <div class="card about">
+        <h2><i class="fa-solid fa-handshake"></i> Nossos Patrocinadores</h2>
+        <p>Agradecemos às empresas e instituições que tornaram este projeto possível:</p>
+
+        <div class="sponsors-grid">
+            <!--Duplicar-->
+          <div class="sponsor-card">
+            <img src="../img/patrocinadores/inf.png" alt="Logo Patrocinador 1">
+            <h3>Nome do Patrocinador</h3>
+            <p>Breve descrição do patrocinador e sua contribuição para o projeto.</p>
+            <a href="#" target="_blank" class="btn-link">
+              <i class="fa-solid fa-globe"></i> Visitar Site
+            </a>
+          </div>
+          <!--Duplicar-->
+            <div class="sponsor-card">
+                <img src="../img/patrocinadores/romiotto_instrumentos_logo.jpeg" alt="Logo Patrocinador 2">
+                <h3>Romiotto</h3>
+                <p>Breve descrição do patrocinador e sua contribuição para o projeto.</p>
+                <a href="#" target="_blank" class="btn-link">
+                <i class="fa-solid fa-globe"></i> Visitar Site
+                </a>
+            </div>
+
+             <div class="sponsor-card">
+            <img src="../img/patrocinadores/inf.png" alt="Logo Patrocinador 1">
+            <h3>Nome do Patrocinador</h3>
+            <p>Breve descrição do patrocinador e sua contribuição para o projeto.</p>
+            <a href="#" target="_blank" class="btn-link">
+              <i class="fa-solid fa-globe"></i> Visitar Site
+            </a>
+          </div>
+
+           <div class="sponsor-card">
+            <img src="../img/patrocinadores/inf.png" alt="Logo Patrocinador 1">
+            <h3>Nome do Patrocinador</h3>
+            <p>Breve descrição do patrocinador e sua contribuição para o projeto.</p>
+            <a href="#" target="_blank" class="btn-link">
+              <i class="fa-solid fa-globe"></i> Visitar Site
+            </a>
+          </div>
+
+           <div class="sponsor-card">
+            <img src="../img/patrocinadores/inf.png" alt="Logo Patrocinador 1">
+            <h3>Nome do Patrocinador</h3>
+            <p>Breve descrição do patrocinador e sua contribuição para o projeto.</p>
+            <a href="#" target="_blank" class="btn-link">
+              <i class="fa-solid fa-globe"></i> Visitar Site
+            </a>
+          </div>
+
+           <div class="sponsor-card">
+            <img src="../img/patrocinadores/inf.png" alt="Logo Patrocinador 1">
+            <h3>Nome do Patrocinador</h3>
+            <p>Breve descrição do patrocinador e sua contribuição para o projeto.</p>
+            <a href="#" target="_blank" class="btn-link">
+              <i class="fa-solid fa-globe"></i> Visitar Site
+            </a>
+          </div>
+
+           <div class="sponsor-card">
+            <img src="../img/patrocinadores/inf.png" alt="Logo Patrocinador 1">
+            <h3>Nome do Patrocinador</h3>
+            <p>Breve descrição do patrocinador e sua contribuição para o projeto.</p>
+            <a href="#" target="_blank" class="btn-link">
+              <i class="fa-solid fa-globe"></i> Visitar Site
+            </a>
+          </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>&copy; 2025 WeatherMonitor — Estação Meteorológica</span>
+    </footer>
+  </main>
+
+  <div id="loader" class="loader hidden"><div class="spinner"></div><span>Carregando dados...</span></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
