@@ -49,6 +49,8 @@ body {
               radial-gradient(1000px 600px at 120% 10%, rgba(34,197,94,.10), transparent 40%),
               var(--bg);
   color: var(--text);
+  overflow-x: hidden;
+  overflow-y: auto;  
 }
 
 /* ============ Sidebar ============ */
