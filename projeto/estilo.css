@@ -523,7 +523,7 @@ body {
 
 .carousel-container {
     margin: 20px auto 30px auto;
-    max-width: 100%;
+    max-width: 50%;
     position: relative;
     overflow: hidden; 
     border-radius: var(--radius);
@@ -582,75 +582,131 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
     background: rgba(255, 255, 255, 0.9);
 }
 
-/* Adicione ao final do arquivo */
-
-/* Estilos para página de Patrocinadores */
-.sponsors-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  margin-top: 24px;
-  align-items: stretch; /* garante que todos os cards tenham a mesma altura */
+.section-contato {
+  text-align: center;
+  padding: 3rem 1rem;
 }
 
-.sponsor-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 24px;
-  text-align: center;
-  transition: transform 0.2s ease;
-  border: 1px solid rgba(255,255,255,.06);
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  perspective: 1000px;
+}
 
-  
+.dev-card {
+  background: var(--card-bg, #fff);
+  border-radius: 16px;
+  width: 280px;
+  min-height: 370px;
   display: flex;
   flex-direction: column;
-  align-items: center; 
-}
-
-
-.sponsor-card:hover {
-  transform: translateY(-4px);
-}
-
-.sponsor-card img {
-  max-width: 180px;
-  height: 120px; 
-  object-fit: contain; 
-  margin-bottom: 16px;
-}
-
-.sponsor-card h3 {
-  font-size: 1.2rem;
-  margin-bottom: 8px;
-  color: var(--primary);
-}
-
-.sponsor-card p {
-  color: var(--muted);
-  margin-bottom: 16px;
-  font-size: 0.9rem;
-  
-}
-
-.btn-link {
-  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  color: var(--link);
-  text-decoration: none;
-  font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 8px;
-  background: rgba(255,255,255,.06);
-  transition: background 0.2s ease;
-  margin-top: auto;
-}
-.btn-link:hover {
-  background: rgba(255,255,255,.1);
+  justify-content: flex-start;
+  padding: 1.5rem;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
 }
 
-@media (max-width: 600px) {
-  .sponsors-grid {
-    grid-template-columns: 1fr;
+.dev-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+.dev-card h3 {
+  margin-top: 1rem;
+  font-weight: 700;
+}
+
+.dev-card p {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted, #555);
+}
+
+.dev-card .social {
+  margin-top: auto;
+  display: flex;
+  gap: 1rem;
+}
+
+.dev-card .social a {
+  color: var(--primary, #007bff);
+  font-size: 1.3rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.dev-card .social a:hover {
+  transform: scale(1.2);
+  color: var(--accent, #ffb703);
+}
+
+/* Badge */
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: linear-gradient(135deg, var(--primary, #007bff), var(--accent, #ffb703));
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.3rem 0.7rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+/* Hover 3D + brilho */
+.dev-card:hover {
+  transform: rotateY(6deg) rotateX(3deg) scale(1.03);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.25);
+  border: 2px solid var(--accent, #ffb703);
+}
+
+/* Parallax leve */
+.dev-card:hover img {
+  transform: translateY(-5px) scale(1.05);
+  transition: transform 0.6s ease;
+}
+
+/* Glow sincronizado */
+@keyframes cardGlowLight {
+  0%, 100% { box-shadow: 0 0 8px #ffb703, 0 0 20px rgba(255,183,3,0.4); }
+  50% { box-shadow: 0 0 15px #ffb703, 0 0 35px rgba(255,183,3,0.6); }
+}
+@keyframes cardGlowDark {
+  0%, 100% { box-shadow: 0 0 8px #38bdf8, 0 0 20px rgba(56,189,248,0.4); }
+  50% { box-shadow: 0 0 15px #38bdf8, 0 0 35px rgba(56,189,248,0.6); }
+}
+
+[data-theme="light"] .dev-card:hover {
+  animation: cardGlowLight 2s infinite alternate;
+}
+
+[data-theme="dark"] .dev-card:hover {
+  animation: cardGlowDark 2s infinite alternate;
+}
+
+/* Animação de entrada */
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+
+.dev-card.show {
+  animation: fadeUp 0.8s ease forwards;
+}
+

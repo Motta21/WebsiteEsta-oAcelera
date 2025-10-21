@@ -495,3 +495,45 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCarousel();
     }, intervalTime);
 });
+
+// === ANIMAÇÃO SUAVE DOS CARDS DE CONTATO ===
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = document.querySelectorAll('.dev-card');
+  if (!cards.length) return;
+
+  cards.forEach((card, i) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, 150 * i);
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = document.querySelectorAll('.dev-card');
+  if (!cards.length) return;
+
+  // Animação sequencial de entrada
+  cards.forEach((card, i) => {
+    setTimeout(() => {
+      card.classList.add('show');
+    }, 200 * i);
+  });
+
+  // Efeito parallax no hover
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      card.style.transform = `rotateY(${x / 25}deg) rotateX(${-y / 25}deg) scale(1.03)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'rotateY(0deg) rotateX(0deg) scale(1)';
+    });
+  });
+});

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WeatherMonitor — Sobre</title>
+  <title>WeatherMonitor — Contato</title>
   <script>
     (function() {
       const saved = sessionStorage.getItem('theme');
@@ -29,9 +29,10 @@
       <a class="nav-link" href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
       <a class="nav-link" href="graficos.html"><i class="fa-solid fa-chart-line"></i><span>Gráficos</span></a>
       <a class="nav-link" href="historico.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a>
-      <a class="nav-link active" href="sobre.html"><i class="fa-solid fa-circle-info"></i><span>Sobre</span></a>
+      <a class="nav-link active" href="sobre.html"><i class="fa-solid fa-address-book"></i><span>Contato</span></a>
       <a class="nav-link" href="patrocinadores.html"><i class="fa-solid fa-handshake"></i><span>Patrocinadores</span></a>
     </nav>
+
     <div class="sidebar-footer">
       <a class="nav-link small" href="https://thingspeak.com/" target="_blank" rel="noopener">
         <i class="fa-brands fa-think-peaks"></i><span>ThingSpeak</span>
@@ -43,95 +44,82 @@
     <header class="topbar">
       <div class="topbar-left">
         <h1>Estação Meteorológica</h1>
-        <p class="subtitle">Sobre o projeto</p>
+        <p class="subtitle">Contato dos Desenvolvedores</p>
       </div>
       <div class="topbar-right">
-    <!-- Botão usuário -->
-    <button class="btn-icon" id="userLogin" onclick="window.location.href='login.html'">
-      <i class="fa-solid fa-user"></i>
-    </button>
-
-    <!-- Botão tema -->
-    <button class="btn-icon" id="toggleTheme"><i class="fa-solid fa-moon"></i></button>
-
-    <!-- Relógio -->
-    <div class="clock" id="hora">--:--:--</div>
-  </div>
+        <button class="btn-icon" id="userLogin" onclick="window.location.href='login.html'">
+          <i class="fa-solid fa-user"></i>
+        </button>
+        <button class="btn-icon" id="toggleTheme"><i class="fa-solid fa-moon"></i></button>
+        <div class="clock" id="hora">--:--:--</div>
+      </div>
     </header>
 
-    <section id="sobre" class="section">
-      <div class="card about">
-        <h2><i class="fa-solid fa-circle-info"></i> Sobre o Projeto</h2>
-        <p>
-          Projeto escolar para monitorar dados meteorológicos 
-          (<strong>temperatura</strong>, <strong>umidade</strong>, <strong>pressão</strong>, 
-          <strong>pressão ao nível do mar</strong> e <strong>ponto de orvalho</strong>)
-          utilizando <a href="https://thingspeak.com/" target="_blank">ThingSpeak</a>. 
-          Este painel oferece visual moderno, temas claro/escuro, alertas e
-          gráficos com gradientes para análise intuitiva.
-        </p>
+    <section id="contato" class="section-contato">
+      <div class="contato-header">
+        <h2><i class="fa-solid fa-users"></i> Equipe de Desenvolvimento</h2>
+        <p>Entre em contato com os integrantes responsáveis pelo projeto WeatherMonitor.</p>
+      </div>
+        <br>
+      <div class="cards-container">
+        <!-- CARD 1 -->
+        <div class="dev-card" data-role="Banco de Dados">
+          <span class="badge">Banco de Dados</span>
+          <img src="../img/Álefe.jpg" alt="Álefe Toledo">
+          <h3>Álefe Alexandre de Toledo</h3>
+          <p><i class="fa-solid fa-envelope"></i> alefetoledo.dev@gmail.com</p>
+          <div class="social">
+            <a href="https://github.com/Shokzin" target="_blank"><i class="fa-brands fa-github"></i></a>
+          </div>
+        </div>
 
-        <div class="carousel-container">
-    <div class="carousel-images" id="carouselImages">
-        <img src="../img/imagens-componentes/1.png" alt="Imagem do Módulo SD" class="carousel-image">
-        <img src="../img/imagens-componentes/2.png" alt="Imagem da Bateria" class="carousel-image">
-        <img src="../img/imagens-componentes/3.png" alt="Imagem do Controlador de carga solar" class="carousel-image">
-        <img src="../img/imagens-componentes/4.png" alt="Imagem do ESP32" class="carousel-image">
-        <img src="../img/imagens-componentes/5.png" alt="Imagem do Sensor de temperatura" class="carousel-image">
-        <img src="../img/imagens-componentes/6.png" alt="Imagem do Regulador de tensão" class="carousel-image">
-        <img src="../img/imagens-componentes/7.png" alt="Imagem do Módulo RTC" class="carousel-image">
-        <img src="../img/imagens-componentes/8.jpg" alt="Imagem da Estação" class="carousel-image">
-    </div>
-    <div class="carousel-controls">
-        <button class="btn-icon" id="prevButton"><i class="fa-solid fa-chevron-left"></i></button>
-        <button class="btn-icon" id="nextButton"><i class="fa-solid fa-chevron-right"></i></button>
-    </div>
-  </div>
-    <h3><i class="fa-solid fa-users"></i> Integrantes</h3>
-        <ul class="team-list">
-          <li>
-            <img src="../img/Álefe.jpg" alt="Álefe Toledo">
-            <div>
-              <strong>Álefe Alexandre de Toledo</strong><br>
-              <span>alefetoledo.dev@gmail.com</span>
-              <a href="https://github.com/Shokzin" target="_blank"><i class="fa-brands fa-github"></i></a>
-            </div>
-          </li>
-          <li>
-            <img src="../img/Felipe.jpg" alt="Felipe Moura">
-            <div>
-              <strong>Felipe Ferreira de Moura</strong><br>
-              <span>fmoura.dev@gmail.com</span>
-              <a href="https://github.com/fefMoura" target="_blank"><i class="fa-brands fa-github"></i></a>
-            </div>
-          </li>
-          <li>
-            <img src="../img/Luiz.jpg" alt="Luiz Charleaux">
-            <div>
-              <strong>Luiz Francisco Charleaux e Caetano</strong><br>
-              <span>luizcharleauxecaetano@gmail.com</span>
-              <a href="https://github.com/luizkikinho" target="_blank"><i class="fa-brands fa-github"></i></a>
-            </div>
-          </li>
-          <li>
-            <img src="../img/Mateus.jpg" alt="Mateus Ribeiro">
-            <div>
-              <strong>Mateus Motta Bueno Ribeiro</strong><br>
-              <span>matribeiromota@gmail.com</span>
-              <a href="https://github.com/Motta21" target="_blank"><i class="fa-brands fa-github"></i></a> <br>
-              <a href="http://lattes.cnpq.br/8452853652120955" target="_blank">Meu currículo Lattes</a>
-            </div>
-          </li>
-          <li>
-            <img src="../img/Thiago.jpg" alt="Thiago Motta">
-            <div>
-              <strong>Thiago de Oliveira Motta</strong><br>
-              <span>thiago.oliveiramotta@gmail.com</span>
-              <a href="https://github.com/ThiagoMotta9" target="_blank"><i class="fa-brands fa-github"></i></a>
-            </div>
-          </li>
-        </ul>
-        
+        <!-- CARD 2 -->
+        <div class="dev-card" data-role="Fullstack">
+          <span class="badge">Fullstack</span>
+          <img src="../img/Felipe.jpg" alt="Felipe Moura">
+          <h3>Felipe Ferreira de Moura</h3>
+          <p><i class="fa-solid fa-envelope"></i> fmoura.dev@gmail.com</p>
+          <div class="social">
+            <a href="https://github.com/fefMoura" target="_blank"><i class="fa-brands fa-github"></i></a>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="dev-card" data-role="Infraestrutura e Banco de Dados">
+          <span class="badge">Infra e Banco de Dados</span>
+          <img src="../img/Luiz.jpg" alt="Luiz Charleaux">
+          <h3>Luiz Francisco Charleaux e Caetano</h3>
+          <p><i class="fa-solid fa-envelope"></i> luizcharleauxecaetano@gmail.com</p>
+          <div class="social">
+            <a href="https://github.com/luizkikinho" target="_blank"><i class="fa-brands fa-github"></i></a>
+            <a href="https://linktr.ee/luizcharleaux" target="_blank"><i class="fa-solid fa-graduation-cap"></i></a>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="dev-card" data-role="Infraestrutura e Eletrônica">
+          <span class="badge">Infra e Eletrônica</span>
+          <img src="../img/Mateus.jpg" alt="Mateus Ribeiro">
+          <h3>Mateus Motta Bueno Ribeiro</h3>
+          <p><i class="fa-solid fa-envelope"></i> matribeiromota@gmail.com</p>
+          <div class="social">
+            <a href="https://github.com/Motta21" target="_blank"><i class="fa-brands fa-github"></i></a>
+            <a href="http://lattes.cnpq.br/8452853652120955" target="_blank"><i class="fa-solid fa-graduation-cap"></i></a>
+          </div>
+        </div>
+
+        <!-- CARD 5 -->
+        <div class="dev-card" data-role="Front-end Developer">
+          <span class="badge">Front-end</span>
+          <img src="../img/Thiago.jpg" alt="Thiago Motta">
+          <h3>Thiago de Oliveira Motta</h3>
+          <p><i class="fa-solid fa-envelope"></i> thiago.oliveiramotta@gmail.com</p>
+          <div class="social">
+            <a href="https://github.com/ThiagoMotta9" target="_blank"><i class="fa-brands fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/thiago-motta-07b3412b8/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="https://www.instagram.com/t_mottaa/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
       </div>
     </section>
 
