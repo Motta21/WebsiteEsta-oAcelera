@@ -585,6 +585,7 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
 .section-contato {
   text-align: center;
   padding: 3rem 1rem;
+  color: var(--text);
 }
 
 .cards-container {
@@ -596,7 +597,7 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
 }
 
 .dev-card {
-  background: var(--card-bg, #fff);
+  background: var(--card);
   border-radius: 16px;
   width: 280px;
   min-height: 370px;
@@ -605,7 +606,7 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
   align-items: center;
   justify-content: flex-start;
   padding: 1.5rem;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow);
   transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
   position: relative;
   overflow: hidden;
@@ -618,18 +619,19 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
   border-radius: 50%;
   object-fit: cover;
   margin-top: 1.5rem;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
 }
 
 .dev-card h3 {
   margin-top: 1rem;
   font-weight: 700;
+  color: var(--text);
 }
 
 .dev-card p {
   margin-top: 0.5rem;
   font-size: 0.9rem;
-  color: var(--text-muted, #555);
+  color: var(--muted);
 }
 
 .dev-card .social {
@@ -639,14 +641,14 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
 }
 
 .dev-card .social a {
-  color: var(--primary, #007bff);
+  color: var(--primary);
   font-size: 1.3rem;
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .dev-card .social a:hover {
   transform: scale(1.2);
-  color: var(--accent, #ffb703);
+  color: var(--accent);
 }
 
 /* Badge */
@@ -654,7 +656,7 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: linear-gradient(135deg, var(--primary, #007bff), var(--accent, #ffb703));
+  background: linear-gradient(135deg, var(--primary), var(--accent));
   color: #fff;
   font-size: 0.75rem;
   font-weight: bold;
@@ -667,7 +669,7 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
 .dev-card:hover {
   transform: rotateY(6deg) rotateX(3deg) scale(1.03);
   box-shadow: 0 25px 45px rgba(0, 0, 0, 0.25);
-  border: 2px solid var(--accent, #ffb703);
+  border: 2px solid var(--accent);
 }
 
 /* Parallax leve */
@@ -678,12 +680,12 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
 
 /* Glow sincronizado */
 @keyframes cardGlowLight {
-  0%, 100% { box-shadow: 0 0 8px #ffb703, 0 0 20px rgba(255,183,3,0.4); }
-  50% { box-shadow: 0 0 15px #ffb703, 0 0 35px rgba(255,183,3,0.6); }
+  0%, 100% { box-shadow: 0 0 8px var(--accent), 0 0 20px rgba(255,183,3,0.4); }
+  50% { box-shadow: 0 0 15px var(--accent), 0 0 35px rgba(255,183,3,0.6); }
 }
 @keyframes cardGlowDark {
-  0%, 100% { box-shadow: 0 0 8px #38bdf8, 0 0 20px rgba(56,189,248,0.4); }
-  50% { box-shadow: 0 0 15px #38bdf8, 0 0 35px rgba(56,189,248,0.6); }
+  0%, 100% { box-shadow: 0 0 8px var(--primary), 0 0 20px rgba(56,189,248,0.4); }
+  50% { box-shadow: 0 0 15px var(--primary), 0 0 35px rgba(56,189,248,0.6); }
 }
 
 [data-theme="light"] .dev-card:hover {
