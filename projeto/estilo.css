@@ -528,7 +528,6 @@ body {
     overflow: hidden; 
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    background-color: #22d3ee;
 }
 
 .carousel-images {
@@ -546,6 +545,15 @@ body {
     object-fit: contain; 
     border-radius: var(--radius);
     
+}
+.carousel-slide {
+    flex: 0 0 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
 }
 
 .carousel-controls {
@@ -580,6 +588,19 @@ html[data-theme="light"] .carousel-controls .btn-icon {
 }
 html[data-theme="light"] .carousel-controls .btn-icon:hover {
     background: rgba(255, 255, 255, 0.9);
+}
+
+.carousel-container h1 {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.4);
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .section-contato {
