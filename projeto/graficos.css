@@ -1,0 +1,23 @@
+/* ============ Charts ============ */
+
+.section-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;
+}
+.section-head h2 { margin: 0; }
+.section-actions { display: flex; align-items: center; gap: 10px; }
+
+.select-wrap, .search-wrap {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.06); padding: 8px 10px; border-radius: 12px;
+}
+.select-wrap select, .search-wrap input {
+  appearance: none; border: none; outline: none; background: transparent; color: var(--text);
+}
+.select-wrap select option { color: #111; }
+
+.grid-charts {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+}
+.chart-card .chart-title { color: var(--muted); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.chart-wrap { position: relative; height: 300px; }

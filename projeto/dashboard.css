@@ -1,0 +1,27 @@
+/* ============ Sections/Cards ============ */
+
+.section { margin: 24px 0; }
+
+.cards {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+}
+.card {
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  transition: .25s ease;
+}
+.card:hover { transform: translateY(-3px); }
+
+.metric .metric-head { display:flex; align-items:center; gap:10px; color: var(--muted); font-weight: 600; }
+.metric .metric-icon { color: var(--primary); font-size: 20px; }
+.metric .metric-value { font-size: 32px; font-weight: 800; letter-spacing: .3px; margin-top: 6px; }
+.metric .metric-foot { margin-top: 8px; font-size: 12px; color: var(--muted); }
+
+/* Status cores */
+.status-ok { color: var(--accent); }
+.status-warn { color: var(--warning); }
+.status-bad { color: var(--danger); }

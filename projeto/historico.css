@@ -1,0 +1,18 @@
+/* ============ Table ============ */
+.table-wrap {
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,.06);
+  overflow: auto;
+  box-shadow: var(--shadow);
+}
+.table { width: 100%; border-collapse: collapse; min-width: 760px; }
+.table thead th {
+  position: sticky; top: 0; z-index: 1;
+  background: rgba(0,0,0,.25);
+  backdrop-filter: var(--glass);
+  text-align: left; padding: 12px; font-weight: 700; font-size: 14px;
+}
+.table tbody td { padding: 10px 12px; border-top: 1px solid rgba(255,255,255,.06); }
+.table tbody tr:nth-child(odd) { background: rgba(255,255,255,.03); }
+.table tbody tr:hover { background: rgba(34,211,238,.06); }
