@@ -288,3 +288,23 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
     font-size: 1.5rem;
     font-weight: 600;
 }
+
+/* === Ajuste de centralização da seção inicial === */
+.full-height {
+  min-height: calc(100vh - 80px); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.weather-monitor-container {
+  transform: translateY(-40px); 
+}
+
+@media (max-width: 768px) {
+  .weather-monitor-container {
+    transform: translateY(-20px);
+  }
+}
