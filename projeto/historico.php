@@ -1,6 +1,10 @@
 <?php
 // 1. INCLUSÃO DA CONEXÃO
 // O 'require_once' busca o arquivo e torna a variável $pdo disponível
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'db_conexao.php'; 
 
 // 2. CONFIGURAÇÃO E CONSULTA À VIEW
