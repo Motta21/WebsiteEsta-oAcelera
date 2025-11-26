@@ -28,69 +28,49 @@
             <h2>Cadastre-se</h2>
             <p class="subtitle">Crie sua conta no Amana</p>
             
-            <form id="cadastroForm">
+            <form id="cadastroForm" action="php/cadastrar_conta.php" method="POST">
+
                 <div class="input-group">
                     <i class="fa-solid fa-envelope"></i>
-                    <input type="email" id="email" placeholder="E-mail" required>
+                    <input type="email" id="email" name="email" placeholder="E-mail" required>
                 </div>
+
                 <div class="input-group">
                     <i class="fa-solid fa-user"></i>
-                    <input type="text" id="username" placeholder="Usuário" required>
+                    <input type="text" id="username" name="usuario" placeholder="Usuário" required>
                 </div>
+
                 <div class="input-group">
                     <i class="fa-solid fa-lock"></i>
-                    <input type="password" id="password" placeholder="Senha" required>
+                    <input type="password" id="password" name="senha" placeholder="Senha" required>
                 </div>
+
                 <div class="input-group">
                     <i class="fa-solid fa-key"></i>
-                    <input type="password" id="confirmPassword" placeholder="Confirmar Senha" required>
+                    <input type="password" id="confirmPassword" name="confirmar_senha" placeholder="Confirmar Senha" required>
                 </div>
-                
+                            
                 <button type="submit" class="btn-login">Criar Conta</button>
+
             </form>
+
 
             <p class="info">Já tem uma conta? <a href="login.html">Faça login</a></p>
         </div>
     </div>
 
     <script>
-        document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
+document.getElementById("cadastroForm").addEventListener("submit", (e) => {
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
 
-            const email = document.getElementById("email").value;
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirmPassword").value;
+    if (password !== confirmPassword) {
+        e.preventDefault();
+        alert("As senhas não coincidem!");
+    }
+});
+</script>
 
-            // 1. Validação de Senhas
-            if (password !== confirmPassword) {
-                alert("As senhas não coincidem!");
-                return;
-            }
-
-            // 2. Envio dos Dados para a API
-            try {
-                const response = await fetch("http://localhost:3000/register", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, username, password })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    alert("Cadastro realizado com sucesso! Faça o login agora.");
-                    window.location.href = "login.html"; // Redireciona para o login
-                } else {
-                    // Trata erros específicos da API (ex: usuário já existe)
-                    alert(`Falha no cadastro: ${data.message || 'Erro desconhecido.'}`);
-                }
-            } catch (error) {
-                console.error('Erro de rede:', error);
-                alert("Ocorreu um erro ao tentar se conectar ao servidor.");
-            }
-        });
-    </script>
 </body>
 <script>
     // Função para alternar o tema e salvar no sessionStorage
