@@ -153,7 +153,7 @@ try {
                     <th>Pressão (hPa)</th>
                     <th>Pressão Nível do Mar (hPa)</th>
                     <th>Ponto Orvalho (°C)</th>
-                    <th>Voltagem Bateria (V)</th>
+                   <!-- <th>Voltagem Bateria (V)</th> comentei pq ta dando erro, vou rrumar dps -->
                 </tr>
             </thead>
 
@@ -173,7 +173,6 @@ try {
                         <td><?= htmlspecialchars($linha['Pressao']) ?></td>
                         <td><?= htmlspecialchars($linha['Pressao_nivel_mar']) ?></td>
                         <td><?= htmlspecialchars($linha['PTO_Orvalho']) ?></td>
-                        <td><?= htmlspecialchars($linha['NV_Bat']) ?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
