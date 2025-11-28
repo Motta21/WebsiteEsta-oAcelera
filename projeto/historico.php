@@ -135,11 +135,11 @@ try {
                 <?php foreach ($registros as $linha): ?>
                     <tr>
                         <td><?= htmlspecialchars($linha['DataHora']) ?></td>
-                        <td><?= htmlspecialchars($linha['temperatura']) ?></td>
-                        <td><?= htmlspecialchars($linha['umidade']) ?></td>
-                        <td><?= htmlspecialchars($linha['pressao']) ?></td>
-                        <td><?= htmlspecialchars($linha['pressao_nivel_mar']) ?></td>
-                        <td><?= htmlspecialchars($linha['ponto_orvalho']) ?></td>
+                        <td><?= htmlspecialchars($linha['Temperatura']) ?></td>
+                        <td><?= htmlspecialchars($linha['Umidade']) ?></td>
+                        <td><?= htmlspecialchars($linha['Pressao']) ?></td>
+                        <td><?= htmlspecialchars($linha['Pressao_nivel_mar']) ?></td>
+                        <td><?= htmlspecialchars($linha['Ponto_orvalho']) ?></td>
                         <td><?= htmlspecialchars($linha['NV_Bat']) ?></td>
                     </tr>
                 <?php endforeach; ?>
