@@ -49,8 +49,10 @@
                     <i class="fa-solid fa-key"></i>
                     <input type="password" id="confirmPassword" name="confirmar_senha" placeholder="Confirmar Senha" required>
                 </div>
-                            
-                <button type="submit" class="btn-login">Criar Conta</button>
+                 <form id="form">
+                <label><input type="checkbox" id="aceito"> Aceito os <a href="termoUso.html" target="_blank">Termos de Uso</a></label>
+                <br><br>           
+                <button type="submit" id="btnCriar" class="btn-login" disabled>Criar Conta</button>
 
             </form>
 
@@ -69,6 +71,28 @@ document.getElementById("cadastroForm").addEventListener("submit", (e) => {
         alert("As senhas não coincidem!");
     }
 });
+</script>
+<!-- func para aceitar os termos -->
+<script>
+  const checkbox = document.getElementById("aceito");
+  const botao = document.getElementById("btnCriar");
+
+  checkbox.addEventListener("change", () => {
+    if (checkbox.checked) {
+      botao.disabled = false;
+      botao.classList.add("enabled");
+    } else {
+      botao.disabled = true;
+      botao.classList.remove("enabled");
+    }
+  });
+
+  document.getElementById("form").addEventListener("submit", (e) => {
+    if (!checkbox.checked) {
+      e.preventDefault();
+      alert("Você precisa aceitar os termos para continuar.");
+    }
+  });
 </script>
 
 </body>
