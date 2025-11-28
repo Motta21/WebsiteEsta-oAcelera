@@ -116,33 +116,36 @@ try {
 
     <form method="GET" class="filtro-box">
 
-        <div>
+        <div class="linha-filtros">
+        <div class="campo">
             <label>Data inicial:</label>
-            <input type="date" name="data_inicio" value="<?= htmlspecialchars($data_inicio) ?>">
+            <input type="date" id="data-inicial">
         </div>
 
-        <div>
+        <div class="campo">
             <label>Data final:</label>
-            <input type="date" name="data_fim" value="<?= htmlspecialchars($data_fim) ?>">
+            <input type="date" id="data-final">
         </div>
+    </div>
 
-        <div>
-            <label>Tópico:</label>
-            <select name="topico">
-                <option value="">Todos</option>
-                <?php foreach ($colunas_validas as $col): ?>
-                    <option value="<?= $col ?>" <?= $topico == $col ? 'selected' : '' ?>>
-                        <?= $col ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+    <div class="topicos-container">
+        <label>Tópicos:</label>
+
+        <div class="btn-box-group">
+            <button class="btn-box active" data-topic="temperatura">Temperatura</button>
+            <button class="btn-box active" data-topic="umidade">Umidade</button>
+            <button class="btn-box active" data-topic="pressao">Pressão</button>
+            <button class="btn-box active" data-topic="vento">Vento</button>
+            <button class="btn-box active" data-topic="chuva">Chuva</button>
+            <button class="btn-box active" data-topic="todos">Todos</button>
         </div>
+    </div>
 
-        <button type="submit" class="btn">Filtrar</button>
-
-        <a href="php/download.php?<?= http_build_query($_GET) ?>" class="btn btn-secondary">
-            <i class="fa-solid fa-download"></i> Download CSV
-        </a>
+    <div class="acoes">
+        <button id="filtrar-btn" class="btn-primary">Filtrar</button>
+        <button id="csv-btn" class="btn-secundario">⬇️ Download CSV</button>
+    </div>
+</div>
 
     </form>
 
