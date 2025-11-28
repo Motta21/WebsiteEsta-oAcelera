@@ -19,13 +19,13 @@ $params = [];
 
 // DATA INICIAL
 if (!empty($data_inicio)) {
-    $sql .= " AND data_hora >= ?";
+    $sql .= " AND DataHora >= ?";
     $params[] = $data_inicio . " 00:00:00";
 }
 
 // DATA FINAL
 if (!empty($data_fim)) {
-    $sql .= " AND data_hora <= ?";
+    $sql .= " AND DataHora <= ?";
     $params[] = $data_fim . " 23:59:59";
 }
 
@@ -37,7 +37,7 @@ if (!empty($topico) && in_array($topico, $colunas_validas)) {
     $sql .= " AND $topico IS NOT NULL";
 }
 
-$sql .= " ORDER BY data_hora DESC LIMIT 1000";
+$sql .= " ORDER BY DataHora DESC LIMIT 1000";
 
 try {
     $stmt = $pdo->prepare($sql);
@@ -134,7 +134,7 @@ try {
             <?php else: ?>
                 <?php foreach ($registros as $linha): ?>
                     <tr>
-                        <td><?= htmlspecialchars($linha['data_hora']) ?></td>
+                        <td><?= htmlspecialchars($linha['DataHora']) ?></td>
                         <td><?= htmlspecialchars($linha['temperatura']) ?></td>
                         <td><?= htmlspecialchars($linha['umidade']) ?></td>
                         <td><?= htmlspecialchars($linha['pressao']) ?></td>
