@@ -21,7 +21,7 @@
 
   /* Sidebar */
   --sidebar-expanded-width: 250px;
-  --sidebar-collapsed-width: 38x;
+  --sidebar-collapsed-width: 38px;
 }
 
 /* Tema claro */
@@ -256,43 +256,4 @@ body {
   justify-content: space-between;
   margin-bottom: 2rem;
   width: 100%;
-}
-
-/* ============================================================
-   RESPONSIVIDADE
-============================================================ */
-@media (max-width: 1200px) {
-  .cards { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
-}
-@media (max-width: 900px) {
-  .grid-charts { grid-template-columns: 1fr; }
-}
-@media (max-width: 800px) {
-  .sidebar {
-    position: fixed;
-    left: 0;
-    transform: translateX(0);
-    width: var(--sidebar-expanded-width);
-  }
-  .sidebar.collapsed {
-    transform: translateX(calc(0px - var(--sidebar-collapsed-width)));
-  }
-
-  .content {
-    padding: 20px;
-    margin-left: 0 !important;
-  }
-  .sidebar.collapsed + .content,
-  .sidebar.collapsed ~ .content {
-    margin-left: 0 !important;
-  }
-
-  :root {
-     --sidebar-expanded-width: 200px;
-     --sidebar-collapsed-width: 56px;
-  }
-}
-@media (max-width: 600px) {
-  .cards { grid-template-columns: 1fr; }
-  .chart-wrap { height: 260px; }
 }
