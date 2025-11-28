@@ -37,7 +37,7 @@ if (!empty($topico) && in_array($topico, $colunas_validas)) {
     $sql .= " AND $topico IS NOT NULL";
 }
 
-$sql .= " ORDER BY DataHora DESC LIMIT 1000";
+$sql .= " ORDER BY DataHora DESC LIMIT 50";
 
 try {
     $stmt = $pdo->prepare($sql);
@@ -143,9 +143,6 @@ try {
 
     </form>
 
-    <!-- ===========================
-             📌 TABELA DE DADOS
-    ============================ -->
     <div class="table-wrap">
         <table class="table">
             <thead>
