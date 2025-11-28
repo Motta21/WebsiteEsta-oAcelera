@@ -31,7 +31,7 @@ if (!empty($data_fim)) {
 
 // TÓPICO
 $colunas_validas = [
-    'Temperatura', 'Umidade', 'Pressao', 'Pressao_nivel_mar', 'Ponto_orvalho','NV_Bat'
+    'Temperatura', 'Umidade', 'Pressao', 'Pressao_nivel_mar', 'PTO_Orvalho','NV_Bat'
 ];
 if (!empty($topico) && in_array($topico, $colunas_validas)) {
     $sql .= " AND $topico IS NOT NULL";
@@ -99,11 +99,13 @@ try {
             <label>Tópico:</label>
             <select name="topico">
                 <option value="">Todos</option>
-                <option value="temperatura" <?= $topico == 'temperatura' ? 'selected' : '' ?>>Temperatura</option>
-                <option value="umidade" <?= $topico == 'umidade' ? 'selected' : '' ?>>Umidade</option>
-                <option value="pressao" <?= $topico == 'pressao' ? 'selected' : '' ?>>Pressão</option>
-                <option value="pressao_nivel_mar" <?= $topico == 'pressao_nivel_mar' ? 'selected' : '' ?>>Pressão Nível Mar</option>
-                <option value="ponto_orvalho" <?= $topico == 'ponto_orvalho' ? 'selected' : '' ?>>Ponto de Orvalho</option>
+                <option value="Temperatura" <?= $topico == 'Temperatura' ? 'selected' : '' ?>>Temperatura</option>
+                <option value="Umidade" <?= $topico == 'Umidade' ? 'selected' : '' ?>>Umidade</option>
+                <option value="Pressao" <?= $topico == 'Pressao' ? 'selected' : '' ?>>Pressão</option>
+                <option value="Pressao_nivel_mar" <?= $topico == 'Pressao_nivel_mar' ? 'selected' : '' ?>>Pressão Nível Mar</option>
+                <option value="PTO_Orvalho" <?= $topico == 'PTO_Orvalho' ? 'selected' : '' ?>>Ponto de Orvalho</option>
+                <option value="NV_Bat" <?= $topico == 'NV_Bat' ? 'selected' : '' ?>>Tensão Bateria</option>
+
             </select>
         </div>
 
@@ -124,6 +126,7 @@ try {
                     <th>Pressão (hPa)</th>
                     <th>Pressão Nível do Mar (hPa)</th>
                     <th>Ponto Orvalho (°C)</th>
+                    <th>Voltagem Bateria (V)</th>
                 </tr>
             </thead>
             <tbody>
@@ -139,7 +142,7 @@ try {
                         <td><?= htmlspecialchars($linha['Umidade']) ?></td>
                         <td><?= htmlspecialchars($linha['Pressao']) ?></td>
                         <td><?= htmlspecialchars($linha['Pressao_nivel_mar']) ?></td>
-                        <td><?= htmlspecialchars($linha['Ponto_orvalho']) ?></td>
+                        <td><?= htmlspecialchars($linha['PTO_Orvalho']) ?></td>
                         <td><?= htmlspecialchars($linha['NV_Bat']) ?></td>
                     </tr>
                 <?php endforeach; ?>
