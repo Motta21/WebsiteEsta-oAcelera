@@ -114,35 +114,37 @@ try {
         <h2><i class="fa-solid fa-clock"></i> Histórico de Leituras</h2>
     </div>
 
-    <form method="GET" class="filtro-box" id="form-filtro">
-  <div class="linha-filtros">
-    <div class="campo">
-      <label>Data inicial:</label>
-      <input type="date" id="data-inicial" name="data_inicio" value="<?= htmlspecialchars($data_inicio ?? '') ?>">
-    </div>
+    <form method="GET" class="filtro-box">
 
-    <div class="campo">
-      <label>Data final:</label>
-      <input type="date" id="data-final" name="data_fim" value="<?= htmlspecialchars($data_fim ?? '') ?>">
-    </div>
-  </div>
+        <div>
+            <label>Data inicial:</label>
+            <input type="date" name="data_inicio" value="<?= htmlspecialchars($data_inicio) ?>">
+        </div>
 
-  <div class="topicos-container">
-    <label>Tópicos:</label>
+        <div>
+            <label>Data final:</label>
+            <input type="date" name="data_fim" value="<?= htmlspecialchars($data_fim) ?>">
+        </div>
 
-    <div class="btn-box-group">
-        <button type="button" class="btn-box active" data-topic="Temperatura">Temperatura</button>
-        <button type="button" class="btn-box active" data-topic="Umidade">Umidade</button>
-        <button type="button" class="btn-box active" data-topic="Pressao">Pressão</button>
-        <button type="button" class="btn-box active" data-topic="Pressao_nivel_mar">Pressão Nível Mar</button>
-        <button type="button" class="btn-box active" data-topic="Ponto_Orvalho">Ponto Orvalho</button>
-        <button type="button" class="btn-box active" data-topic="NV_Bat">Tensão Bateria</button>
-        <button type="button" class="btn-box" id="btnTodos">Todos</button>
-    </div>
+        <div>
+            <label>Tópico:</label>
+            <select name="topico">
+                <option value="">Todos</option>
+                <?php foreach ($colunas_validas as $col): ?>
+                    <option value="<?= $col ?>" <?= $topico == $col ? 'selected' : '' ?>>
+                        <?= $col ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
 
-    <input type="hidden" name="topico" id="topico">
-</div>
-</form>
+        <button type="submit" class="btn">Filtrar</button>
+
+        <a href="php/download.php?<?= http_build_query($_GET) ?>" class="btn btn-secondary">
+            <i class="fa-solid fa-download"></i> Download CSV
+        </a>
+
+    </form>
 
     <div class="table-wrap">
         <table class="table">
