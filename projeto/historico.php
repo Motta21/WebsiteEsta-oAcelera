@@ -130,23 +130,18 @@ try {
   <div class="topicos-container">
     <label>Tópicos:</label>
 
-    <div class="btn-box-group" id="btn-box-group">
-      <button type="button" class="btn-box active" data-val="Temperatura">Temperatura</button>
-      <button type="button" class="btn-box active" data-val="Umidade">Umidade</button>
-      <button type="button" class="btn-box active" data-val="Pressao">Pressão</button>
-      <button type="button" class="btn-box active" data-val="Pressao_nivel_mar">Pressão Nível Mar</button>
-      <button type="button" class="btn-box" data-val="PTO_Orvalho">Ponto Orvalho</button>
-      <button type="button" class="btn-box" data-val="NV_Bat">Tensão Bateria</button>
-      <button type="button" class="btn-box active" data-val="__todos__">Todos</button>
+    <div class="btn-box-group">
+        <button type="button" class="btn-box active" data-topic="Temperatura">Temperatura</button>
+        <button type="button" class="btn-box active" data-topic="Umidade">Umidade</button>
+        <button type="button" class="btn-box active" data-topic="Pressao">Pressão</button>
+        <button type="button" class="btn-box active" data-topic="Pressao_nivel_mar">Pressão Nível Mar</button>
+        <button type="button" class="btn-box active" data-topic="Ponto_Orvalho">Ponto Orvalho</button>
+        <button type="button" class="btn-box active" data-topic="NV_Bat">Tensão Bateria</button>
+        <button type="button" class="btn-box" id="btnTodos">Todos</button>
     </div>
-  </div>
 
-  <input type="hidden" name="topico" id="topico-input" value="<?= htmlspecialchars($topico ?? '') ?>">
-
-  <div class="acoes">
-    <button type="submit" id="filtrar-btn" class="btn-primary">Filtrar</button>
-    <button type="button" id="csv-btn" class="btn-secundario">⬇️ Download CSV</button>
-  </div>
+    <input type="hidden" name="topico" id="topico">
+</div>
 </form>
 
     <div class="table-wrap">
