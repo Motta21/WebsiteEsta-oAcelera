@@ -19,7 +19,7 @@ function log_msg($msg) {
 
 try {
     // include de conexão (verifique se esse arquivo NÃO emite saída)
-    require_once 'php/db_conection.php';
+    require_once 'db_conection.php';
 
     // Se houver buffer aberto, limpa (evita headers already sent)
     while (ob_get_level() > 0) { ob_end_clean(); }
