@@ -537,3 +537,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+
+//efeito e download csv
+document.querySelectorAll('.btn-box').forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Se clicou em “Todos”
+        if (btn.dataset.topic === "todos") {
+            const ativo = btn.classList.contains("active");
+            document.querySelectorAll('.btn-box').forEach(b => {
+                if (b.dataset.topic !== "todos") {
+                    ativo ? b.classList.add("active") : b.classList.remove("active");
+                }
+            });
+            btn.classList.toggle("active");
+            return;
+        }
+
+        btn.classList.toggle("active");
+
+        // Atualiza se todos estão selecionados
+        const allButtons = [...document.querySelectorAll('.btn-box')].filter(b => b.dataset.topic !== "todos");
+        const todosBtn = document.querySelector('[data-topic="todos"]');
+
+        if (allButtons.every(b => b.classList.contains("active"))) {
+            todosBtn.classList.add("active");
+        } else {
+            todosBtn.classList.remove("active");
+        }
+    });
+});
