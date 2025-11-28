@@ -59,7 +59,7 @@ try {
 
     // Se chegou até aqui, deu certo
     // Você pode redirecionar para a tela de login, por exemplo
-    header('Location: ../login.html?cadastro=ok'); // ajusta o caminho/arquivo
+    header('Location: ../login.html'); // ajusta o caminho/arquivo
     exit;
 
 } catch (PDOException $e) {
