@@ -100,6 +100,9 @@ try {
     </div>
 
     <div class="topbar-right">
+      <button class="btn-icon" id="userLogin" onclick="window.location.href='login.html'">
+      <i class="fa-solid fa-user"></i>
+    </button>
         <button class="btn-icon" id="toggleTheme"><i class="fa-solid fa-moon"></i></button>
         <div class="clock" id="hora">--:--:--</div>
     </div>
@@ -137,7 +140,7 @@ try {
 
         <button type="submit" class="btn">Filtrar</button>
 
-        <a href="download.php?<?= http_build_query($_GET) ?>" class="btn btn-secondary">
+        <a href="php/download.php?<?= http_build_query($_GET) ?>" class="btn btn-secondary">
             <i class="fa-solid fa-download"></i> Download CSV
         </a>
 
