@@ -70,7 +70,7 @@ $sql .= " ORDER BY data_hora ASC";
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 
-//escreve
+
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     fputcsv($out, $row);
 }
