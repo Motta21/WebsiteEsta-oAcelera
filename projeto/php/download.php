@@ -67,10 +67,15 @@ if (!empty($data_fim)) {
 
 $sql .= " ORDER BY data_hora ASC";
 
+/* ===============================
+   6) EXECUTAR CONSULTA
+   =============================== */
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 
-
+/* ===============================
+   7) ESCREVER NO CSV
+   =============================== */
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     fputcsv($out, $row);
 }
