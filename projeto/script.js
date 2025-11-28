@@ -540,30 +540,95 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 //efeito e download csv
-document.querySelectorAll('.btn-box').forEach(btn => {
-    btn.addEventListener('click', () => {
-        // Se clicou em “Todos”
-        if (btn.dataset.topic === "todos") {
-            const ativo = btn.classList.contains("active");
-            document.querySelectorAll('.btn-box').forEach(b => {
-                if (b.dataset.topic !== "todos") {
-                    ativo ? b.classList.add("active") : b.classList.remove("active");
-                }
-            });
-            btn.classList.toggle("active");
-            return;
-        }
+(function(){
+  const btns = document.querySelectorAll('#btn-box-group .btn-box');
+  const todosVal = '__todos__';
+  const topicoInput = document.getElementById('topico-input');
+  const form = document.getElementById('form-filtro');
+  const csvBtn = document.getElementById('csv-btn');
 
-        btn.classList.toggle("active");
-
-        // Atualiza se todos estão selecionados
-        const allButtons = [...document.querySelectorAll('.btn-box')].filter(b => b.dataset.topic !== "todos");
-        const todosBtn = document.querySelector('[data-topic="todos"]');
-
-        if (allButtons.every(b => b.classList.contains("active"))) {
-            todosBtn.classList.add("active");
+  // Toggle visual dos botões
+  btns.forEach(b => {
+    b.addEventListener('click', () => {
+      const val = b.dataset.val;
+      if (val === todosVal) {
+        // Se clicou em Todos -> ativa todos (ou desativa todos)
+        const ativado = b.classList.contains('active');
+        if (ativado) {
+          // estava ativo -> desmarca todos exceto "Todos"
+          btns.forEach(x => x.classList.remove('active'));
+          // deixa somente "Todos" desativado também (efeito toggle)
+          b.classList.remove('active');
         } else {
-            todosBtn.classList.remove("active");
+          // ativa todos
+          btns.forEach(x => x.classList.add('active'));
         }
+      } else {
+        b.classList.toggle('active');
+        // Atualiza estado do "Todos" (se todos ativos -> ativa Todos; se algum desativado -> desativa Todos)
+        const todosBtn = [...btns].find(x => x.dataset.val === todosVal);
+        const nonTodos = [...btns].filter(x => x.dataset.val !== todosVal);
+        if (nonTodos.every(x => x.classList.contains('active'))) {
+          todosBtn.classList.add('active');
+        } else {
+          todosBtn.classList.remove('active');
+        }
+      }
     });
-});
+  });
+
+  // Antes de enviar o formulário, montar valor do input topico
+  form.addEventListener('submit', (e) => {
+    setTopicoInput();
+    // segue submissão normal
+  });
+
+  // Botão CSV: gera a URL com queryString e abre em nova aba
+  csvBtn.addEventListener('click', () => {
+    setTopicoInput();
+    // monta querystring a partir dos campos do form
+    const params = new URLSearchParams(new FormData(form));
+    const url = 'download.php?' + params.toString();
+    // abre em nova aba (download deve disparar)
+    window.open(url, '_blank');
+  });
+
+  function setTopicoInput() {
+    // coleta os botões ativos (exceto __todos__)
+    const active = [...btns].filter(b => b.classList.contains('active') && b.dataset.val !== todosVal);
+    if (active.length === 0) {
+      // nenhum específico: enviar topico vazio (equivale a "Todos" no backend)
+      topicoInput.value = '';
+      return;
+    }
+    // pega só os valores que provavelmente existem no DB (evita enviar valores vazios)
+    const vals = active.map(b => b.dataset.val).filter(v => v && v !== todosVal);
+    // se só 1 -> enviar só 1; se mais -> enviar comma-separated
+    topicoInput.value = vals.join(',');
+  }
+
+  // Inicializa o campo topico caso já venha do servidor (p/ manter estado)
+  (function initFromServer() {
+    const existing = topicoInput.value;
+    if (!existing) return;
+    const parts = existing.split(',');
+    btns.forEach(b => {
+      if (parts.includes(b.dataset.val)) {
+        b.classList.add('active');
+      } else {
+        b.classList.remove('active');
+      }
+    });
+    // Atualiza "Todos" caso apropriado
+    const todosBtn = [...btns].find(x => x.dataset.val === todosVal);
+    const nonTodos = [...btns].filter(x => x.dataset.val !== todosVal);
+    if (nonTodos.every(x => x.classList.contains('active'))) {
+      todosBtn.classList.add('active');
+    } else {
+      todosBtn.classList.remove('active');
+    }
+  })();
+
+})();
+
+// aqui encerra o download csv

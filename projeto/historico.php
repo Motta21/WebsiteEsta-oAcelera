@@ -114,40 +114,40 @@ try {
         <h2><i class="fa-solid fa-clock"></i> Histórico de Leituras</h2>
     </div>
 
-    <form method="GET" class="filtro-box">
-
-        <div class="linha-filtros">
-        <div class="campo">
-            <label>Data inicial:</label>
-            <input type="date" id="data-inicial">
-        </div>
-
-        <div class="campo">
-            <label>Data final:</label>
-            <input type="date" id="data-final">
-        </div>
+    <form method="GET" class="filtro-box" id="form-filtro">
+  <div class="linha-filtros">
+    <div class="campo">
+      <label>Data inicial:</label>
+      <input type="date" id="data-inicial" name="data_inicio" value="<?= htmlspecialchars($data_inicio ?? '') ?>">
     </div>
 
-    <div class="topicos-container">
-        <label>Tópicos:</label>
-
-        <div class="btn-box-group">
-            <button class="btn-box active" data-topic="temperatura">Temperatura</button>
-            <button class="btn-box active" data-topic="umidade">Umidade</button>
-            <button class="btn-box active" data-topic="pressao">Pressão</button>
-            <button class="btn-box active" data-topic="vento">Vento</button>
-            <button class="btn-box active" data-topic="chuva">Chuva</button>
-            <button class="btn-box active" data-topic="todos">Todos</button>
-        </div>
+    <div class="campo">
+      <label>Data final:</label>
+      <input type="date" id="data-final" name="data_fim" value="<?= htmlspecialchars($data_fim ?? '') ?>">
     </div>
+  </div>
 
-    <div class="acoes">
-        <button id="filtrar-btn" class="btn-primary">Filtrar</button>
-        <button id="csv-btn" class="btn-secundario">⬇️ Download CSV</button>
+  <div class="topicos-container">
+    <label>Tópicos:</label>
+
+    <div class="btn-box-group" id="btn-box-group">
+      <button type="button" class="btn-box active" data-val="Temperatura">Temperatura</button>
+      <button type="button" class="btn-box active" data-val="Umidade">Umidade</button>
+      <button type="button" class="btn-box active" data-val="Pressao">Pressão</button>
+      <button type="button" class="btn-box active" data-val="Pressao_nivel_mar">Pressão Nível Mar</button>
+      <button type="button" class="btn-box" data-val="PTO_Orvalho">Ponto Orvalho</button>
+      <button type="button" class="btn-box" data-val="NV_Bat">Tensão Bateria</button>
+      <button type="button" class="btn-box active" data-val="__todos__">Todos</button>
     </div>
-</div>
+  </div>
 
-    </form>
+  <input type="hidden" name="topico" id="topico-input" value="<?= htmlspecialchars($topico ?? '') ?>">
+
+  <div class="acoes">
+    <button type="submit" id="filtrar-btn" class="btn-primary">Filtrar</button>
+    <button type="button" id="csv-btn" class="btn-secundario">⬇️ Download CSV</button>
+  </div>
+</form>
 
     <div class="table-wrap">
         <table class="table">
