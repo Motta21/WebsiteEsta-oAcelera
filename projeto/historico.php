@@ -1,28 +1,52 @@
 <?php
 // 1. INCLUSÃO DA CONEXÃO
-// O 'require_once' busca o arquivo e torna a variável $pdo disponível
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+require_once 'php/db_conection.php';
 
-require_once 'php/db_conection.php'; 
+//FILTROS DO USUÁRIO para A Data
+$data_inicio = $_GET['data_inicio'] ?? null;
+$data_fim    = $_GET['data_fim'] ?? null;
+$topico      = $_GET['topico'] ?? '';
 
-// 2. CONFIGURAÇÃO E CONSULTA À VIEW
+//Consulta
 $view_dados = "view_estacao";
-// É altamente recomendado ordenar e limitar a consulta, especialmente em histórico
-$sql = "SELECT * FROM $view_dados ORDER BY data_hora DESC LIMIT 100"; 
+
+$sql = "SELECT * FROM $view_dados WHERE 1=1";
+$params = [];
+// fim consulta
+
+// DATA INICIAL
+if (!empty($data_inicio)) {
+    $sql .= " AND data_hora >= ?";
+    $params[] = $data_inicio . " 00:00:00";
+}
+
+// DATA FINAL
+if (!empty($data_fim)) {
+    $sql .= " AND data_hora <= ?";
+    $params[] = $data_fim . " 23:59:59";
+}
+
+// TÓPICO
+$colunas_validas = [
+    'temperatura', 'umidade', 'pressao', 'pressao_nivel_mar', 'ponto_orvalho'
+];
+if (!empty($topico) && in_array($topico, $colunas_validas)) {
+    $sql .= " AND $topico IS NOT NULL";
+}
+
+$sql .= " ORDER BY data_hora DESC LIMIT 1000";
 
 try {
     $stmt = $pdo->prepare($sql);
-    $stmt->execute();
+    $stmt->execute($params);
     $registros = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 } catch (PDOException $e) {
-    // Em caso de falha na consulta (ex: nome da view errado)
     $erro_consulta = "Erro ao consultar a View: " . $e->getMessage();
-    $registros = []; // Define $registros como vazio para não quebrar a exibição
+    $registros = [];
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -46,103 +70,86 @@ try {
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-  <aside class="sidebar collapsed" id="sidebar">
-    <div class="brand">
-      <button class="btn-icon toggle-sidebar" id="toggleSidebar"><i class="fa-solid fa-bars"></i></button>
-    </div>
-    
-    <nav class="nav">
-      <a class="nav-link" href="../index.html"><i class="fa-solid fa-cloud-sun-rain"></i><span>Início</span></a>
-      <a class="nav-link" href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
-      <a class="nav-link" href="graficos.html"><i class="fa-solid fa-chart-line"></i><span>Gráficos</span></a>
-      <a class="nav-link active" href="historico.php"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a>
-      <a class="nav-link" href="contato.html"><i class="fa-solid fa-address-book"></i><span>Contato</span></a>
-      <a class="nav-link" href="patrocinadores.html"><i class="fa-solid fa-handshake"></i><span>Patrocinadores</span></a>
-    </nav>
-    <div class="sidebar-footer">
-      <a class="nav-link small" href="https://thingspeak.com/" target="_blank" rel="noopener">
-        <i class="fa-brands fa-think-peaks"></i><span>ThingSpeak</span>
-      </a>
-    </div>
-  </aside>
-
-  <main class="content">
-    <header class="topbar">
-      <div class="topbar-left">
+<main class="content">
+<header class="topbar">
+    <div class="topbar-left">
         <h1>Estação Meteorológica</h1>
         <p class="subtitle">Histórico de leituras meteorológicas</p>
-      </div>
-      <div class="topbar-right">
-    <button class="btn-icon" id="userLogin" onclick="window.location.href='login.html'">
-      <i class="fa-solid fa-user"></i>
-    </button>
+    </div>
+</header>
 
-    <button class="btn-icon" id="toggleTheme"><i class="fa-solid fa-moon"></i></button>
+<section id="historico" class="section">
+    <div class="section-head">
+        <h2><i class="fa-solid fa-clock"></i> Histórico de Leituras</h2>
+    </div>
 
-    <div class="clock" id="hora">--:--:--</div>
-  </div>
-    </header>
-
-    <section id="historico" class="section">
-      <div class="section-head">
-        <h2><i class="fa-solid fa-clock-rotate-left"></i> Histórico de Leituras</h2>
-        <div class="section-actions">
-          <label class="search-wrap">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="search" id="buscaTabela" placeholder="Buscar na tabela..." />
-          </label>
+    <!-- 🔍 FORMULÁRIO DE FILTRO -->
+    <form method="GET" class="filtro-box">
+        <div>
+            <label>Data inicial:</label>
+            <input type="date" name="data_inicio" value="<?= htmlspecialchars($data_inicio) ?>">
         </div>
-      </div>
 
-      <div class="table-wrap">
-        <table class="table" id="tabelaHistorico">
-          <thead>
-            <tr>
-              <th data-sort="data">Data/Hora</th>
-              <th data-sort="num">Temp (°C)</th>
-              <th data-sort="num">Umidade (%)</th>
-              <th data-sort="num">Pressão (hPa)</th>
-              <th data-sort="num">Pressão Nível do Mar (hPa)</th>
-              <th data-sort="num">Ponto de Orvalho (°C)</th>
-            </tr>
-          </thead>
-          
-          <tbody id="historico-body">
-          <?php 
-          if (isset($erro_consulta)) {
-             // Exibe o erro de consulta, se houver
-             echo '<tr><td colspan="6" style="text-align: center; color: red;">' . htmlspecialchars($erro_consulta) . '</td></tr>';
-          }
-          else if (count($registros) > 0) { 
-              foreach ($registros as $linha) {
-                  // Certifique-se de que os nomes das colunas são exatamente iguais aos da sua VIEW!
-                  echo "<tr>";
-                  echo "<td>" . htmlspecialchars($linha['data_hora']) . "</td>";
-                  echo "<td>" . htmlspecialchars($linha['temperatura']) . "</td>";
-                  echo "<td>" . htmlspecialchars($linha['umidade']) . "</td>";
-                  echo "<td>" . htmlspecialchars($linha['pressao']) . "</td>";
-                  echo "<td>" . htmlspecialchars($linha['pressao_nivel_mar']) . "</td>";
-                  echo "<td>" . htmlspecialchars($linha['ponto_orvalho']) . "</td>";
-                  echo "</tr>";
-              }
-          } else {
-              // Exibe uma mensagem se a consulta não retornou dados
-              echo '<tr><td colspan="6" style="text-align: center;">Nenhum registro encontrado na View: ' . htmlspecialchars($view_dados) . '</td></tr>';
-          }
-          ?>
-          </tbody>
+        <div>
+            <label>Data final:</label>
+            <input type="date" name="data_fim" value="<?= htmlspecialchars($data_fim) ?>">
+        </div>
+
+        <div>
+            <label>Tópico:</label>
+            <select name="topico">
+                <option value="">Todos</option>
+                <option value="temperatura" <?= $topico == 'temperatura' ? 'selected' : '' ?>>Temperatura</option>
+                <option value="umidade" <?= $topico == 'umidade' ? 'selected' : '' ?>>Umidade</option>
+                <option value="pressao" <?= $topico == 'pressao' ? 'selected' : '' ?>>Pressão</option>
+                <option value="pressao_nivel_mar" <?= $topico == 'pressao_nivel_mar' ? 'selected' : '' ?>>Pressão Nível Mar</option>
+                <option value="ponto_orvalho" <?= $topico == 'ponto_orvalho' ? 'selected' : '' ?>>Ponto de Orvalho</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn">Filtrar</button>
+
+        <a href="download.php?<?= http_build_query($_GET) ?>" class="btn btn-secondary">
+            <i class="fa-solid fa-download"></i> Download CSV
+        </a>
+    </form>
+
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Data/Hora</th>
+                    <th>Temperatura (°C)</th>
+                    <th>Umidade (%)</th>
+                    <th>Pressão (hPa)</th>
+                    <th>Pressão Nível do Mar (hPa)</th>
+                    <th>Ponto Orvalho (°C)</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php if (isset($erro_consulta)): ?>
+                <tr><td colspan="6" style="color:red;text-align:center;"><?= $erro_consulta ?></td></tr>
+            <?php elseif (count($registros) == 0): ?>
+                <tr><td colspan="6" style="text-align:center;">Nenhum registro encontrado.</td></tr>
+            <?php else: ?>
+                <?php foreach ($registros as $linha): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($linha['data_hora']) ?></td>
+                        <td><?= htmlspecialchars($linha['temperatura']) ?></td>
+                        <td><?= htmlspecialchars($linha['umidade']) ?></td>
+                        <td><?= htmlspecialchars($linha['pressao']) ?></td>
+                        <td><?= htmlspecialchars($linha['pressao_nivel_mar']) ?></td>
+                        <td><?= htmlspecialchars($linha['ponto_orvalho']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            </tbody>
         </table>
-      </div>
-    </section>
-    
-    <footer class="footer">
-      <span>&copy; 2025 WeatherMonitor — Estação Meteorológica</span>
+    </div>
+</section>
+<footer class="footer">
+      <span>&copy; 2025 Amana — Central de Coleta de Dados Ambientais</span>
     </footer>
   </main>
-
-  <div id="loader" class="loader hidden"><div class="spinner"></div><span>Carregando dados...</span></div>
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="script.js"></script>
-</body>
+</main>
 </html>
