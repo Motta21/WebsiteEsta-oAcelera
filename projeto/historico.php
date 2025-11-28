@@ -70,21 +70,49 @@ try {
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+<body>
+  <aside class="sidebar collapsed" id="sidebar">
+    <div class="brand">
+      <button class="btn-icon toggle-sidebar" id="toggleSidebar"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    
+    <nav class="nav">
+      <a class="nav-link" href="../index.html"><i class="fa-solid fa-cloud-sun-rain"></i><span>Início</span></a>
+      <a class="nav-link" href="dashboard.html"><i class="fa-solid fa-gauge"></i><span>Dashboard</span></a>
+      <a class="nav-link" href="graficos.html"><i class="fa-solid fa-chart-line"></i><span>Gráficos</span></a>
+      <a class="nav-link active" href="historico.html"><i class="fa-solid fa-clock-rotate-left"></i><span>Histórico</span></a>
+      <a class="nav-link" href="contato.html"><i class="fa-solid fa-address-book"></i><span>Contato</span></a>
+      <a class="nav-link" href="patrocinadores.html"><i class="fa-solid fa-handshake"></i><span>Patrocinadores</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="nav-link small" href="https://thingspeak.com/" target="_blank" rel="noopener">
+        <i class="fa-brands fa-think-peaks"></i><span>ThingSpeak</span>
+      </a>
+    </div>
+  </aside>
+
 <main class="content">
+
 <header class="topbar">
     <div class="topbar-left">
         <h1>Estação Meteorológica</h1>
         <p class="subtitle">Histórico de leituras meteorológicas</p>
     </div>
+
+    <div class="topbar-right">
+        <button class="btn-icon" id="toggleTheme"><i class="fa-solid fa-moon"></i></button>
+        <div class="clock" id="hora">--:--:--</div>
+    </div>
 </header>
 
 <section id="historico" class="section">
+
     <div class="section-head">
         <h2><i class="fa-solid fa-clock"></i> Histórico de Leituras</h2>
     </div>
 
-    <!-- 🔍 FORMULÁRIO DE FILTRO -->
     <form method="GET" class="filtro-box">
+
         <div>
             <label>Data inicial:</label>
             <input type="date" name="data_inicio" value="<?= htmlspecialchars($data_inicio) ?>">
@@ -99,13 +127,11 @@ try {
             <label>Tópico:</label>
             <select name="topico">
                 <option value="">Todos</option>
-                <option value="Temperatura" <?= $topico == 'Temperatura' ? 'selected' : '' ?>>Temperatura</option>
-                <option value="Umidade" <?= $topico == 'Umidade' ? 'selected' : '' ?>>Umidade</option>
-                <option value="Pressao" <?= $topico == 'Pressao' ? 'selected' : '' ?>>Pressão</option>
-                <option value="Pressao_nivel_mar" <?= $topico == 'Pressao_nivel_mar' ? 'selected' : '' ?>>Pressão Nível Mar</option>
-                <option value="PTO_Orvalho" <?= $topico == 'PTO_Orvalho' ? 'selected' : '' ?>>Ponto de Orvalho</option>
-                <option value="NV_Bat" <?= $topico == 'NV_Bat' ? 'selected' : '' ?>>Tensão Bateria</option>
-
+                <?php foreach ($colunas_validas as $col): ?>
+                    <option value="<?= $col ?>" <?= $topico == $col ? 'selected' : '' ?>>
+                        <?= $col ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
         </div>
 
@@ -114,8 +140,12 @@ try {
         <a href="download.php?<?= http_build_query($_GET) ?>" class="btn btn-secondary">
             <i class="fa-solid fa-download"></i> Download CSV
         </a>
+
     </form>
 
+    <!-- ===========================
+             📌 TABELA DE DADOS
+    ============================ -->
     <div class="table-wrap">
         <table class="table">
             <thead>
@@ -129,11 +159,14 @@ try {
                     <th>Voltagem Bateria (V)</th>
                 </tr>
             </thead>
+
             <tbody>
             <?php if (isset($erro_consulta)): ?>
-                <tr><td colspan="6" style="color:red;text-align:center;"><?= $erro_consulta ?></td></tr>
+                <tr><td colspan="7" style="color:red;text-align:center;"><?= $erro_consulta ?></td></tr>
+
             <?php elseif (count($registros) == 0): ?>
-                <tr><td colspan="6" style="text-align:center;">Nenhum registro encontrado.</td></tr>
+                <tr><td colspan="7" style="text-align:center;">Nenhum registro encontrado.</td></tr>
+
             <?php else: ?>
                 <?php foreach ($registros as $linha): ?>
                     <tr>
@@ -151,9 +184,13 @@ try {
         </table>
     </div>
 </section>
+
 <footer class="footer">
-      <span>&copy; 2025 Amana — Central de Coleta de Dados Ambientais</span>
-    </footer>
-  </main>
+    <span>&copy; 2025 Amana — Central de Coleta de Dados Ambientais</span>
+</footer>
+
 </main>
+
+<script src="script.js"></script>
+</body>
 </html>
