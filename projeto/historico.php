@@ -31,7 +31,7 @@ if (!empty($data_fim)) {
 
 // TÓPICO
 $colunas_validas = [
-    'temperatura', 'umidade', 'pressao', 'pressao_nivel_mar', 'ponto_orvalho'
+    'Temperatura', 'Umidade', 'Pressao', 'Pressao_nivel_mar', 'Ponto_orvalho','NV_Bat'
 ];
 if (!empty($topico) && in_array($topico, $colunas_validas)) {
     $sql .= " AND $topico IS NOT NULL";
@@ -140,6 +140,7 @@ try {
                         <td><?= htmlspecialchars($linha['pressao']) ?></td>
                         <td><?= htmlspecialchars($linha['pressao_nivel_mar']) ?></td>
                         <td><?= htmlspecialchars($linha['ponto_orvalho']) ?></td>
+                        <td><?= htmlspecialchars($linha['NV_Bat']) ?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
