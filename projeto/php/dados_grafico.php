@@ -1,57 +1,70 @@
 <?php
-require_once "php/db_conection.php";
+header("Content-Type: application/json");
 
-$periodo = $_GET["periodo"] ?? "diario";
-$topico  = $_GET["topico"] ?? "Temperatura";
+$HOST = "localhost";
+$USER = "root";
+$PASS = "";
+$DB = "estacao";
 
-$colunasValidas = [
-    "Temperatura",
-    "Umidade",
-    "Pressao",
-    "Pressao_nivel_mar",
-    "PTO_Orvalho"
-];
+$conn = new mysqli($HOST, $USER, $PASS, $DB);
 
-if (!in_array($topico, $colunasValidas)) {
-    echo json_encode(["erro" => "Tópico inválido"]);
+if ($conn->connect_error) {
+    echo json_encode(["error" => "Falha ao conectar"]);
     exit;
 }
 
+$periodo = $_GET["periodo"] ?? "diario";
+
 switch ($periodo) {
     case "diario":
-        $sql = "SELECT DATE_FORMAT(DataHora,'%H:00') AS label, AVG($topico) AS valor
-                FROM view_estacao
-                WHERE DataHora >= NOW() - INTERVAL 1 DAY
-                GROUP BY HOUR(DataHora)";
+        $intervalo = "1 DAY";
         break;
-
     case "semanal":
-        $sql = "SELECT DATE_FORMAT(DataHora,'%d/%m') AS label, AVG($topico) AS valor
-                FROM view_estacao
-                WHERE DataHora >= NOW() - INTERVAL 7 DAY
-                GROUP BY DATE(DataHora)";
+        $intervalo = "7 DAY";
         break;
-
     case "quinzenal":
-        $sql = "SELECT DATE_FORMAT(DataHora,'%d/%m') AS label, AVG($topico) AS valor
-                FROM view_estacao
-                WHERE DataHora >= NOW() - INTERVAL 15 DAY
-                GROUP BY DATE(DataHora)";
+        $intervalo = "15 DAY";
         break;
+    default:
+        $intervalo = "1 DAY";
 }
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
+$sql = "
+    SELECT 
+        data_hora,
+        temperatura,
+        umidade,
+        pressao,
+        pressao_nm,
+        orvalho
+    FROM leituras
+    WHERE data_hora >= NOW() - INTERVAL $intervalo
+    ORDER BY data_hora ASC
+";
+
+$res = $conn->query($sql);
 
 $labels = [];
-$dados = [];
+$temperatura = [];
+$umidade = [];
+$pressao = [];
+$pressao_nm = [];
+$orvalho = [];
 
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $labels[] = $row["label"];
-    $dados[]  = round($row["valor"], 2);
+while ($row = $res->fetch_assoc()) {
+    $labels[] = $row["data_hora"];
+    $temperatura[] = (float)$row["temperatura"];
+    $umidade[] = (float)$row["umidade"];
+    $pressao[] = (float)$row["pressao"];
+    $pressao_nm[] = (float)$row["pressao_nm"];
+    $orvalho[] = (float)$row["orvalho"];
 }
 
 echo json_encode([
     "labels" => $labels,
-    "dados"  => $dados
+    "temperatura" => $temperatura,
+    "umidade" => $umidade,
+    "pressao" => $pressao,
+    "pressao_nm" => $pressao_nm,
+    "orvalho" => $orvalho
 ]);

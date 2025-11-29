@@ -1,171 +1,100 @@
-// js/graficos.js
-// Requer Chart.js já carregado na página
-(() => {
-  const API_URL = 'php/getDados.php'; // ajuste se o nome/rota for diferente
+// graficos.js
+// Carrega e gera os gráficos usando Chart.js
 
-  // IDs dos canvases na página
-  const CHARTS_INFO = {
-    Temperatura: 'graficoTemp',
-    Umidade: 'graficoUmidade',
-    Pressao: 'graficoPressao',
-    Pressao_nivel_mar: 'graficoPressaoNM',
-    PTO_Orvalho: 'graficoOrvalho'
+(() => {
+  const API_URL = "php/dados_grafico.php";
+
+  const charts = {}; // Instâncias Chart.js
+
+  const chartMap = {
+    temperatura: "graficoTemp",
+    umidade: "graficoUmidade",
+    pressao: "graficoPressao",
+    pressao_nm: "graficoPressaoNM",
+    orvalho: "graficoOrvalho"
   };
 
-  const charts = {}; // instâncias Chart.js
-  let currentPeriodo = document.getElementById('periodo')?.value || 'diario';
-  const loader = document.getElementById('loader');
-  const toast = document.getElementById('toast');
-  const btnRefresh = document.getElementById('btnRefresh');
+  const loader = document.getElementById("loader");
+  const toast = document.getElementById("toast");
 
-  // UTIL: mostrar/ocultar loader
-  function showLoader() { loader && loader.classList.remove('hidden'); }
-  function hideLoader() { loader && loader.classList.add('hidden'); }
+  function showLoader() { loader.classList.remove("hidden"); }
+  function hideLoader() { loader.classList.add("hidden"); }
 
-  // UTIL: toast simples
-  let toastTimer = null;
-  function showToast(msg, timeout = 3500) {
-    if (!toast) return console.warn('Toast element não encontrado:', msg);
+  function showToast(msg, time = 3000) {
     toast.textContent = msg;
-    toast.classList.add('visible');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('visible'), timeout);
+    toast.classList.add("visible");
+    setTimeout(() => toast.classList.remove("visible"), time);
   }
 
-  // UTIL: destrói gráfico se já existir
-  function destroyChartIfExists(key) {
-    if (charts[key]) {
-      try { charts[key].destroy(); } catch (e) { /* ignore */ }
-      delete charts[key];
+  function destroy(chartName) {
+    if (charts[chartName]) {
+      charts[chartName].destroy();
+      delete charts[chartName];
     }
   }
 
-  // Cria um gráfico de linha simples, opcionalmente com preenchimento sutil
-  function createLineChart(canvasId, label, labels, data) {
-    const ctx = document.getElementById(canvasId);
-    if (!ctx) {
-      console.error('Canvas não encontrado:', canvasId);
-      return null;
-    }
-
-    // Ajusta altura responsiva
-    ctx.style.height = '220px';
-
-    return new Chart(ctx, {
-      type: 'line',
+  function createChart(canvasId, label, labels, data) {
+    return new Chart(document.getElementById(canvasId), {
+      type: "line",
       data: {
-        labels: labels,
+        labels,
         datasets: [{
-          label: label,
-          data: data,
-          tension: 0.28,
+          label,
+          data,
           borderWidth: 2,
           pointRadius: 2,
-          pointHoverRadius: 4,
-          fill: true,
-          backgroundColor: (context) => {
-            // gradiente suave (se suportado)
-            const c = context.chart.ctx;
-            const gradient = c.createLinearGradient(0, 0, 0, context.chart.height);
-            gradient.addColorStop(0, 'rgba(0,0,0,0.06)');
-            gradient.addColorStop(1, 'rgba(0,0,0,0.00)');
-            return gradient;
-          }
+          tension: 0.3,
+          fill: false
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            enabled: true,
-            mode: 'index',
-            intersect: false
-          }
-        },
-        scales: {
-          x: {
-            ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 12 },
-            grid: { display: false }
-          },
-          y: {
-            ticks: { beginAtZero: false },
-            grid: { color: 'rgba(0,0,0,0.04)' }
-          }
-        }
+        plugins: { legend: { display: false } },
+        interaction: { mode: "index", intersect: false }
       }
     });
   }
 
-  // Função principal que busca dados e atualiza os 5 charts
-  async function atualizarTodos() {
-    currentPeriodo = document.getElementById('periodo')?.value || currentPeriodo;
+  async function atualizarGraficos() {
     showLoader();
+    const periodo = document.getElementById("periodo").value;
+
     try {
-      const resp = await fetch(`${API_URL}?periodo=${encodeURIComponent(currentPeriodo)}`);
-      if (!resp.ok) throw new Error(`Resposta HTTP ${resp.status}`);
+      const resp = await fetch(`${API_URL}?periodo=${periodo}`);
       const json = await resp.json();
 
-      // Validação mínima do formato A
-      if (!json || !Array.isArray(json.datas)) {
-        showToast('Formato de dados inválido do servidor', 5000);
-        console.error('Resposta inesperada:', json);
+      if (!json || !json.labels) {
+        showToast("Dados inválidos.");
+        hideLoader();
         return;
       }
 
-      const labels = json.datas.map(d => d); // espera strings formatadas
+      const labels = json.labels;
 
-      // Mapeia cada métrica esperada (chaves minúsculas)
-      const datasetsMap = {
-        Temperatura: json.temperatura || json.Temperatura || [],
-        Umidade: json.umidade || json.Umidade || [],
-        Pressao: json.pressao || json.Pressao || [],
-        Pressao_nivel_mar: json.pressao_nivel_mar || json.Pressao_nivel_mar || [],
-        PTO_Orvalho: json.pto_orvalho || json.PTO_Orvalho || []
-      };
+      destroy("temperatura");
+      destroy("umidade");
+      destroy("pressao");
+      destroy("pressao_nm");
+      destroy("orvalho");
 
-      // Atualiza cada gráfico
-      for (const [metric, canvasId] of Object.entries(CHARTS_INFO)) {
-        const values = datasetsMap[metric] || [];
-        // Se tamanhos divergirem, tenta ajustar (preenchendo vazio)
-        const safeValues = labels.map((_, i) => (typeof values[i] !== 'undefined' ? values[i] : null));
+      charts.temperatura = createChart(chartMap.temperatura, "Temperatura (°C)", labels, json.temperatura);
+      charts.umidade = createChart(chartMap.umidade, "Umidade (%)", labels, json.umidade);
+      charts.pressao = createChart(chartMap.pressao, "Pressão (hPa)", labels, json.pressao);
+      charts.pressao_nm = createChart(chartMap.pressao_nm, "Pressão Nível do Mar (hPa)", labels, json.pressao_nm);
+      charts.orvalho = createChart(chartMap.orvalho, "Ponto de Orvalho (°C)", labels, json.orvalho);
 
-        destroyChartIfExists(metric);
-
-        charts[metric] = createLineChart(canvasId, metric.replace(/_/g, ' '), labels, safeValues);
-      }
-
-      hideLoader();
-      showToast('Gráficos atualizados', 1200);
-    } catch (err) {
-      hideLoader();
-      console.error('Erro ao buscar dados:', err);
-      showToast('Falha ao carregar dados. Veja console.', 5000);
+      showToast("Gráficos atualizados!");
+    } catch (e) {
+      showToast("Erro ao carregar dados.");
+      console.error(e);
     }
+
+    hideLoader();
   }
 
-  // Debounce simples para evitar múltiplas requisições rápidas
-  function debounce(fn, wait = 300) {
-    let t = null;
-    return (...args) => {
-      clearTimeout(t);
-      t = setTimeout(() => fn(...args), wait);
-    };
-  }
+  document.getElementById("periodo").addEventListener("change", atualizarGraficos);
+  document.getElementById("btnRefresh").addEventListener("click", atualizarGraficos);
 
-  // Eventos
-  if (btnRefresh) btnRefresh.addEventListener('click', debounce(atualizarTodos, 150));
-  const periodoSelect = document.getElementById('periodo');
-  if (periodoSelect) periodoSelect.addEventListener('change', debounce(atualizarTodos, 200));
-
-  // Carrega automaticamente na abertura
-  window.addEventListener('load', () => {
-    // pequena espera para a UI estabilizar
-    setTimeout(atualizarTodos, 250);
-  });
-
-  // Expor função para console (debug)
-  window.atualizarGraficos = atualizarTodos;
+  window.addEventListener("load", atualizarGraficos);
 })();
