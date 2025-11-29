@@ -67,11 +67,10 @@
         <div class="section-actions">
           <label class="select-wrap">
             <i class="fa-solid fa-filter"></i>
-            <select id="filtro-historico">
-              <option value="10">Últimas 10</option>
-              <option value="20" selected>Últimas 20</option>
-              <option value="50">Últimas 50</option>
-              <option value="100">Últimas 100</option>
+            <select id="periodo">
+              <option value="diario" selected>Diário</option>
+              <option value="semanal">Semanal</option>
+              <option value="quinzenal">Quinzenal</option>
             </select>
           </label>
           <button class="btn" id="btnRefresh"><i class="fa-solid fa-rotate"></i> Atualizar</button>
@@ -111,5 +110,7 @@
   <div id="loader" class="loader hidden"><div class="spinner"></div><span>Carregando dados...</span></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="script.js"></script>
+  <script src="graficos.js"></script>
+
 </body>
 </html>
