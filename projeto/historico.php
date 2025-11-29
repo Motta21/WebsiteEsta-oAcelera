@@ -3,7 +3,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-require_once 'php/db_conection.php';
+require_once 'db_conection.php';
 
 //FILTROS DO USUÁRIO para A Data
 $data_inicio = $_GET['data_inicio'] ?? null;
@@ -118,7 +118,6 @@ try {
         </div>
 
         <button type="submit" class="btn">Filtrar</button>
-
         <a href="php/download.php?data_inicio=<?= urlencode($data_inicio) ?>&data_fim=<?= urlencode($data_fim) ?>" class="btn btn-secondary">
             <i class="fa-solid fa-download"></i> Download CSV
         </a>
