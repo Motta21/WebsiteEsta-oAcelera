@@ -308,3 +308,78 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
     transform: translateY(-20px);
   }
 }
+
+/* =========================
+   RESPONSIVO MOBILE
+========================= */
+@media (max-width: 600px) {
+  .landing-page-wrapper {
+    padding: 0 4px;
+    min-height: 100vh;
+  }
+
+  .full-height {
+    min-height: 80vh;
+    padding: 0;
+    flex-direction: column;
+  }
+
+  .weather-monitor-container {
+    padding: 18px 6px;
+    max-width: 100vw;
+    transform: none;
+  }
+
+  .title-welcome {
+    font-size: 2.1em;
+    margin-bottom: 2px;
+  }
+
+  .app-name {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+
+  .subtitle-description {
+    font-size: 1rem;
+    margin-bottom: 18px;
+  }
+
+  .center-icons {
+    gap: 10px;
+    margin-bottom: 18px;
+    font-size: 1.2em;
+  }
+
+  .scroll-prompt {
+    font-size: 0.85rem;
+    margin-top: 18px;
+  }
+
+  .background-weather-icons .floating-icon {
+    font-size: 2.2rem;
+  }
+
+  .content {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0 !important;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+  .sidebar.collapsed + .content,
+  .sidebar.collapsed ~ .content {
+    margin-left: 0 !important;
+  }
+
+  .carousel-container {
+    max-width: 90%;
+    
+  }
+  .tooltip .tooltip{
+    font-size: 0.4em;
+  }
+.carousel-container h1 {
+    font-size: 0.9em;
+  }
+}
