@@ -360,70 +360,6 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
     font-size: 2.2rem;
   }
 
-  .carousel-container {
-    max-width: 100%;
-    width: 100%;
-    margin: 12px auto 18px auto;
-    border-radius: 8px;
-    box-shadow: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .carousel-images {
-    display: flex;
-    width: 100%;
-    min-height: 180px;
-    overflow: hidden;
-  }
-
-  .carousel-slide {
-    flex: 0 0 100%;
-    width: 100%;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 0;
-    box-sizing: border-box;
-  }
-
-  .carousel-image {
-    display: block;
-    margin: 0 auto;
-    max-width: 100%;
-    width: 100%;
-    max-height: 140px;
-    height: auto;
-    box-sizing: border-box;
-    object-fit: contain;
-    background: transparent;
-  }
-
-  .carousel-container h1,
-  .carousel-slide h1 {
-    position: static;
-    font-size: 1.1rem;
-    padding: 4px 8px;
-    margin-bottom: 6px;
-    background: rgba(255,255,255,0.3);
-  }
-
-  .carousel-controls {
-    top: auto;
-    bottom: 8px;
-    padding: 0 4px;
-  }
-
-  .carousel-controls .btn-icon {
-    padding: 6px;
-    font-size: 1rem;
-  }
-
   .content {
     width: 100%;
     max-width: 100%;
@@ -434,5 +370,16 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
   .sidebar.collapsed + .content,
   .sidebar.collapsed ~ .content {
     margin-left: 0 !important;
+  }
+
+  .carousel-container {
+    max-width: 90%;
+    
+  }
+  .tooltip .tooltip{
+    font-size: 0.4em;
+  }
+.carousel-container h1 {
+    font-size: 0.9em;
   }
 }
