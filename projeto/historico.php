@@ -8,7 +8,6 @@ require_once 'php/db_conection.php';
 //FILTROS DO USUÁRIO para A Data
 $data_inicio = $_GET['data_inicio'] ?? null;
 $data_fim    = $_GET['data_fim'] ?? null;
-$topico      = $_GET['topico'] ?? '';
 
 //Consulta
 $view_dados = "view_estacao";
@@ -27,14 +26,6 @@ if (!empty($data_inicio)) {
 if (!empty($data_fim)) {
     $sql .= " AND DataHora <= ?";
     $params[] = $data_fim . " 23:59:59";
-}
-
-// TÓPICO
-$colunas_validas = [
-    'Temperatura', 'Umidade', 'Pressao', 'Pressao_nivel_mar', 'PTO_Orvalho','NV_Bat'
-];
-if (!empty($topico) && in_array($topico, $colunas_validas)) {
-    $sql .= " AND $topico IS NOT NULL";
 }
 
 $sql .= " ORDER BY DataHora DESC LIMIT 50";
@@ -126,21 +117,9 @@ try {
             <input type="date" name="data_fim" value="<?= htmlspecialchars($data_fim) ?>">
         </div>
 
-        <div>
-            <label>Tópico:</label>
-            <select name="topico">
-                <option value="">Todos</option>
-                <?php foreach ($colunas_validas as $col): ?>
-                    <option value="<?= $col ?>" <?= $topico == $col ? 'selected' : '' ?>>
-                        <?= $col ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-
         <button type="submit" class="btn">Filtrar</button>
 
-        <a href="php/download.php?<?= http_build_query($_GET) ?>" class="btn btn-secondary">
+        <a href="php/download.php?data_inicio=<?= urlencode($data_inicio) ?>&data_fim=<?= urlencode($data_fim) ?>" class="btn btn-secondary">
             <i class="fa-solid fa-download"></i> Download CSV
         </a>
 
