@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'php/db_conection.php';
 
 header("Content-Type: text/csv; charset=UTF-8");
@@ -6,7 +9,7 @@ header("Content-Disposition: attachment; filename=historico_estacao.csv");
 
 $out = fopen("php://output", "w");
 
-// Todas as colunas válidas
+// Todas as colunas REAIS do banco
 $colunas = [
     "DataHora",
     "Temperatura",
@@ -24,6 +27,7 @@ fputcsv($out, $colunas);
 $data_inicio = $_GET['data_inicio'] ?? null;
 $data_fim    = $_GET['data_fim'] ?? null;
 
+// ⚠️ Tabela CERTA
 $sql = "SELECT " . implode(", ", $colunas) . " FROM Dados WHERE 1=1";
 $params = [];
 
@@ -46,4 +50,9 @@ $stmt->execute($params);
 
 // Escrever no CSV
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    fputc
+    fputcsv($out, $row);
+}
+
+fclose($out);
+exit;
+?>
