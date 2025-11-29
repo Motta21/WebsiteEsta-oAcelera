@@ -3,7 +3,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-require_once 'db_conection.php';
+require_once 'php/db_conection.php';
 
 //FILTROS DO USUÁRIO para A Data
 $data_inicio = $_GET['data_inicio'] ?? null;

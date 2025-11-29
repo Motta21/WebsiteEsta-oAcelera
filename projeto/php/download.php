@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-require_once 'php/db_conection.php';
+require_once 'db_conection.php';
 
 header("Content-Type: text/csv; charset=UTF-8");
 header("Content-Disposition: attachment; filename=historico_estacao.csv");
