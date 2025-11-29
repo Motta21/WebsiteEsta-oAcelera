@@ -1,17 +1,6 @@
 <?php
 header("Content-Type: application/json");
-
-$HOST = "localhost";
-$USER = "root";
-$PASS = "";
-$DB = "estacao";
-
-$conn = new mysqli($HOST, $USER, $PASS, $DB);
-
-if ($conn->connect_error) {
-    echo json_encode(["error" => "Falha ao conectar"]);
-    exit;
-}
+require_once "db_conection.php"; 
 
 $periodo = $_GET["periodo"] ?? "diario";
 
@@ -27,22 +16,24 @@ switch ($periodo) {
         break;
     default:
         $intervalo = "1 DAY";
+        break;
 }
 
 $sql = "
     SELECT 
-        data_hora,
-        temperatura,
-        umidade,
-        pressao,
-        pressao_nm,
-        orvalho
-    FROM leituras
-    WHERE data_hora >= NOW() - INTERVAL $intervalo
-    ORDER BY data_hora ASC
+        DataHora,
+        Temperatura,
+        Umidade,
+        Pressao,
+        Pressao_nivel_mar,
+        PTO_Orvalho
+    FROM view_estacao
+    WHERE DataHora >= NOW() - INTERVAL $intervalo
+    ORDER BY DataHora ASC
 ";
 
-$res = $conn->query($sql);
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
 
 $labels = [];
 $temperatura = [];
@@ -51,13 +42,13 @@ $pressao = [];
 $pressao_nm = [];
 $orvalho = [];
 
-while ($row = $res->fetch_assoc()) {
-    $labels[] = $row["data_hora"];
-    $temperatura[] = (float)$row["temperatura"];
-    $umidade[] = (float)$row["umidade"];
-    $pressao[] = (float)$row["pressao"];
-    $pressao_nm[] = (float)$row["pressao_nm"];
-    $orvalho[] = (float)$row["orvalho"];
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $labels[] = $row["DataHora"];
+    $temperatura[] = floatval($row["Temperatura"]);
+    $umidade[] = floatval($row["Umidade"]);
+    $pressao[] = floatval($row["Pressao"]);
+    $pressao_nm[] = floatval($row["Pressao_nivel_mar"]);
+    $orvalho[] = floatval($row["PTO_Orvalho"]);
 }
 
 echo json_encode([
