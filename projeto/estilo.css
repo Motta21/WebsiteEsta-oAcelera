@@ -92,7 +92,7 @@ body {
 .sidebar.collapsed .brand-logo { display: none; }
 
 .brand { display: flex; align-items: center; gap: 12px; }
-.brand .btn-icon { margin-right: 4px; }
+.brand .btn-icon { margin-right: -20px; }
 .brand-logo { font-size: 22px; color: var(--primary); }
 .brand-text { font-weight: 800; letter-spacing: .3px; }
 
