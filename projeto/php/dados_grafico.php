@@ -16,7 +16,6 @@ switch ($periodo) {
         break;
     default:
         $intervalo = "1 DAY";
-        break;
 }
 
 $sql = "
@@ -28,7 +27,7 @@ $sql = "
         Pressao_nivel_mar,
         PTO_Orvalho
     FROM view_estacao
-    WHERE DataHora >= NOW() - INTERVAL $intervalo
+    WHERE DataHora >= (NOW() - INTERVAL $intervalo)
     ORDER BY DataHora ASC
 ";
 
