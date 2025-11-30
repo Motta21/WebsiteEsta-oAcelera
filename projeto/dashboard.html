@@ -58,27 +58,38 @@
     </header>
 <h1>Central de Coleta de Dados Ambientais</h1>
         <p class="subtitle">Monitoramento em tempo real com análise visual</p>
+    <div>
+      <label for="estacao" class="input-select">Estação:</label>
+        <select id="estacao">
+        <option value="1">Estação 1</option>
+        <option value="2">Estação 2</option>
+    </select>
+    </div>
+
     <section id="dashboard" class="section">
       <div class="cards">
         <div class="card metric" id="card-temp">
           <div class="metric-head"><i class="fa-solid fa-temperature-three-quarters metric-icon"></i><span>Temperatura</span></div>
-          <div class="metric-value" id="temp-atual">-- °C</div>
+          <div class="metric-value" id="tempValor">-- °C</div>
           <div class="metric-foot"><span id="temp-status">—</span></div>
+          <div class="metric-sub" id="alerta-temp"></div>
         </div>
         <div class="card metric" id="card-umid">
           <div class="metric-head"><i class="fa-solid fa-droplet metric-icon"></i><span>Umidade</span></div>
-          <div class="metric-value" id="umid-atual">-- %</div>
+          <div class="metric-value" id="umidadeValor">-- %</div>
           <div class="metric-foot"><span id="umid-status">—</span></div>
+          <div class="metric-sub" id="alerta-umidade"></div>
         </div>
         <div class="card metric" id="card-pressao">
           <div class="metric-head"><i class="fa-solid fa-gauge-high metric-icon"></i><span>Pressão</span></div>
-          <div class="metric-value" id="pressao-atual">-- hPa</div>
+          <div class="metric-value" id="pressaoValor">-- hPa</div>
           <div class="metric-foot"><span id="pressao-status">—</span></div>
+          <div class="metric-sub" id="alerta-pressao"></div>
         </div>
         <div class="card metric" id="card-pressao-nm">
           <div class="metric-head"><i class="fa-solid fa-water metric-icon"></i><span>Pressão Nível do Mar</span></div>
-          <div class="metric-value" id="pressao-nm-atual">-- hPa</div>
-          <div class="metric-foot"><span id="pressao-nm-status">—</span></div>
+          <div class="metric-value" id="pressaoNMValor">-- hPa</div>
+          <div class="metric-foot"><span id="orvalhoValor">—</span></div>
         </div>
         <div class="card metric" id="card-orvalho">
           <div class="metric-head"><i class="fa-solid fa-snowflake metric-icon"></i><span>Ponto de Orvalho</span></div>
@@ -87,6 +98,24 @@
         </div>
       </div>
     </section>
+    <div id="map" style="height: 400px; width: 100%;">
+      <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+      <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    </div>
+    <script>
+    const lat = -22.586490737454902;
+    const lng = -44.96247468878016;
+
+    const map = L.map('map').setView([lat, lng], 16);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19
+    }).addTo(map);
+    L.marker([lat, lng])
+        .addTo(map)
+        .bindPopup("Central Coleta de Dados")
+        .openPopup();
+</script>
 
     <footer class="footer">
       <span>&copy; 2025 Amaná — Central de Coleta de Dados Ambientais</span>
@@ -96,5 +125,90 @@
   <div id="loader" class="loader hidden"><div class="spinner"></div><span>Carregando dados...</span></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="script.js"></script>
+
+  <!--REcurso para atualizar a dashboard | temporario -->
+  <script>
+function formatNumero(valor, casas = 2) {
+    return Number(valor).toFixed(casas);
+}
+
+function gerarAlertaTemperatura(temp) {
+    if (temp >= 35) return { msg: "Temperatura elevada", cor: "red" };
+    if (temp <= 10) return { msg: "Temperatura muito baixa", cor: "blue" };
+    return { msg: "Temperatura normal", cor: "green" };
+}
+
+function gerarAlertaUmidade(um) {
+    if (um < 30) return { msg: "Umidade baixa", cor: "orange" };
+    if (um > 80) return { msg: "Umidade muito alta", cor: "red" };
+    return { msg: "Umidade ideal", cor: "green" };
+}
+
+function gerarAlertaPressao(pr) {
+    if (pr < 1000) return { msg: "Pressão baixa", cor: "orange" };
+    if (pr > 1025) return { msg: "Pressão alta", cor: "red" };
+    return { msg: "Pressão normal", cor: "green" };
+}
+
+async function carregarUltimosDados() {
+    const codE = document.getElementById("estacao").value;
+
+    try {
+        const resposta = await fetch(`php/dados_atualizados.php?Cod_E=${codE}`);
+        const json = await resposta.json();
+
+        if (!json.sucesso) {
+            mostrarErro(json.erro);
+            return;
+        }
+
+        const d = json.dados;
+
+        // Valores formatados
+        const temp = formatNumero(d.Temperatura);
+        const umid = parseInt(d.Umidade);
+        const press = formatNumero(d.Pressao);
+        const pressNM = formatNumero(d.Pressao_nivel_mar);
+        const orvalho = formatNumero(d.PTO_Orvalho);
+
+        // Preenche valores
+        document.getElementById("tempValor").textContent = `${temp} °C`;
+        document.getElementById("umidadeValor").textContent = `${umid}%`;
+        document.getElementById("pressaoValor").textContent = `${press} hPa`;
+        document.getElementById("pressaoNMValor").textContent = `${pressNM} hPa`;
+        document.getElementById("orvalho-atual").textContent = `${orvalho} °C`;
+
+        const alertaTemp = gerarAlertaTemperatura(Number(d.Temperatura));
+        const alertaUmid = gerarAlertaUmidade(umid);
+        const alertaPress = gerarAlertaPressao(Number(d.Pressao));
+
+        document.getElementById("alerta-temp").textContent = alertaTemp.msg;
+        document.getElementById("alerta-temp").style.color = alertaTemp.cor;
+
+        document.getElementById("alerta-umidade").textContent = alertaUmid.msg;
+        document.getElementById("alerta-umidade").style.color = alertaUmid.cor;
+
+        document.getElementById("alerta-pressao").textContent = alertaPress.msg;
+        document.getElementById("alerta-pressao").style.color = alertaPress.cor;
+
+    } catch (e) {
+        mostrarErro("Erro ao carregar dados");
+        console.error(e);
+    }
+}
+
+function mostrarErro(msg) {
+    const toast = document.getElementById("toast");
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 3000);
+}
+
+document.getElementById("estacao").addEventListener("change", carregarUltimosDados);
+carregarUltimosDados();
+setInterval(carregarUltimosDados, 600000); // 10 minutos
+</script>
+
+
 </body>
 </html>
