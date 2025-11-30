@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termos de Uso — Amaná</title>
+
+    <script>
+        (function () {
+            const saved = sessionStorage.getItem('theme');
+            document.documentElement.setAttribute('data-theme', saved || 'light');
+        })();
+    </script>
+
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="termouso.css">
+    <link rel="stylesheet" href="estilo-login-cadastro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="login-container">
+
+        <div class="termo-card">
+
+            <div class="theme-switch-container">
+                <button class="btn-icon" id="toggleThemeLogin">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+
+            <h1 class="termo-title"><i class="fa fa-bullhorn" aria-hidden="true"></i> Acesso para novos usuarios</h1>
+            <p class="small termo-updated"><i class="fa-regular fa-calendar"></i> Última atualização: Dezembro/2025</p>
+
+            <div class="termo-content">
+
+                <h2><i class="fa fa-file-text" aria-hidden="true"></i></i> Nota</h2>
+                <p>
+                    Nós da equipe Amaná agradecemos seu acesso em nosso site e ficamos felizes de ter você aqui, porém nossa funcionalidade de cadastro está temporariamente inativa.
+                    Estamos trabalhando duramente para trazer o cadastro com toda segurança e criptografia, bem como a possibilidade de ter acesso a dados especificos, consultas e o cadastro da sua propria estação.
+        
+                </p>
+                <p>
+                    Por enquanto você pode acessar o site e ver os dados de todas as estações que ja temos em funcionamento. Lembrando que seu acesso não será prejudicado por não possuir um perfil, todos os dados estão publicos e com livre acesso.
+                </p>
+                <br>
+                <p>
+                    Com nossos profundos agradecimentos..                
+                </p>
+                <p> <i class="fa fa-users" aria-hidden="true"></i>  Equipe Amaná               
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    function toggleTheme() {
+        const html = document.documentElement;
+        const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', newTheme);
+        sessionStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    }
+
+    function updateThemeIcon(theme) {
+        const icon = document.querySelector('#toggleThemeLogin i');
+        icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    }
+
+    document.getElementById('toggleThemeLogin').addEventListener('click', toggleTheme);
+    updateThemeIcon(document.documentElement.getAttribute('data-theme'));
+</script>
+
+</body>
+</html>
