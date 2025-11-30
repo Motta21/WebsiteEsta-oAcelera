@@ -9,7 +9,6 @@ async function carregarDados(periodo) {
 
 function criarGrafico(canvasId, chartRef, label, dados) {
 
-    // 🟢 Se já existe um gráfico nesse canvas, destrói antes de criar outro
     if (chartRef !== null) {
         chartRef.destroy();
     }
