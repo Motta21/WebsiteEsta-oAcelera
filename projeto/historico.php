@@ -22,11 +22,20 @@ if (!empty($data_inicio)) {
     $params[] = $data_inicio . " 00:00:00";
 }
 
-// DATA FINAL
+// DATA Fim
 if (!empty($data_fim)) {
     $sql .= " AND DataHora <= ?";
     $params[] = $data_fim . " 23:59:59";
 }
+
+if (isset($_GET['cod_e'])) {
+    $cod_e = $_GET['cod_e']; 
+} else {
+    $cod_e = 1; // Padrão Estação 1
+}
+
+$sql .= " AND Cod_E = ?";
+$params[] = $cod_e;
 
 $sql .= " ORDER BY DataHora DESC LIMIT 50";
 
