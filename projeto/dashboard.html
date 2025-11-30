@@ -59,7 +59,7 @@
 <h1>Central de Coleta de Dados Ambientais</h1>
         <p class="subtitle">Monitoramento em tempo real com análise visual</p>
     <div>
-      <label for="estacao">Estação:</label>
+      <label for="estacao" class="input-select">Estação:</label>
         <select id="estacao">
         <option value="1">Estação 1</option>
         <option value="2">Estação 2</option>
@@ -72,16 +72,19 @@
           <div class="metric-head"><i class="fa-solid fa-temperature-three-quarters metric-icon"></i><span>Temperatura</span></div>
           <div class="metric-value" id="tempValor">-- °C</div>
           <div class="metric-foot"><span id="temp-status">—</span></div>
+          <div class="metric-sub" id="alerta-temp"></div>
         </div>
         <div class="card metric" id="card-umid">
           <div class="metric-head"><i class="fa-solid fa-droplet metric-icon"></i><span>Umidade</span></div>
           <div class="metric-value" id="umidadeValor">-- %</div>
           <div class="metric-foot"><span id="umid-status">—</span></div>
+          <div class="metric-sub" id="alerta-umidade"></div>
         </div>
         <div class="card metric" id="card-pressao">
           <div class="metric-head"><i class="fa-solid fa-gauge-high metric-icon"></i><span>Pressão</span></div>
           <div class="metric-value" id="pressaoValor">-- hPa</div>
           <div class="metric-foot"><span id="pressao-status">—</span></div>
+          <div class="metric-sub" id="alerta-pressao"></div>
         </div>
         <div class="card metric" id="card-pressao-nm">
           <div class="metric-head"><i class="fa-solid fa-water metric-icon"></i><span>Pressão Nível do Mar</span></div>
@@ -125,6 +128,28 @@
 
   <!--REcurso para atualizar a dashboard | temporario -->
   <script>
+function formatNumero(valor, casas = 2) {
+    return Number(valor).toFixed(casas);
+}
+
+function gerarAlertaTemperatura(temp) {
+    if (temp >= 35) return { msg: "Temperatura elevada", cor: "red" };
+    if (temp <= 10) return { msg: "Temperatura muito baixa", cor: "blue" };
+    return { msg: "Temperatura normal", cor: "green" };
+}
+
+function gerarAlertaUmidade(um) {
+    if (um < 30) return { msg: "Umidade baixa", cor: "orange" };
+    if (um > 80) return { msg: "Umidade muito alta", cor: "red" };
+    return { msg: "Umidade ideal", cor: "green" };
+}
+
+function gerarAlertaPressao(pr) {
+    if (pr < 1000) return { msg: "Pressão baixa", cor: "orange" };
+    if (pr > 1025) return { msg: "Pressão alta", cor: "red" };
+    return { msg: "Pressão normal", cor: "green" };
+}
+
 async function carregarUltimosDados() {
     const codE = document.getElementById("estacao").value;
 
@@ -133,21 +158,41 @@ async function carregarUltimosDados() {
         const json = await resposta.json();
 
         if (!json.sucesso) {
-            mostrarErro(json.erro || "Nenhum dado encontrado.");
+            mostrarErro(json.erro);
             return;
         }
 
         const d = json.dados;
 
-        // Atualiza os campos da dashboard
-        document.getElementById("tempValor").textContent = `${d.Temperatura} °C`;
-        document.getElementById("umidadeValor").textContent = `${d.Umidade} %`;
-        document.getElementById("pressaoValor").textContent = `${d.Pressao} hPa`;
-        document.getElementById("pressaoNMValor").textContent = `${d.Pressao_nivel_mar} hPa`;
-        document.getElementById("orvalho-atual").textContent = `${d.PTO_Orvalho} °C`;
+        // Valores formatados
+        const temp = formatNumero(d.Temperatura);
+        const umid = Number(d.Umidade);
+        const press = formatNumero(d.Pressao);
+        const pressNM = formatNumero(d.Pressao_nivel_mar);
+        const orvalho = formatNumero(d.PTO_Orvalho);
+
+        // Preenche valores
+        document.getElementById("tempValor").textContent = `${temp} °C`;
+        document.getElementById("umidadeValor").textContent = `${umid}%`;
+        document.getElementById("pressaoValor").textContent = `${press} hPa`;
+        document.getElementById("pressaoNMValor").textContent = `${pressNM} hPa`;
+        document.getElementById("orvalho-atual").textContent = `${orvalho} °C`;
+
+        const alertaTemp = gerarAlertaTemperatura(Number(d.Temperatura));
+        const alertaUmid = gerarAlertaUmidade(umid);
+        const alertaPress = gerarAlertaPressao(Number(d.Pressao));
+
+        document.getElementById("alerta-temp").textContent = alertaTemp.msg;
+        document.getElementById("alerta-temp").style.color = alertaTemp.cor;
+
+        document.getElementById("alerta-umidade").textContent = alertaUmid.msg;
+        document.getElementById("alerta-umidade").style.color = alertaUmid.cor;
+
+        document.getElementById("alerta-pressao").textContent = alertaPress.msg;
+        document.getElementById("alerta-pressao").style.color = alertaPress.cor;
 
     } catch (e) {
-        mostrarErro("Erro ao carregar dados.");
+        mostrarErro("Erro ao carregar dados");
         console.error(e);
     }
 }
@@ -160,11 +205,10 @@ function mostrarErro(msg) {
 }
 
 document.getElementById("estacao").addEventListener("change", carregarUltimosDados);
-
 carregarUltimosDados();
-
 setInterval(carregarUltimosDados, 600000); // 10 minutos
 </script>
+
 
 </body>
 </html>
