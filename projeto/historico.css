@@ -1,4 +1,18 @@
 /* ============ Table ============ */
+select#estacao{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(34,211,238,.35), rgba(34,197,94,.35));
+    padding: 10px 18px;
+    border: none;
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+    color: var(--text);
+    transition: .2s ease;
+    font-size: 14px;
+}
 .table-wrap {
   border-radius: var(--radius);
   background: var(--card);
