@@ -10,7 +10,7 @@ $sql = "SELECT *
         LIMIT 1";
 
 $stmt = $pdo->prepare($sql);
-$stmt->execute([$cod_e]);
+$stmt->execute([$Cod_E]);
 
 $dados = $stmt->fetch(PDO::FETCH_ASSOC);
 
