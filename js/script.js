@@ -461,3 +461,43 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// --- LÓGICA DO CARROSSEL ---
+
+document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.getElementById('carouselImages');
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+
+    // Verifica se os elementos do carrossel existem na página atual (sobre.html)
+    if (!carousel) return; 
+
+    const images = carousel.querySelectorAll('.carousel-image');
+    let currentIndex = 0;
+    const totalImages = images.length;
+
+    // Função para atualizar a posição do carrossel
+    function updateCarousel() {
+        // Calcula a distância para mover (índice * -100% da largura)
+        const offset = -currentIndex * 100;
+        carousel.style.transform = `translateX(${offset}%)`;
+    }
+
+    // Navegação para a próxima imagem
+    nextButton.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % totalImages; // Volta ao início após a última
+        updateCarousel();
+    });
+
+    // Navegação para a imagem anterior
+    prevButton.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + totalImages) % totalImages; // Garante que o índice não seja negativo
+        updateCarousel();
+    });
+
+    // Auto-play (Troca automática a cada 5 segundos)
+    const intervalTime = 5000;
+    setInterval(() => {
+        currentIndex = (currentIndex + 1) % totalImages;
+        updateCarousel();
+    }, intervalTime);
+});
