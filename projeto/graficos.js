@@ -1,4 +1,4 @@
-let charts = {};
+let chartsGraphs = {};
 
 const cores = {
     temperatura: "rgba(255, 99, 132, 1)",     // vermelho
