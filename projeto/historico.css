@@ -12,6 +12,7 @@ select#estacao{
     color: var(--text);
     transition: .2s ease;
     font-size: 14px;
+    width: 132px;
 }
 .table-wrap {
   border-radius: var(--radius);
