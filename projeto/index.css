@@ -464,3 +464,94 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
     justify-content: center; /* Centraliza os botões horizontalmente */
   }
 }
+
+/* Adicione ao seu arquivo de estilos, por exemplo: index.css ou estilo.css */
+
+/* Estilo para a seção informativa */
+.info-section {
+  margin: 36px auto 0 auto;
+  max-width: 700px;
+  padding: 2rem 1rem;
+  border-radius: 18px;
+  background: var(--card, #f7fafc);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  color: var(--text, #222);
+}
+
+.info-section h2 {
+  color: var(--primary, #0ea5e9);
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.info-section h3 {
+  color: var(--highlight-blue, #2563eb);
+  font-size: 1.2rem;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.info-section p {
+  font-size: 1rem;
+  margin-bottom: 14px;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.info-section ul {
+  margin: 0 0 18px 0;
+  padding-left: 18px;
+}
+
+.info-section li {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: var(--muted, #555);
+}
+
+.info-section strong {
+  color: var(--primary, #0ea5e9);
+}
+
+/* Modo escuro */
+html[data-theme="dark"] .info-section {
+  background: var(--card-solid, #1e293b);
+  color: var(--text, #f3f4f6);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+}
+
+html[data-theme="dark"] .info-section h2 {
+  color: var(--primary, #38bdf8);
+}
+
+html[data-theme="dark"] .info-section h3 {
+  color: var(--highlight-blue, #60a5fa);
+}
+
+html[data-theme="dark"] .info-section li {
+  color: var(--muted, #cbd5e1);
+}
+
+html[data-theme="dark"] .info-section strong {
+  color: var(--primary, #38bdf8);
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .info-section {
+    padding: 1rem 4px;
+    max-width: 98vw;
+  }
+  .info-section h2 {
+    font-size: 1.2rem;
+  }
+  .info-section h3 {
+    font-size: 1rem;
+  }
+  .info-section p, .info-section li {
+    font-size: 0.96rem;
+  }
+}
