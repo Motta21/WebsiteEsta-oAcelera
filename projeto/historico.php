@@ -84,6 +84,8 @@ try {
       <a class="nav-link" href="contato.html"><i class="fa-solid fa-address-book"></i><span>Contato</span></a>
       <a class="nav-link" href="patrocinadores.html"><i class="fa-solid fa-handshake"></i><span>Parceiros</span></a>
       <a class="nav-link" href="extensao.html"><i class="fa-solid fa-video"></i><span>Extensão</span></a>
+      <a class="nav-link" href="login.html"><i class="fa-solid fa-user"></i><span>Perfil</span></a>
+
         </nav>
     
   </aside>
