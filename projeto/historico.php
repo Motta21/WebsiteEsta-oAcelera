@@ -96,8 +96,7 @@ try {
     </div>
 
     <div class="topbar-right">
-      <button class="btn-icon" id="userLogin" onclick="window.location.href='login.html'">
-      <i class="fa-solid fa-user"></i>
+     
     </button>
         <button class="btn-icon" id="toggleTheme"><i class="fa-solid fa-moon"></i></button>
         <div class="clock" id="hora">--:--:--</div>
