@@ -1,72 +1,116 @@
-let chartTemp = null;
-let chartUmid = null;
-let chartPressao = null;
-let chartPressaoNM = null;
-let chartOrvalho = null;
+let charts = {};
 
-// Dados temporários para teste — você vai trocar para seu banco depois
-function gerarDadosFake() {
-    const labels = [];
-    const temp = [];
-    const umid = [];
-    const press = [];
-    const pressNM = [];
-    const orvalho = [];
+const cores = {
+    temperatura: "rgba(255, 99, 132, 1)",     // vermelho
+    umidade: "rgba(54, 162, 235, 1)",         // azul
+    pressao: "rgba(255, 206, 86, 1)",         // amarelo
+    pressaoNM: "rgba(153, 102, 255, 1)",      // roxo
+    orvalho: "rgba(75, 192, 192, 1)"          // verde água
+};
 
-    for (let i = 0; i < 30; i++) {
-        labels.push(`Dia ${i+1}`);
-        temp.push(20 + Math.random() * 10);
-        umid.push(40 + Math.random() * 40);
-        press.push(1000 + Math.random() * 20);
-        pressNM.push(1013 + Math.random() * 20);
-        orvalho.push(10 + Math.random() * 10);
+
+async function carregarDados(periodo) {
+    try {
+        document.getElementById("loader").classList.remove("hidden");
+        
+        const url = `dados_grafico.php?periodo=${periodo}`;
+        const resposta = await fetch(url);
+        const json = await resposta.json();
+
+        if (!json.sucesso) {
+            mostrarToast("Erro ao carregar dados!");
+            return;
+        }
+
+        atualizarGraficos(json.dados);
+
+    } catch (erro) {
+        mostrarToast("Falha ao buscar dados!");
+    } finally {
+        document.getElementById("loader").classList.add("hidden");
     }
-
-    return { labels, temp, umid, press, pressNM, orvalho };
 }
 
-function criarGrafico(ctx, dados, label) {
-    return new Chart(ctx, {
+
+function atualizarGraficos(dados) {
+
+    const labels = dados.map(d => d.DataHora);
+
+    const temperatura = dados.map(d => parseFloat(d.Temperatura));
+    const umidade = dados.map(d => parseFloat(d.Umidade));
+    const pressao = dados.map(d => parseFloat(d.Pressao));
+    const pressaoNM = dados.map(d => parseFloat(d.Pressao_nivel_mar));
+    const orvalho = dados.map(d => parseFloat(d.PTO_Orvalho));
+
+    criarOuAtualizar("graficoTemp", labels, temperatura, "Temperatura (°C)", cores.temperatura);
+    criarOuAtualizar("graficoUmidade", labels, umidade, "Umidade (%)", cores.umidade);
+    criarOuAtualizar("graficoPressao", labels, pressao, "Pressão (hPa)", cores.pressao);
+    criarOuAtualizar("graficoPressaoNM", labels, pressaoNM, "Pressão Nível Mar (hPa)", cores.pressaoNM);
+    criarOuAtualizar("graficoOrvalho", labels, orvalho, "Ponto de Orvalho (°C)", cores.orvalho);
+}
+
+function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
+
+    const ctx = document.getElementById(idCanvas).getContext("2d");
+
+    // Se já existe, atualiza
+    if (charts[idCanvas]) {
+        charts[idCanvas].data.labels = labels;
+        charts[idCanvas].data.datasets[0].data = valores;
+        charts[idCanvas].update();
+        return;
+    }
+
+    // Criar novo gráfico
+    charts[idCanvas] = new Chart(ctx, {
         type: "line",
         data: {
-            labels: dados.labels,
+            labels: labels,
             datasets: [{
-                label,
-                data: dados[label.toLowerCase()],
+                label: titulo,
+                data: valores,
+                borderColor: cor,
+                backgroundColor: cor.replace("1)", "0.2)"),
                 borderWidth: 2,
-                borderColor: "#4f7cff",
-                backgroundColor: "rgba(79,124,255,0.2)",
-                tension: 0.3
+                pointRadius: 0,
+                tension: 0.35
             }]
         },
         options: {
             responsive: true,
-            plugins: {
-                legend: { labels: { color: "#fff" } }
-            },
+            maintainAspectRatio: false,
+            interaction: { mode: "index", intersect: false },
             scales: {
-                x: { ticks: { color: "#ccc" } },
-                y: { ticks: { color: "#ccc" } }
+                x: {
+                    ticks: {
+                        maxRotation: 0,
+                        minRotation: 0,
+                        autoSkip: true,
+                        maxTicksLimit: 8
+                    }
+                }
             }
         }
     });
 }
 
-function atualizarGraficos() {
-    const dados = gerarDadosFake();
 
-    if (chartTemp) chartTemp.destroy();
-    if (chartUmid) chartUmid.destroy();
-    if (chartPressao) chartPressao.destroy();
-    if (chartPressaoNM) chartPressaoNM.destroy();
-    if (chartOrvalho) chartOrvalho.destroy();
+document.getElementById("btnRefresh").addEventListener("click", () => {
+    const periodo = document.getElementById("periodo").value;
+    carregarDados(periodo);
+});
 
-    chartTemp = criarGrafico(document.getElementById("graficoTemp"), dados, "Temp");
-    chartUmid = criarGrafico(document.getElementById("graficoUmidade"), dados, "Umid");
-    chartPressao = criarGrafico(document.getElementById("graficoPressao"), dados, "Press");
-    chartPressaoNM = criarGrafico(document.getElementById("graficoPressaoNM"), dados, "PressNM");
-    chartOrvalho = criarGrafico(document.getElementById("graficoOrvalho"), dados, "Orvalho");
+document.getElementById("periodo").addEventListener("change", () => {
+    const periodo = document.getElementById("periodo").value;
+    carregarDados(periodo);
+});
+
+
+function mostrarToast(msg) {
+    const toast = document.getElementById("toast");
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
-document.getElementById("btnRefresh").addEventListener("click", atualizarGraficos);
-window.onload = atualizarGraficos;
+window.onload = () => carregarDados("diario");
