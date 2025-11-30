@@ -20,8 +20,9 @@
   --radius: 16px;
 
   /* Sidebar */
-  --sidebar-expanded-width: 250px;
-  --sidebar-collapsed-width: 38px;
+  --sidebar-expanded-width: 250px; /* era 250px alterei por */
+  --sidebar-collapsed-width: 60px;
+  
 }
 
 /* Tema claro */
@@ -76,7 +77,9 @@ body {
   gap: 16px;
   z-index: 5;
   transition: width 0.3s ease;
+  
 }
+
 
 /* Sidebar colapsada */
 .sidebar.collapsed {
@@ -87,7 +90,12 @@ body {
   padding-right: 6px;
   overflow: hidden;
   background: transparent;
+  height: 66px;
+  
+  
+
 }
+
 .sidebar .brand-logo { display: inline-block; transition: opacity 0.3s ease; }
 .sidebar.collapsed .brand-logo { display: none; }
 
@@ -137,14 +145,14 @@ body {
   flex: 1;
   min-width: 0;
   padding: 28px;
-  margin-left: var(--sidebar-expanded-width);
+  margin-left:auto ;
   transition: margin-left 0.3s ease;
 }
 
 /* Recuo ajustado quando colapsada */
 .sidebar.collapsed + .content,
 .sidebar.collapsed ~ .content {
-  margin-left: var(--sidebar-collapsed-width);
+  margin-left: 0px;
 }
 
 /* ============================================================
