@@ -1,10 +1,9 @@
-// graficos.js
-// Carrega e gera os gráficos usando Chart.js
+// graficos.js — versão estável e funcional
 
 (() => {
   const API_URL = "php/dados_grafico.php";
 
-  const charts = {}; // Instâncias Chart.js
+  const charts = {};
 
   const chartMap = {
     temperatura: "graficoTemp",

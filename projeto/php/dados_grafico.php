@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: application/json");
-require_once "db_conection.php"; 
+require_once "db_conection.php";
 
 $periodo = $_GET["periodo"] ?? "diario";
 
