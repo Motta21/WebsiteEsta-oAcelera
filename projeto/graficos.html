@@ -77,29 +77,107 @@
         </div>
       </div>
 
-      <div class="grid-charts">
-        <div class="card chart-card">
-          <div class="chart-title"><i class="fa-solid fa-temperature-half"></i> Temperatura (°C)</div>
-          <div class="chart-wrap"><canvas id="graficoTemp"></canvas></div>
-        </div>
-        <div class="card chart-card">
-          <div class="chart-title"><i class="fa-solid fa-droplet"></i> Umidade (%)</div>
-          <div class="chart-wrap"><canvas id="graficoUmidade"></canvas></div>
-        </div>
-        <div class="card chart-card">
-          <div class="chart-title"><i class="fa-solid fa-gauge"></i> Pressão (hPa)</div>
-          <div class="chart-wrap"><canvas id="graficoPressao"></canvas></div>
-        </div>
-        <div class="card chart-card">
-          <div class="chart-title"><i class="fa-solid fa-water"></i> Pressão Nível do Mar (hPa)</div>
-          <div class="chart-wrap"><canvas id="graficoPressaoNM"></canvas></div>
-        </div>
-        <div class="card chart-card">
-          <div class="chart-title"><i class="fa-solid fa-snowflake"></i> Ponto de Orvalho (°C)</div>
-          <div class="chart-wrap"><canvas id="graficoOrvalho"></canvas></div>
-        </div>
-      </div>
-    </section>
+      <div class="container">
+
+    <div class="card">
+        <h2>Temperatura</h2>
+        <canvas id="tempChart"></canvas>
+    </div>
+
+    <div class="card">
+        <h2>Umidade</h2>
+        <canvas id="umidChart"></canvas>
+    </div>
+
+    <div class="card">
+        <h2>Pressão Atmosférica</h2>
+        <canvas id="pressChart"></canvas>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // ------ Cores do tema ------
+    const colors = {
+        temp: "rgba(255, 99, 132, 0.9)",    // Rosa avermelhado
+        umid: "rgba(0, 149, 255, 0.9)",     // Azul moderno
+        press: "rgba(255, 193, 7, 0.9)",    // Amarelo
+    };
+
+    // ------ GRÁFICO TEMPERATURA ------
+    new Chart(document.getElementById("tempChart"), {
+        type: "line",
+        data: {
+            labels: ["00h", "01h", "02h", "03h", "04h"],
+            datasets: [{
+                label: "Temperatura (°C)",
+                data: [20, 21, 22, 23, 24],
+                borderColor: colors.temp,
+                backgroundColor: "rgba(255, 99, 132, 0.15)",
+                tension: 0.35,
+                borderWidth: 3,
+                pointRadius: 4
+            }]
+        },
+        options: {
+            plugins: { legend: { labels: { color: "#ccc" } } },
+            scales: {
+                x: { ticks: { color: "#aaa" }, grid: { color: "#333" } },
+                y: { ticks: { color: "#aaa" }, grid: { color: "#333" } }
+            }
+        }
+    });
+
+    // ------ GRÁFICO UMIDADE ------
+    new Chart(document.getElementById("umidChart"), {
+        type: "line",
+        data: {
+            labels: ["00h", "01h", "02h", "03h", "04h"],
+            datasets: [{
+                label: "Umidade (%)",
+                data: [80, 82, 85, 83, 81],
+                borderColor: colors.umid,
+                backgroundColor: "rgba(0, 149, 255, 0.15)",
+                tension: 0.35,
+                borderWidth: 3,
+                pointRadius: 4
+            }]
+        },
+        options: {
+            plugins: { legend: { labels: { color: "#ccc" } } },
+            scales: {
+                x: { ticks: { color: "#aaa" }, grid: { color: "#333" } },
+                y: { ticks: { color: "#aaa" }, grid: { color: "#333" } }
+            }
+        }
+    });
+
+    // ------ GRÁFICO PRESSÃO ------
+    new Chart(document.getElementById("pressChart"), {
+        type: "line",
+        data: {
+            labels: ["00h", "01h", "02h", "03h", "04h"],
+            datasets: [{
+                label: "Pressão (hPa)",
+                data: [1012, 1013, 1011, 1014, 1015],
+                borderColor: colors.press,
+                backgroundColor: "rgba(255, 193, 7, 0.15)",
+                tension: 0.35,
+                borderWidth: 3,
+                pointRadius: 4
+            }]
+        },
+        options: {
+            plugins: { legend: { labels: { color: "#ccc" } } },
+            scales: {
+                x: { ticks: { color: "#aaa" }, grid: { color: "#333" } },
+                y: { ticks: { color: "#aaa" }, grid: { color: "#333" } }
+            }
+        }
+    });
+</script>
     
 
     <footer class="footer">
