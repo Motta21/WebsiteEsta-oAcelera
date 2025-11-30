@@ -1,0 +1,18 @@
+<?php
+require_once "db_conection.php";
+
+$cod_e = $_GET['cod_e'] ?? 1;
+
+$sql = "SELECT * 
+        FROM view_estacao 
+        WHERE Cod_E = ?
+        ORDER BY DataHora DESC 
+        LIMIT 1";
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$cod_e]);
+
+$dados = $stmt->fetch(PDO::FETCH_ASSOC);
+
+header("Content-Type: application/json; charset=utf-8");
+echo json_encode($dados ?: []);

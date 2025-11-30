@@ -58,6 +58,14 @@
     </header>
 <h1>Central de Coleta de Dados Ambientais</h1>
         <p class="subtitle">Monitoramento em tempo real com análise visual</p>
+    <div>
+      <label for="estacao">Estação:</label>
+        <select id="estacao">
+        <option value="1">Estação 1</option>
+        <option value="2">Estação 2</option>
+    </select>
+    </div>
+
     <section id="dashboard" class="section">
       <div class="cards">
         <div class="card metric" id="card-temp">
@@ -114,5 +122,46 @@
   <div id="loader" class="loader hidden"><div class="spinner"></div><span>Carregando dados...</span></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="script.js"></script>
+
+  <!--REcurso para atualizar a dashboard | temporario -->
+  <script>
+async function carregarUltimosDados() {
+    const codE = document.getElementById("estacao").value;
+
+    try {
+        const resposta = await fetch(`php/ultimos_dados.php?cod_e=${codE}`);
+        const dados = await resposta.json();
+
+        if (!dados || Object.keys(dados).length === 0) {
+            mostrarErro("Nenhum dado encontrado.");
+            return;
+        }
+
+        // Atualiza os campos da dashboard
+        document.getElementById("temp-atual").textContent = `${dados.Temperatura} °C`;
+        document.getElementById("umid-atual").textContent = `${dados.Umidade} %`;
+        document.getElementById("pressao-atual").textContent = `${dados.Pressao} hPa`;
+        document.getElementById("pressao-nm-atual").textContent = `${dados.Pressao_nivel_mar} hPa`;
+        document.getElementById("orvalho-atual").textContent = `${dados.PTO_Orvalho} °C`;
+
+    } catch (e) {
+        mostrarErro("Erro ao carregar dados.");
+        console.error(e);
+    }
+}
+
+function mostrarErro(msg) {
+    const toast = document.getElementById("toast");
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 3000);
+}
+
+document.getElementById("estacao").addEventListener("change", carregarUltimosDados);
+
+carregarUltimosDados();
+
+setInterval(carregarUltimosDados, 600000);
+</script>
 </body>
 </html>
