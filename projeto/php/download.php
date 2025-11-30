@@ -1,37 +1,13 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+require_once "db_conection.php";
 
-require_once 'db_conection.php';
-
-header("Content-Type: text/csv; charset=UTF-8");
-header("Content-Disposition: attachment; filename=historico_estacao.csv");
-
-$out = fopen("php://output", "w");
-
-// Todas as colunas REAIS do banco
-$colunas = [
-    "DataHora",
-    "Temperatura",
-    "Umidade",
-    "Pressao",
-    "Pressao_nivel_mar",
-    "PTO_Orvalho",
-    "NV_Bat"
-];
-
-// Cabeçalho do CSV
-fputcsv($out, $colunas);
-
-// Parâmetros
 $data_inicio = $_GET['data_inicio'] ?? null;
 $data_fim    = $_GET['data_fim'] ?? null;
+$cod_e       = $_GET['cod_e'] ?? 1;
 
-// ⚠️ Tabela CERTA
-$sql = "SELECT " . implode(", ", $colunas) . " FROM Dados WHERE 1=1";
-$params = [];
+$sql = "SELECT * FROM view_estacao WHERE Cod_E = ?";
+$params = [$cod_e];
 
-// FILTRO POR DATA
 if (!empty($data_inicio)) {
     $sql .= " AND DataHora >= ?";
     $params[] = $data_inicio . " 00:00:00";
@@ -44,15 +20,32 @@ if (!empty($data_fim)) {
 
 $sql .= " ORDER BY DataHora ASC";
 
-// Executar
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 
-// Escrever no CSV
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    fputcsv($out, $row);
+$dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$nomeArquivo = "dados_estacao_{$cod_e}.csv";
+
+header("Content-Type: text/csv; charset=utf-8");
+header("Content-Disposition: attachment; filename={$nomeArquivo}");
+
+$output = fopen("php://output", "w");
+
+// Cabeçalho
+fputcsv($output, ["DataHora", "Temperatura", "Umidade", "Pressao", "Pressao_nivel_mar", "PTO_Orvalho"]);
+
+// Dados
+foreach ($dados as $row) {
+    fputcsv($output, [
+        $row["DataHora"],
+        $row["Temperatura"],
+        $row["Umidade"],
+        $row["Pressao"],
+        $row["Pressao_nivel_mar"],
+        $row["PTO_Orvalho"]
+    ]);
 }
 
-fclose($out);
+fclose($output);
 exit;
-?>

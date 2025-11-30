@@ -119,11 +119,17 @@ try {
             <input type="date" name="data_fim" class="input-date" value="<?= htmlspecialchars($data_fim) ?>">
         </div>
 
+        <select name="cod_e" id="estacao" class="input-select">
+        <option value="1" <?= ($cod_e == 1 ? 'selected' : '') ?>>Estação 1</option>
+        <option value="2" <?= ($cod_e == 2 ? 'selected' : '') ?>>Estação 2</option>
+    </select>
+
+
         <button type="submit" class="btn-filter">
             <i class="fa-solid fa-filter"></i> Filtrar
         </button>
 
-        <a href="php/download.php?data_inicio=<?= urlencode($data_inicio) ?>&data_fim=<?= urlencode($data_fim) ?>"
+        <a href="php/download.php?data_inicio=<?= urlencode($data_inicio) ?>&data_fim=<?= urlencode($data_fim) ?>&cod_e=<?= urlencode($cod_e) ?>"
            class="btn-download">
             <i class="fa-solid fa-download"></i> CSV
         </a>
