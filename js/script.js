@@ -1,6 +1,5 @@
 // CONFIGURAÇÕES
 const channelID = 3022907;
-const BASE_URL = `https://api.thingspeak.com/channels/${channelID}/feeds.json`;
 const DEFAULT_RESULTS = 20;
 
 // Limites para alertas

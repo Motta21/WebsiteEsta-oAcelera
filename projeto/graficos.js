@@ -1,100 +1,72 @@
-// graficos.js
-// Carrega e gera os gráficos usando Chart.js
+let chartTemp = null;
+let chartUmid = null;
+let chartPressao = null;
+let chartPressaoNM = null;
+let chartOrvalho = null;
 
-(() => {
-  const API_URL = "php/dados_grafico.php";
+// Dados temporários para teste — você vai trocar para seu banco depois
+function gerarDadosFake() {
+    const labels = [];
+    const temp = [];
+    const umid = [];
+    const press = [];
+    const pressNM = [];
+    const orvalho = [];
 
-  const charts = {}; // Instâncias Chart.js
-
-  const chartMap = {
-    temperatura: "graficoTemp",
-    umidade: "graficoUmidade",
-    pressao: "graficoPressao",
-    pressao_nm: "graficoPressaoNM",
-    orvalho: "graficoOrvalho"
-  };
-
-  const loader = document.getElementById("loader");
-  const toast = document.getElementById("toast");
-
-  function showLoader() { loader.classList.remove("hidden"); }
-  function hideLoader() { loader.classList.add("hidden"); }
-
-  function showToast(msg, time = 3000) {
-    toast.textContent = msg;
-    toast.classList.add("visible");
-    setTimeout(() => toast.classList.remove("visible"), time);
-  }
-
-  function destroy(chartName) {
-    if (charts[chartName]) {
-      charts[chartName].destroy();
-      delete charts[chartName];
+    for (let i = 0; i < 30; i++) {
+        labels.push(`Dia ${i+1}`);
+        temp.push(20 + Math.random() * 10);
+        umid.push(40 + Math.random() * 40);
+        press.push(1000 + Math.random() * 20);
+        pressNM.push(1013 + Math.random() * 20);
+        orvalho.push(10 + Math.random() * 10);
     }
-  }
 
-  function createChart(canvasId, label, labels, data) {
-    return new Chart(document.getElementById(canvasId), {
-      type: "line",
-      data: {
-        labels,
-        datasets: [{
-          label,
-          data,
-          borderWidth: 2,
-          pointRadius: 2,
-          tension: 0.3,
-          fill: false
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        interaction: { mode: "index", intersect: false }
-      }
+    return { labels, temp, umid, press, pressNM, orvalho };
+}
+
+function criarGrafico(ctx, dados, label) {
+    return new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: dados.labels,
+            datasets: [{
+                label,
+                data: dados[label.toLowerCase()],
+                borderWidth: 2,
+                borderColor: "#4f7cff",
+                backgroundColor: "rgba(79,124,255,0.2)",
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { labels: { color: "#fff" } }
+            },
+            scales: {
+                x: { ticks: { color: "#ccc" } },
+                y: { ticks: { color: "#ccc" } }
+            }
+        }
     });
-  }
+}
 
-  async function atualizarGraficos() {
-    showLoader();
-    const periodo = document.getElementById("periodo").value;
+function atualizarGraficos() {
+    const dados = gerarDadosFake();
 
-    try {
-      const resp = await fetch(`${API_URL}?periodo=${periodo}`);
-      const json = await resp.json();
+    if (chartTemp) chartTemp.destroy();
+    if (chartUmid) chartUmid.destroy();
+    if (chartPressao) chartPressao.destroy();
+    if (chartPressaoNM) chartPressaoNM.destroy();
+    if (chartOrvalho) chartOrvalho.destroy();
 
-      if (!json || !json.labels) {
-        showToast("Dados inválidos.");
-        hideLoader();
-        return;
-      }
+    chartTemp = criarGrafico(document.getElementById("graficoTemp"), dados, "Temp");
+    chartUmid = criarGrafico(document.getElementById("graficoUmidade"), dados, "Umid");
+    chartPressao = criarGrafico(document.getElementById("graficoPressao"), dados, "Press");
+    chartPressaoNM = criarGrafico(document.getElementById("graficoPressaoNM"), dados, "PressNM");
+    chartOrvalho = criarGrafico(document.getElementById("graficoOrvalho"), dados, "Orvalho");
+}
 
-      const labels = json.labels;
-
-      destroy("temperatura");
-      destroy("umidade");
-      destroy("pressao");
-      destroy("pressao_nm");
-      destroy("orvalho");
-
-      charts.temperatura = createChart(chartMap.temperatura, "Temperatura (°C)", labels, json.temperatura);
-      charts.umidade = createChart(chartMap.umidade, "Umidade (%)", labels, json.umidade);
-      charts.pressao = createChart(chartMap.pressao, "Pressão (hPa)", labels, json.pressao);
-      charts.pressao_nm = createChart(chartMap.pressao_nm, "Pressão Nível do Mar (hPa)", labels, json.pressao_nm);
-      charts.orvalho = createChart(chartMap.orvalho, "Ponto de Orvalho (°C)", labels, json.orvalho);
-
-      showToast("Gráficos atualizados!");
-    } catch (e) {
-      showToast("Erro ao carregar dados.");
-      console.error(e);
-    }
-
-    hideLoader();
-  }
-
-  document.getElementById("periodo").addEventListener("change", atualizarGraficos);
-  document.getElementById("btnRefresh").addEventListener("click", atualizarGraficos);
-
-  window.addEventListener("load", atualizarGraficos);
-})();
+document.getElementById("btnRefresh").addEventListener("click", atualizarGraficos);
+window.onload = atualizarGraficos;
