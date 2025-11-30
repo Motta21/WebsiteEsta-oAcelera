@@ -362,16 +362,14 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
 
   .content {
     width: 100%;
+
     max-width: 100%;
     margin-left: 0 !important;
     box-sizing: border-box;
     overflow-x: hidden;
+    
   }
-  .sidebar.collapsed + .content,
-  .sidebar.collapsed ~ .content {
-    margin-left: 0 !important;
-  }
-
+ 
   .carousel-container {
     max-width: 90%;
     
@@ -382,4 +380,23 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
 .carousel-container h1 {
     font-size: 0.9em;
   }
+
+  .sidebar {
+    top: 0;
+    position: fixed;
+    width: 100%;
+    background-color: var(--background-color);
+    z-index: 1000;
+    transition: left 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    
+    
+  }
+  
+  .sidebar.collapsed {
+      backdrop-filter: none;
+  }
+  
 }

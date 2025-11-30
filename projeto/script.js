@@ -632,3 +632,24 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 
 // aqui encerra o download cvs
+(function initMobileMenu() {
+  const sidebar = document.getElementById('sidebar');
+  const toggleSidebar = document.getElementById('toggleSidebar');
+
+  if (!sidebar || !toggleSidebar) return;
+
+  toggleSidebar.addEventListener('click', () => {
+    const isExpanded = sidebar.classList.contains('expanded');
+    sidebar.classList.toggle('expanded', !isExpanded);
+    sidebar.classList.toggle('collapsed', isExpanded);
+  });
+
+  // Fechar o menu ao clicar em um link
+  sidebar.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      sidebar.classList.remove('expanded');
+      sidebar.classList.add('collapsed');
+    });
+  });
+})();
+
