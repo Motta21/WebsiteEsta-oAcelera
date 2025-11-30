@@ -11,9 +11,12 @@ const cores = {
 
 async function carregarDados(periodo) {
     try {
-        document.getElementById("loader").classList.remove("hidden");
-
-        const resposta = await fetch(`php/dados_grafico.php?periodo=${periodo}`);
+        document.getElementById("estacao").addEventListener("change", () => {
+                const periodo = document.getElementById("periodo").value;
+                carregarDados(periodo);
+        });
+        const estacao = document.getElementById("estacao").value;
+        const resposta = await fetch(`php/dados_grafico.php?periodo=${periodo}&cod_e=${estacao}`);  
         const json = await resposta.json();
 
         if (!json.sucesso) {

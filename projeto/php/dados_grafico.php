@@ -20,11 +20,13 @@ $sql = "
         Pressao_nivel_mar,
         PTO_Orvalho
     FROM view_estacao
-    WHERE DataHora >= (NOW() - INTERVAL $intervalo)
+    WHERE Cod_E = :cod_e
+      AND DataHora >= (NOW() - INTERVAL $intervalo)
     ORDER BY DataHora ASC
 ";
 
 $stmt = $pdo->prepare($sql);
+$stmt->bindParam(":cod_e", $cod_e, PDO::PARAM_INT);
 $stmt->execute();
 
 $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
