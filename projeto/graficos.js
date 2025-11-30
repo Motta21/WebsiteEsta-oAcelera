@@ -12,9 +12,8 @@ const cores = {
 async function carregarDados(periodo) {
     try {
         document.getElementById("loader").classList.remove("hidden");
-        
-        const url = `php/dados_grafico.php?periodo=${periodo}`;
-        const resposta = await fetch(url);
+
+        const resposta = await fetch(`php/dados_grafico.php?periodo=${periodo}`);
         const json = await resposta.json();
 
         if (!json.sucesso) {
@@ -49,20 +48,20 @@ function atualizarGraficos(dados) {
     criarOuAtualizar("graficoOrvalho", labels, orvalho, "Ponto de Orvalho (°C)", cores.orvalho);
 }
 
+
 function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
 
     const ctx = document.getElementById(idCanvas).getContext("2d");
 
-    // Se já existe, atualiza
-    if (charts[idCanvas]) {
-        charts[idCanvas].data.labels = labels;
-        charts[idCanvas].data.datasets[0].data = valores;
-        charts[idCanvas].update();
+    // ATENÇÃO: agora usa chartsGraphs
+    if (chartsGraphs[idCanvas]) {
+        chartsGraphs[idCanvas].data.labels = labels;
+        chartsGraphs[idCanvas].data.datasets[0].data = valores;
+        chartsGraphs[idCanvas].update();
         return;
     }
 
-    // Criar novo gráfico
-    charts[idCanvas] = new Chart(ctx, {
+    chartsGraphs[idCanvas] = new Chart(ctx, {
         type: "line",
         data: {
             labels: labels,
@@ -95,6 +94,7 @@ function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
 }
 
 
+// Botões e seleção de período
 document.getElementById("btnRefresh").addEventListener("click", () => {
     const periodo = document.getElementById("periodo").value;
     carregarDados(periodo);
@@ -106,6 +106,7 @@ document.getElementById("periodo").addEventListener("change", () => {
 });
 
 
+// Toast
 function mostrarToast(msg) {
     const toast = document.getElementById("toast");
     toast.textContent = msg;
@@ -113,4 +114,6 @@ function mostrarToast(msg) {
     setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
+
+// Carregar padrão
 window.onload = () => carregarDados("diario");
