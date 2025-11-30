@@ -87,6 +87,24 @@
         </div>
       </div>
     </section>
+    <div id="map" style="height: 400px; width: 100%;">
+      <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+      <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    </div>
+    <script>
+    const lat = -22.586490737454902;
+    const lng = -44.96247468878016;
+
+    const map = L.map('map').setView([lat, lng], 16);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19
+    }).addTo(map);
+    L.marker([lat, lng])
+        .addTo(map)
+        .bindPopup("Central Coleta de Dados 1")
+        .openPopup();
+</script>
 
     <footer class="footer">
       <span>&copy; 2025 Amaná — Central de Coleta de Dados Ambientais</span>
