@@ -13,7 +13,7 @@ async function carregarDados(periodo) {
     try {
         document.getElementById("loader").classList.remove("hidden");
         
-        const url = `dados_grafico.php?periodo=${periodo}`;
+        const url = `php/dados_grafico.php?periodo=${periodo}`;
         const resposta = await fetch(url);
         const json = await resposta.json();
 
