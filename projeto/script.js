@@ -123,7 +123,10 @@ async function fetchData(results = DEFAULT_RESULTS) {
   const url = `${BASE_URL}?results=${results}`;
   showLoader(true);
   try {
-    const res = await fetch(url, { mode: 'cors' });
+    const res = await fetch(url, {
+    mode: 'cors',
+    cache: 'no-store'
+    });    
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
     allFeeds = json.feeds || [];
