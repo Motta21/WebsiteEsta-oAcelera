@@ -70,23 +70,23 @@
       <div class="cards">
         <div class="card metric" id="card-temp">
           <div class="metric-head"><i class="fa-solid fa-temperature-three-quarters metric-icon"></i><span>Temperatura</span></div>
-          <div class="metric-value" id="temp-atual">-- °C</div>
+          <div class="metric-value" id="tempValor">-- °C</div>
           <div class="metric-foot"><span id="temp-status">—</span></div>
         </div>
         <div class="card metric" id="card-umid">
           <div class="metric-head"><i class="fa-solid fa-droplet metric-icon"></i><span>Umidade</span></div>
-          <div class="metric-value" id="umid-atual">-- %</div>
+          <div class="metric-value" id="umidadeValor">-- %</div>
           <div class="metric-foot"><span id="umid-status">—</span></div>
         </div>
         <div class="card metric" id="card-pressao">
           <div class="metric-head"><i class="fa-solid fa-gauge-high metric-icon"></i><span>Pressão</span></div>
-          <div class="metric-value" id="pressao-atual">-- hPa</div>
+          <div class="metric-value" id="pressaoValor">-- hPa</div>
           <div class="metric-foot"><span id="pressao-status">—</span></div>
         </div>
         <div class="card metric" id="card-pressao-nm">
           <div class="metric-head"><i class="fa-solid fa-water metric-icon"></i><span>Pressão Nível do Mar</span></div>
-          <div class="metric-value" id="pressao-nm-atual">-- hPa</div>
-          <div class="metric-foot"><span id="pressao-nm-status">—</span></div>
+          <div class="metric-value" id="pressaoNMValor">-- hPa</div>
+          <div class="metric-foot"><span id="orvalhoValor">—</span></div>
         </div>
         <div class="card metric" id="card-orvalho">
           <div class="metric-head"><i class="fa-solid fa-snowflake metric-icon"></i><span>Ponto de Orvalho</span></div>
@@ -129,21 +129,22 @@ async function carregarUltimosDados() {
     const codE = document.getElementById("estacao").value;
 
     try {
-        const resposta = await fetch(`php/dados_atualizados.php?cod_e=${codE}`);
+        const resposta = await fetch(`php/dados_atualizados.php?Cod_E=${codE}`);
         const json = await resposta.json();
 
-        if (!dados || Object.keys(dados).length === 0) {
-            mostrarErro("Nenhum dado encontrado.");
+        if (!json.sucesso) {
+            mostrarErro(json.erro || "Nenhum dado encontrado.");
             return;
         }
+
+        const d = json.dados;
 
         // Atualiza os campos da dashboard
         document.getElementById("tempValor").textContent = `${d.Temperatura} °C`;
         document.getElementById("umidadeValor").textContent = `${d.Umidade} %`;
         document.getElementById("pressaoValor").textContent = `${d.Pressao} hPa`;
         document.getElementById("pressaoNMValor").textContent = `${d.Pressao_nivel_mar} hPa`;
-        document.getElementById("orvalhoValor").textContent = `${d.PTO_Orvalho} °C`;
-
+        document.getElementById("orvalho-atual").textContent = `${d.PTO_Orvalho} °C`;
 
     } catch (e) {
         mostrarErro("Erro ao carregar dados.");
@@ -162,7 +163,8 @@ document.getElementById("estacao").addEventListener("change", carregarUltimosDad
 
 carregarUltimosDados();
 
-setInterval(carregarUltimosDados, 600000);
+setInterval(carregarUltimosDados, 600000); // 10 minutos
 </script>
+
 </body>
 </html>
