@@ -115,12 +115,10 @@ try {
     <div class="filter-group">
 
         <div class="filter-item">
-            <i class="fa-regular fa-calendar"></i>
             <input type="date" name="data_inicio" class="input-date" value="<?= htmlspecialchars($data_inicio) ?>">
         </div>
 
         <div class="filter-item">
-            <i class="fa-regular fa-calendar"></i>
             <input type="date" name="data_fim" class="input-date" value="<?= htmlspecialchars($data_fim) ?>">
         </div>
 
