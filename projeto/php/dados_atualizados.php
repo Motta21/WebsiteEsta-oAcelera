@@ -1,7 +1,7 @@
 <?php
 require_once "db_conection.php";
 
-$cod_e = $_GET['cod_e'] ?? 1;
+$cod_e = $_GET['Cod_E'] ?? 1;
 
 $sql = "SELECT * 
         FROM view_estacao 
