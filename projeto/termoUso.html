@@ -4,176 +4,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - Amana</title>
+    <title>Termos de Uso — Amaná</title>
 
     <script>
         (function () {
             const saved = sessionStorage.getItem('theme');
-            const html = document.documentElement;
-            html.setAttribute('data-theme', saved || 'light');
+            document.documentElement.setAttribute('data-theme', saved || 'light');
         })();
     </script>
+
     <link rel="stylesheet" href="estilo.css">
     <link rel="stylesheet" href="termouso.css">
     <link rel="stylesheet" href="estilo-login-cadastro.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="shortcut icon" href="/img/favicon_io/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
     <div class="login-container">
-        <div class="login-card">
+
+        <div class="termo-card">
+
             <div class="theme-switch-container">
                 <button class="btn-icon" id="toggleThemeLogin">
                     <i class="fa-solid fa-moon"></i>
                 </button>
             </div>
-        <h1>Termo de Uso e Política de Privacidade</h1>
-        <p class="small">Última atualização: Janeiro/2025</p>
 
-        <h2>1. Resumo</h2>
-        <p>
-            Este Termo de Uso e Política de Privacidade tem como finalidade esclarecer como tratamos seus dados pessoais ao utilizar a plataforma <strong>Amaná</strong>, que permite criar uma conta, registrar um dispositivo (ESP32) e enviar dados para armazenamento e consulta.
-        </p>
-        <p>
-            Ao criar uma conta, você concorda com estes termos e autoriza o tratamento dos seus dados conforme descrito abaixo.
-        </p>
+            <h1 class="termo-title"><i class="fa-solid fa-file-shield"></i> Termo de Uso e Política de Privacidade</h1>
+            <p class="small termo-updated"><i class="fa-regular fa-calendar"></i> Última atualização: Dezembro/2025</p>
 
-        <h2>2. Dados Coletados</h2>
+            <div class="termo-content">
 
-        <h3>2.1. Dados fornecidos pelo usuário</h3>
-        <ul>
-            <li>Nome</li>
-            <li>E-mail</li>
-            <li>Senha (armazenada de forma criptografada)</li>
-        </ul>
+                <h2>1. Resumo</h2>
+                <p>
+                    Este Termo de Uso e Política de Privacidade tem como finalidade esclarecer como tratamos seus dados pessoais ao utilizar a plataforma <strong>Amaná</strong>, que permite criar uma conta, registrar um dispositivo (ESP32) e enviar dados para armazenamento e consulta.
+                </p>
+                <p>
+                    Ao criar uma conta, você concorda com estes termos e autoriza o tratamento dos seus dados conforme descrito abaixo.
+                </p>
 
-        <h3>2.2. Dados do dispositivo</h3>
-        <ul>
-            <li>Endereço MAC</li>
-            <li>Dados enviados pelo dispositivo (ex.: sensores)</li>
-            <li>Endereço IP utilizado para envio (quando necessário para segurança)</li>
-        </ul>
+                <h2>2. Dados Coletados</h2>
 
-        <h3>2.3. Dados gerados automaticamente</h3>
-        <ul>
-            <li>Logs de acesso</li>
-            <li>Data e hora das requisições</li>
-            <li>Informações de uso do sistema</li>
-        </ul>
+                <h3>2.1. Dados fornecidos pelo usuário</h3>
+                <ul>
+                    <li>Nome</li>
+                    <li>E-mail</li>
+                    <li>Senha (armazenada de forma criptografada)</li>
+                </ul>
 
-        <h2>3. Finalidades do Tratamento</h2>
-        <p>Seus dados são utilizados para:</p>
-        <ul>
-            <li>Criar e gerenciar sua conta;</li>
-            <li>Garantir autenticação e segurança do acesso;</li>
-            <li>Associar dispositivos ao seu perfil;</li>
-            <li>Armazenar e disponibilizar dados enviados pelos dispositivos;</li>
-            <li>Gerar gráficos e análises dentro da plataforma;</li>
-            <li>Manter o funcionamento e segurança do sistema;</li>
-            <li>Enviar comunicações essenciais sobre o serviço.</li>
-        </ul>
-        <p><strong>Não utilizamos seus dados para finalidades não previstas neste termo.</strong></p>
+                <h3>2.2. Dados do dispositivo</h3>
+                <ul>
+                    <li>Endereço MAC</li>
+                    <li>Dados enviados pelo dispositivo (ex.: sensores)</li>
+                    <li>Endereço IP utilizado para envio</li>
+                </ul>
 
-        <h2>4. Compartilhamento de Dados</h2>
-        <p>
-            Seus dados <strong>não são vendidos</strong>. Dados marcados por você como públicos poderão ser exibidos para outros usuários.  
-        </p>
-        <p>Dados privados só serão compartilhados em caso de:</p>
-        <ul>
-            <li>Obrigação legal</li>
-            <li>Ordem judicial</li>
-        </ul>
+                <h3>2.3. Dados gerados automaticamente</h3>
+                <ul>
+                    <li>Logs de acesso</li>
+                    <li>Data e hora das requisições</li>
+                    <li>Informações de uso do sistema</li>
+                </ul>
 
-        <h2>5. Base Legal (LGPD)</h2>
-        <p>O tratamento de dados utiliza as bases legais:</p>
-        <ul>
-            <li><strong>Art. 7, I — Consentimento do titular</strong></li>
-            <li><strong>Art. 7, IX — Legítimo interesse</strong> (segurança e prevenção de fraudes)</li>
-        </ul>
+                <h2>3. Finalidades do Tratamento</h2>
+                <p>Seus dados são utilizados para:</p>
+                <ul>
+                    <li>Criar e gerenciar sua conta</li>
+                    <li>Garantir autenticação e segurança</li>
+                    <li>Associar dispositivos</li>
+                    <li>Armazenar e disponibilizar dados</li>
+                    <li>Gerar gráficos e análises</li>
+                    <li>Manter o funcionamento e segurança do sistema</li>
+                    <li>Enviar comunicações essenciais</li>
+                </ul>
+                <p><strong>Não utilizamos seus dados para finalidades não previstas neste termo.</strong></p>
 
-        <h2>6. Segurança dos Dados</h2>
-        <p>Adotamos medidas de proteção como:</p>
-        <ul>
-            <li>Criptografia de senhas</li>
-            <li>Controle de acesso</li>
-            <li>Logs de auditoria</li>
-            <li>Monitoramento de tentativas de acesso indevido</li>
-        </ul>
+                <h2>4. Compartilhamento de Dados</h2>
+                <p>Seus dados <strong>não são vendidos</strong>. Dados marcados por você como públicos poderão ser exibidos para outros usuários.</p>
+                <p>Dados privados só serão compartilhados em caso de:</p>
+                <ul>
+                    <li>Obrigação legal</li>
+                    <li>Ordem judicial</li>
+                </ul>
 
-        <h2>7. Direitos do Usuário (Art. 18 — LGPD)</h2>
-        <p>Você pode solicitar a qualquer momento:</p>
-        <ul>
-            <li>Acesso aos seus dados</li>
-            <li>Correção de dados desatualizados</li>
-            <li>Exclusão da conta</li>
-            <li>Portabilidade</li>
-            <li>Revogação do consentimento</li>
-        </ul>
+                <h2>5. Base Legal (LGPD)</h2>
+                <ul>
+                    <li><strong>Art. 7, I — Consentimento do titular</strong></li>
+                    <li><strong>Art. 7, IX — Legítimo interesse</strong></li>
+                </ul>
 
-        <h2>8. Retenção dos Dados</h2>
-        <p>
-            Os dados são mantidos enquanto sua conta estiver ativa. Após solicitar exclusão:
-        </p>
-        <ul>
-            <li>Dados pessoais serão eliminados em até 90 dias;</li>
-            <li>Dados de dispositivos podem ser anonimizados ou excluídos.</li>
-        </ul>
+                <h2>6. Segurança dos Dados</h2>
+                <ul>
+                    <li>Criptografia de senhas</li>
+                    <li>Controle de acesso</li>
+                    <li>Logs de auditoria</li>
+                    <li>Monitoramento de tentativas de acesso indevido</li>
+                </ul>
 
-        <h2>9. Responsabilidades do Usuário</h2>
-        <ul>
-            <li>Fornecer informações verdadeiras</li>
-            <li>Não compartilhar sua senha</li>
-            <li>Utilizar os dispositivos de maneira lícita</li>
-            <li>Não tentar explorar vulnerabilidades</li>
-            <li>Enviar certificado de calibração (quando aplicável)</li>
-        </ul>
+                <h2>7. Direitos do Usuário</h2>
+                <ul>
+                    <li>Acesso aos seus dados</li>
+                    <li>Correção</li>
+                    <li>Exclusão</li>
+                    <li>Portabilidade</li>
+                    <li>Revogação do consentimento</li>
+                </ul>
 
-        <h2>10. Alterações deste Termo</h2>
-        <p>
-            Este termo poderá ser atualizado. Você será notificado em caso de mudanças relevantes.
-        </p>
+                <h2>8. Retenção dos Dados</h2>
+                <ul>
+                    <li>Dados pessoais eliminados em até 90 dias</li>
+                    <li>Dados de dispositivos podem ser anonimizados ou excluídos</li>
+                </ul>
 
-        <h2>11. Aceite</h2>
-        <p>Ao criar sua conta, você declara que:</p>
-        <ul>
-            <li>Li e aceito os Termos de Uso e Política de Privacidade</li>
-            <li>Autorizo o tratamento dos dados conforme descrito</li>
-        </ul>
+                <h2>9. Responsabilidades do Usuário</h2>
+                <ul>
+                    <li>Fornecer informações verdadeiras</li>
+                    <li>Não compartilhar senha</li>
+                    <li>Uso lícito do sistema</li>
+                    <li>Não explorar vulnerabilidades</li>
+                    <li>Enviar certificado de calibração (quando aplicável)</li>
+                </ul>
+
+                <h2>10. Alterações deste Termo</h2>
+                <p>Você será notificado em caso de mudanças relevantes.</p>
+
+                <h2>11. Aceite</h2>
+                <ul>
+                    <li>Li e aceito os Termos de Uso e Política de Privacidade</li>
+                    <li>Autorizo o tratamento dos dados conforme descrito</li>
+                </ul>
+
+            </div>
+        </div>
+
     </div>
-</body>
 
 <script>
-    // Função para alternar o tema e salvar no sessionStorage
     function toggleTheme() {
         const html = document.documentElement;
-        const currentTheme = html.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
+        const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         html.setAttribute('data-theme', newTheme);
         sessionStorage.setItem('theme', newTheme);
         updateThemeIcon(newTheme);
     }
 
-    // Função para atualizar o ícone do botão com base no tema
     function updateThemeIcon(theme) {
-        const button = document.getElementById('toggleThemeLogin');
-        if (button) {
-            const icon = button.querySelector('i');
-            if (theme === 'dark') {
-                icon.className = 'fa-solid fa-sun'; // Sol para trocar para o modo claro
-            } else {
-                icon.className = 'fa-solid fa-moon'; // Lua para trocar para o modo escuro
-            }
-        }
+        const icon = document.querySelector('#toggleThemeLogin i');
+        icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
     }
 
-    // 1. Ouve o clique do botão
     document.getElementById('toggleThemeLogin').addEventListener('click', toggleTheme);
-
-    // 2. Garante que o ícone inicial seja o correto ao carregar a página
-    const initialTheme = document.documentElement.getAttribute('data-theme') || 'light';
-    updateThemeIcon(initialTheme);
+    updateThemeIcon(document.documentElement.getAttribute('data-theme'));
 </script>
 
+</body>
 </html>

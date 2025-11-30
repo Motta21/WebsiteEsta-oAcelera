@@ -54,3 +54,77 @@
             font-size: 14px;
             opacity: 0.8;
         }
+
+        .termo-card {
+    width: 100%;
+    max-width: 900px;
+    padding: 40px 45px;
+    border-radius: var(--radius);
+    background: var(--card);
+    backdrop-filter: var(--glass);
+    border: 1px solid rgba(255,255,255,.08);
+    box-shadow: var(--shadow);
+    color: var(--text);
+    overflow-y: auto;
+}
+
+.termo-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.termo-title i {
+    margin-right: 8px;
+}
+
+.termo-updated {
+    margin-bottom: 25px;
+    color: var(--muted);
+    text-align: center; 
+}
+
+.termo-content {
+    text-align: left;
+}
+
+.termo-content h2 {
+    margin-top: 32px;
+    margin-bottom: 12px;
+    color: var(--primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.termo-content h3 {
+    margin-top: 22px;
+    margin-bottom: 10px;
+    color: var(--primary); 
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.termo-content p,
+.termo-content li {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.termo-content ul {
+    padding-left: 22px;
+}
+
+@media (max-width: 600px) {
+    .termo-card {
+        padding: 28px 22px;
+    }
+
+    .termo-title {
+        font-size: 1.6rem;
+    }
+
+    .termo-content h2 {
+        font-size: 1.3rem;
+    }
+}

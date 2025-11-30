@@ -105,24 +105,32 @@ try {
         <h2><i class="fa-solid fa-clock"></i> Histórico de Leituras</h2>
     </div>
 
-    <form method="GET" class="filtro-box">
+    <form method="GET" class="filter-bar">
 
-        <div>
-            <label>Data inicial:</label>
-            <input type="date" name="data_inicio" value="<?= htmlspecialchars($data_inicio) ?>">
+    <div class="filter-group">
+
+        <div class="filter-item">
+            <i class="fa-regular fa-calendar"></i>
+            <input type="date" name="data_inicio" class="input-date" value="<?= htmlspecialchars($data_inicio) ?>">
         </div>
 
-        <div>
-            <label>Data final:</label>
-            <input type="date" name="data_fim" value="<?= htmlspecialchars($data_fim) ?>">
+        <div class="filter-item">
+            <i class="fa-regular fa-calendar"></i>
+            <input type="date" name="data_fim" class="input-date" value="<?= htmlspecialchars($data_fim) ?>">
         </div>
 
-        <button type="submit" class="btn">Filtrar</button>
-        <a href="php/download.php?data_inicio=<?= urlencode($data_inicio) ?>&data_fim=<?= urlencode($data_fim) ?>" class="btn btn-secondary">
-            <i class="fa-solid fa-download"></i> Download CSV
+        <button type="submit" class="btn-filter">
+            <i class="fa-solid fa-filter"></i> Filtrar
+        </button>
+
+        <a href="php/download.php?data_inicio=<?= urlencode($data_inicio) ?>&data_fim=<?= urlencode($data_fim) ?>"
+           class="btn-download">
+            <i class="fa-solid fa-download"></i> CSV
         </a>
 
-    </form>
+    </div>
+
+</form>
 
     <div class="table-wrap">
         <table class="table">
