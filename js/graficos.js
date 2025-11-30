@@ -1,99 +1,50 @@
-// graficos.js — versão estável e funcional
+let chartTemp = null;
+let chartUmid = null;
 
-(() => {
-  const API_URL = "php/dados_grafico.php";
+async function carregarDados(periodo) {
+    const resp = await fetch(`dados_grafico.php?periodo=${periodo}`);
+    const dados = await resp.json();
+    return dados;
+}
 
-  const charts = {};
+function criarGrafico(canvasId, chartRef, label, dados) {
 
-  const chartMap = {
-    temperatura: "graficoTemp",
-    umidade: "graficoUmidade",
-    pressao: "graficoPressao",
-    pressao_nm: "graficoPressaoNM",
-    orvalho: "graficoOrvalho"
-  };
-
-  const loader = document.getElementById("loader");
-  const toast = document.getElementById("toast");
-
-  function showLoader() { loader.classList.remove("hidden"); }
-  function hideLoader() { loader.classList.add("hidden"); }
-
-  function showToast(msg, time = 3000) {
-    toast.textContent = msg;
-    toast.classList.add("visible");
-    setTimeout(() => toast.classList.remove("visible"), time);
-  }
-
-  function destroy(chartName) {
-    if (charts[chartName]) {
-      charts[chartName].destroy();
-      delete charts[chartName];
+    // 🟢 Se já existe um gráfico nesse canvas, destrói antes de criar outro
+    if (chartRef !== null) {
+        chartRef.destroy();
     }
-  }
 
-  function createChart(canvasId, label, labels, data) {
-    return new Chart(document.getElementById(canvasId), {
-      type: "line",
-      data: {
-        labels,
-        datasets: [{
-          label,
-          data,
-          borderWidth: 2,
-          pointRadius: 2,
-          tension: 0.3,
-          fill: false
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        interaction: { mode: "index", intersect: false }
-      }
+    const ctx = document.getElementById(canvasId).getContext("2d");
+
+    const novoGrafico = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: dados.labels,
+            datasets: [{
+                label: label,
+                data: dados.valores,
+                borderWidth: 2,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
     });
-  }
 
-  async function atualizarGraficos() {
-    showLoader();
+    return novoGrafico;
+}
+
+async function atualizarGraficos() {
     const periodo = document.getElementById("periodo").value;
 
-    try {
-      const resp = await fetch(`${API_URL}?periodo=${periodo}`);
-      const json = await resp.json();
+    const dadosTemp = await carregarDados(periodo);
+    const dadosUmid = await carregarDados(periodo);
 
-      if (!json || !json.labels) {
-        showToast("Dados inválidos.");
-        hideLoader();
-        return;
-      }
+    chartTemp = criarGrafico("graficoTemp", chartTemp, "Temperatura (°C)", dadosTemp);
+    chartUmid = criarGrafico("graficoUmid", chartUmid, "Umidade (%)", dadosUmid);
+}
 
-      const labels = json.labels;
-
-      destroy("temperatura");
-      destroy("umidade");
-      destroy("pressao");
-      destroy("pressao_nm");
-      destroy("orvalho");
-
-      charts.temperatura = createChart(chartMap.temperatura, "Temperatura (°C)", labels, json.temperatura);
-      charts.umidade = createChart(chartMap.umidade, "Umidade (%)", labels, json.umidade);
-      charts.pressao = createChart(chartMap.pressao, "Pressão (hPa)", labels, json.pressao);
-      charts.pressao_nm = createChart(chartMap.pressao_nm, "Pressão Nível do Mar (hPa)", labels, json.pressao_nm);
-      charts.orvalho = createChart(chartMap.orvalho, "Ponto de Orvalho (°C)", labels, json.orvalho);
-
-      showToast("Gráficos atualizados!");
-    } catch (e) {
-      showToast("Erro ao carregar dados.");
-      console.error(e);
-    }
-
-    hideLoader();
-  }
-
-  document.getElementById("periodo").addEventListener("change", atualizarGraficos);
-  document.getElementById("btnRefresh").addEventListener("click", atualizarGraficos);
-
-  window.addEventListener("load", atualizarGraficos);
-})();
+// Atualiza ao carregar a página
+window.onload = atualizarGraficos;
