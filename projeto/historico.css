@@ -52,12 +52,7 @@
     justify-content: center;
 }
 
-.filter-bar {
-    flex-direction: column;
-    align-items: stretch;
-    margin-bottom: 14px;
-    padding: 0 4px;
-}
+
 
 .filter-group {
     display: flex;
@@ -70,12 +65,7 @@
     align-items: center;
 }
 
-.filter-group {
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px 8px;
-    align-items: stretch;
-}
+
 
 .filter-item {
     display: flex;
@@ -186,6 +176,24 @@
   .sidebar.collapsed {
     backdrop-filter: none;
   }
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 14px;
+    padding: 0 4px;
+}
+.filter-group {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 8px;
+    align-items: stretch;
+}
+ .filter-item {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+
 }
 @media (max-width: 380px) {
   
