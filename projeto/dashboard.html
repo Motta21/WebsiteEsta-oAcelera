@@ -113,7 +113,7 @@
     }).addTo(map);
     L.marker([lat, lng])
         .addTo(map)
-        .bindPopup("Central Coleta de Dados 1")
+        .bindPopup("Central Coleta de Dados")
         .openPopup();
 </script>
 
@@ -166,7 +166,7 @@ async function carregarUltimosDados() {
 
         // Valores formatados
         const temp = formatNumero(d.Temperatura);
-        const umid = Number(d.Umidade);
+        const umid = parseInt(d.Umidade);
         const press = formatNumero(d.Pressao);
         const pressNM = formatNumero(d.Pressao_nivel_mar);
         const orvalho = formatNumero(d.PTO_Orvalho);
