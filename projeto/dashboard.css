@@ -3,7 +3,8 @@
 .section { margin: 24px 0; }
 
 .cards {
-  display: grid; gap: 16px;
+  display: grid;
+  gap: 16px;
   grid-template-columns: repeat(4, minmax(220px, 1fr));
 }
 .card {
@@ -25,3 +26,112 @@
 .status-ok { color: var(--accent); }
 .status-warn { color: var(--warning); }
 .status-bad { color: var(--danger); }
+
+/* =========================
+   RESPONSIVO DASHBOARD
+========================= */
+
+/* Tablets: 2 cards por linha */
+@media (max-width: 1024px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+  }
+}
+
+/* Celulares: 1 card por linha */
+@media (max-width: 600px) {
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .card {
+    padding: 14px;
+  }
+  .section {
+    margin: 16px 0;
+  }
+  .metric .metric-value {
+    font-size: 24px;
+  }
+}
+
+/* Ajuste para botões e relógio na topbar em telas pequenas */
+@media (max-width: 600px) {
+  .topbar {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+  .topbar-left {
+    text-align: center;
+  }
+  .topbar-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .topbar-right .clock {
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    order: 2;
+  }
+  .topbar-right .btn-icon {
+    order: 1;
+  }
+}
+
+/* Telas muito pequenas: cards e topbar ainda mais compactos */
+@media (max-width: 380px) {
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .card {
+    padding: 10px;
+  }
+  .topbar {
+    gap: 10px;
+  }
+  .topbar-right {
+    gap: 8px;
+  }
+  .metric .metric-value {
+    font-size: 18px;
+  }
+}
+
+/* Sidebar responsiva */
+@media (max-width: 600px) {
+  .sidebar {
+    top: 0;
+    position: fixed;
+    width: 100%;
+    background-color: var(--background-color);
+    z-index: 1000;
+    transition: left 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+  }
+
+  .sidebar.collapsed {
+    backdrop-filter: none;
+  }
+}
+
+/* Sidebar ainda mais compacta para telas muito pequenas */
+@media (max-width: 380px) {
+  .sidebar .nav-link {
+    font-size: 1em;
+    padding: 10px 0;
+  }
+  .sidebar-footer {
+    font-size: 0.9em;
+    margin-top: 10px;
+  }
+}

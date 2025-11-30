@@ -127,3 +127,74 @@
 .dev-card.show {
   animation: fadeUp 0.8s ease forwards;
 }
+/* REDIMENSIONAMENTO RESPONSIVO */
+@media (max-width: 600px) {
+  .topbar {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+  .topbar-left {
+    text-align: center;
+  }
+  .topbar-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .topbar-right .clock {
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    order: 2;
+  }
+  .topbar-right .btn-icon {
+    order: 1;
+  }
+  .sidebar {
+    top: 0;
+    position: fixed;
+    width: 100%;
+    background-color: var(--background-color);
+    z-index: 1000;
+    transition: left 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+  }
+
+  .sidebar.collapsed {
+    backdrop-filter: none;
+  }
+}
+@media (max-width: 380px) {
+  
+  .topbar {
+    gap: 10px;
+  }
+  .topbar-right {
+    gap: 8px;
+  }
+  .metric .metric-value {
+    font-size: 18px;
+  }
+  .sidebar .nav-link {
+    font-size: 1em;
+    padding: 10px 0;
+  }
+  .sidebar-footer {
+    font-size: 0.9em;
+    margin-top: 10px;
+  }
+}
+@media (max-width: 476px) {
+  .topbar {
+    padding-left: 48px; /* Espaço para o botão do menu */
+    position: relative;
+  }
+  
+}

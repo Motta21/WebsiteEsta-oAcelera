@@ -384,6 +384,7 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
     text-align: center;
   }
 
+
   .sidebar {
     top: 0;
     position: fixed;
@@ -457,9 +458,6 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
     transition: background-color 0.3s;
   }
 
-
-
- 
   .topbar-right {
     flex-direction: row; /* Coloca os botões lado a lado */
     flex-wrap: wrap; /* Permite que os itens quebrem linha, se necessário */
