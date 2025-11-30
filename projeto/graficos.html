@@ -77,9 +77,28 @@
         </div>
       </div>
 
-      <canvas id="grafico-diario"></canvas>
-      <canvas id="grafico-semanal"></canvas>
-      <canvas id="grafico-quinzenal"></canvas>
+      <div class="grid-charts">
+        <div class="card chart-card">
+          <div class="chart-title"><i class="fa-solid fa-temperature-half"></i> Temperatura (°C)</div>
+          <div class="chart-wrap"><canvas id="graficoTemp"></canvas></div>
+        </div>
+        <div class="card chart-card">
+          <div class="chart-title"><i class="fa-solid fa-droplet"></i> Umidade (%)</div>
+          <div class="chart-wrap"><canvas id="graficoUmidade"></canvas></div>
+        </div>
+        <div class="card chart-card">
+          <div class="chart-title"><i class="fa-solid fa-gauge"></i> Pressão (hPa)</div>
+          <div class="chart-wrap"><canvas id="graficoPressao"></canvas></div>
+        </div>
+        <div class="card chart-card">
+          <div class="chart-title"><i class="fa-solid fa-water"></i> Pressão Nível do Mar (hPa)</div>
+          <div class="chart-wrap"><canvas id="graficoPressaoNM"></canvas></div>
+        </div>
+        <div class="card chart-card">
+          <div class="chart-title"><i class="fa-solid fa-snowflake"></i> Ponto de Orvalho (°C)</div>
+          <div class="chart-wrap"><canvas id="graficoOrvalho"></canvas></div>
+        </div>
+      </div>
     </section>
     
 
