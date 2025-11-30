@@ -130,7 +130,7 @@ async function carregarUltimosDados() {
 
     try {
         const resposta = await fetch(`php/dados_atualizados.php?cod_e=${codE}`);
-        const dados = await resposta.json();
+        const json = await resposta.json();
 
         if (!dados || Object.keys(dados).length === 0) {
             mostrarErro("Nenhum dado encontrado.");
@@ -138,11 +138,12 @@ async function carregarUltimosDados() {
         }
 
         // Atualiza os campos da dashboard
-        document.getElementById("temp-atual").textContent = `${dados.Temperatura} °C`;
-        document.getElementById("umid-atual").textContent = `${dados.Umidade} %`;
-        document.getElementById("pressao-atual").textContent = `${dados.Pressao} hPa`;
-        document.getElementById("pressao-nm-atual").textContent = `${dados.Pressao_nivel_mar} hPa`;
-        document.getElementById("orvalho-atual").textContent = `${dados.PTO_Orvalho} °C`;
+        document.getElementById("tempValor").textContent = `${d.Temperatura} °C`;
+        document.getElementById("umidadeValor").textContent = `${d.Umidade} %`;
+        document.getElementById("pressaoValor").textContent = `${d.Pressao} hPa`;
+        document.getElementById("pressaoNMValor").textContent = `${d.Pressao_nivel_mar} hPa`;
+        document.getElementById("orvalhoValor").textContent = `${d.PTO_Orvalho} °C`;
+
 
     } catch (e) {
         mostrarErro("Erro ao carregar dados.");
