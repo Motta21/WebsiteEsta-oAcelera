@@ -5,17 +5,10 @@ require_once "db_conection.php";
 $periodo = $_GET["periodo"] ?? "diario";
 
 switch ($periodo) {
-    case "diario":
-        $intervalo = "1 DAY";
-        break;
-    case "semanal":
-        $intervalo = "7 DAY";
-        break;
-    case "quinzenal":
-        $intervalo = "15 DAY";
-        break;
-    default:
-        $intervalo = "1 DAY";
+    case "diario":      $intervalo = "1 DAY"; break;
+    case "semanal":     $intervalo = "7 DAY"; break;
+    case "quinzenal":   $intervalo = "15 DAY"; break;
+    default:            $intervalo = "1 DAY";
 }
 
 $sql = "
@@ -34,27 +27,9 @@ $sql = "
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 
-$labels = [];
-$temperatura = [];
-$umidade = [];
-$pressao = [];
-$pressao_nm = [];
-$orvalho = [];
-
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $labels[] = $row["DataHora"];
-    $temperatura[] = floatval($row["Temperatura"]);
-    $umidade[] = floatval($row["Umidade"]);
-    $pressao[] = floatval($row["Pressao"]);
-    $pressao_nm[] = floatval($row["Pressao_nivel_mar"]);
-    $orvalho[] = floatval($row["PTO_Orvalho"]);
-}
+$dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 echo json_encode([
-    "labels" => $labels,
-    "temperatura" => $temperatura,
-    "umidade" => $umidade,
-    "pressao" => $pressao,
-    "pressao_nm" => $pressao_nm,
-    "orvalho" => $orvalho
+    "sucesso" => true,
+    "dados" => $dados
 ]);

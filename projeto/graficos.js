@@ -1,11 +1,11 @@
 let chartsGraphs = {};
 
 const cores = {
-    temperatura: "rgba(255, 99, 132, 1)",     // vermelho
-    umidade: "rgba(54, 162, 235, 1)",         // azul
-    pressao: "rgba(255, 206, 86, 1)",         // amarelo
-    pressaoNM: "rgba(153, 102, 255, 1)",      // roxo
-    orvalho: "rgba(75, 192, 192, 1)"          // verde água
+    temperatura: "rgba(255, 99, 132, 1)",     
+    umidade: "rgba(54, 162, 235, 1)",         
+    pressao: "rgba(255, 206, 86, 1)",         
+    pressaoNM: "rgba(153, 102, 255, 1)",      
+    orvalho: "rgba(75, 192, 192, 1)"          
 };
 
 
@@ -53,7 +53,6 @@ function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
 
     const ctx = document.getElementById(idCanvas).getContext("2d");
 
-    // ATENÇÃO: agora usa chartsGraphs
     if (chartsGraphs[idCanvas]) {
         chartsGraphs[idCanvas].data.labels = labels;
         chartsGraphs[idCanvas].data.datasets[0].data = valores;
@@ -94,19 +93,14 @@ function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
 }
 
 
-// Botões e seleção de período
 document.getElementById("btnRefresh").addEventListener("click", () => {
-    const periodo = document.getElementById("periodo").value;
-    carregarDados(periodo);
+    carregarDados(document.getElementById("periodo").value);
 });
 
 document.getElementById("periodo").addEventListener("change", () => {
-    const periodo = document.getElementById("periodo").value;
-    carregarDados(periodo);
+    carregarDados(document.getElementById("periodo").value);
 });
 
-
-// Toast
 function mostrarToast(msg) {
     const toast = document.getElementById("toast");
     toast.textContent = msg;
@@ -114,6 +108,4 @@ function mostrarToast(msg) {
     setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
-
-// Carregar padrão
 window.onload = () => carregarDados("diario");
