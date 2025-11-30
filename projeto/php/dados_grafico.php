@@ -4,6 +4,11 @@ require_once "db_conection.php";
 
 $periodo = $_GET["periodo"] ?? "diario";
 
+// --- ADICIONE ESTE BLOCO ---
+// Se o front-end mandou o ID, usa ele. Se não, assume Estação 1.
+$cod_e = isset($_GET['cod_e']) ? (int)$_GET['cod_e'] : 1;
+// --------------------------
+
 switch ($periodo) {
     case "diario":      $intervalo = "1 DAY"; break;
     case "semanal":     $intervalo = "7 DAY"; break;
@@ -26,7 +31,7 @@ $sql = "
 ";
 
 $stmt = $pdo->prepare($sql);
-$stmt->bindParam(":cod_e", $cod_e, PDO::PARAM_INT);
+$stmt->bindParam(":cod_e", $cod_e, PDO::PARAM_INT); // Agora $cod_e existe!
 $stmt->execute();
 
 $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -35,3 +40,4 @@ echo json_encode([
     "sucesso" => true,
     "dados" => $dados
 ]);
+?>

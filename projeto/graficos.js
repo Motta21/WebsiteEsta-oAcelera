@@ -8,14 +8,14 @@ const cores = {
     orvalho: "rgba(75, 192, 192, 1)"          
 };
 
-
 async function carregarDados(periodo) {
     try {
-        document.getElementById("estacao").addEventListener("change", () => {
-                const periodo = document.getElementById("periodo").value;
-                carregarDados(periodo);
-        });
-        const estacao = document.getElementById("estacao").value;
+        // Pega o valor da estação selecionada no HTML
+        const estacaoElement = document.getElementById("estacao");
+        // Se não tiver select de estação na tela, assume 1 para não travar
+        const estacao = estacaoElement ? estacaoElement.value : 1; 
+
+        // Faz o pedido para o PHP enviando PERIODO e COD_E
         const resposta = await fetch(`php/dados_grafico.php?periodo=${periodo}&cod_e=${estacao}`);  
         const json = await resposta.json();
 
@@ -27,14 +27,21 @@ async function carregarDados(periodo) {
         atualizarGraficos(json.dados);
 
     } catch (erro) {
+        console.error(erro); // Ajuda a ver o erro no F12
         mostrarToast("Falha ao buscar dados!");
     } finally {
-        document.getElementById("loader").classList.add("hidden");
+        // Esconde o loader se ele existir
+        const loader = document.getElementById("loader");
+        if(loader) loader.classList.add("hidden");
     }
 }
 
-
 function atualizarGraficos(dados) {
+    // Se não vier dados (array vazio), limpa os gráficos ou avisa
+    if (dados.length === 0) {
+        mostrarToast("Sem dados para este período/estação.");
+        return;
+    }
 
     const labels = dados.map(d => d.DataHora);
 
@@ -51,10 +58,11 @@ function atualizarGraficos(dados) {
     criarOuAtualizar("graficoOrvalho", labels, orvalho, "Ponto de Orvalho (°C)", cores.orvalho);
 }
 
-
 function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
+    const canvas = document.getElementById(idCanvas);
+    if (!canvas) return; // Proteção caso o canvas não exista
 
-    const ctx = document.getElementById(idCanvas).getContext("2d");
+    const ctx = canvas.getContext("2d");
 
     if (chartsGraphs[idCanvas]) {
         chartsGraphs[idCanvas].data.labels = labels;
@@ -95,20 +103,41 @@ function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
     });
 }
 
+// === EVENT LISTENERS (Aqui embaixo é o lugar certo) ===
 
-document.getElementById("btnRefresh").addEventListener("click", () => {
-    carregarDados(document.getElementById("periodo").value);
-});
+// Botão de atualizar manual
+const btnRefresh = document.getElementById("btnRefresh");
+if(btnRefresh) {
+    btnRefresh.addEventListener("click", () => {
+        carregarDados(document.getElementById("periodo").value);
+    });
+}
 
-document.getElementById("periodo").addEventListener("change", () => {
-    carregarDados(document.getElementById("periodo").value);
-});
+// Quando muda o período (Diário, Semanal...)
+const selectPeriodo = document.getElementById("periodo");
+if(selectPeriodo) {
+    selectPeriodo.addEventListener("change", () => {
+        carregarDados(selectPeriodo.value);
+    });
+}
+
+// === NOVO: Quando muda a Estação ===
+const selectEstacao = document.getElementById("estacao");
+if(selectEstacao) {
+    selectEstacao.addEventListener("change", () => {
+        // Recarrega os dados mantendo o período que já estava escolhido
+        carregarDados(document.getElementById("periodo").value);
+    });
+}
 
 function mostrarToast(msg) {
     const toast = document.getElementById("toast");
+    if(!toast) return;
+    
     toast.textContent = msg;
     toast.classList.add("show");
     setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
+// Iniciar
 window.onload = () => carregarDados("diario");
