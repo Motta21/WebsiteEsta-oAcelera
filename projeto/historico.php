@@ -92,8 +92,7 @@ try {
 
 <header class="topbar">
     <div class="topbar-left">
-        <h1>Central de Coleta de Dados Ambientais</h1>
-        <p class="subtitle">Histórico de leituras meteorológicas</p>
+        
     </div>
 
     <div class="topbar-right">
@@ -104,7 +103,8 @@ try {
         <div class="clock" id="hora">--:--:--</div>
     </div>
 </header>
-
+<h1>Central de Coleta de Dados Ambientais</h1>
+        <p class="subtitle">Histórico de leituras meteorológicas</p>
 <section id="historico" class="section">
 
     <div class="section-head">
