@@ -313,8 +313,9 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
    RESPONSIVO MOBILE
 ========================= */
 @media (max-width: 600px) {
+  /* Ajustes gerais para dispositivos móveis */
   .landing-page-wrapper {
-    padding: 0 4px;
+    padding: 0 8px;
     min-height: 100vh;
   }
 
@@ -332,28 +333,33 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
 
   .title-welcome {
     font-size: 2.1em;
-    margin-bottom: 2px;
+    margin-bottom: 8px;
+    text-align: center;
   }
 
   .app-name {
     font-size: 2em;
     margin-bottom: 10px;
+    text-align: center;
   }
 
   .subtitle-description {
     font-size: 1rem;
     margin-bottom: 18px;
+    text-align: center;
   }
 
   .center-icons {
     gap: 10px;
     margin-bottom: 18px;
     font-size: 1.2em;
+    justify-content: center;
   }
 
   .scroll-prompt {
     font-size: 0.85rem;
     margin-top: 18px;
+    text-align: center;
   }
 
   .background-weather-icons .floating-icon {
@@ -362,23 +368,20 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
 
   .content {
     width: 100%;
-
     max-width: 100%;
     margin-left: 0 !important;
     box-sizing: border-box;
     overflow-x: hidden;
-    
   }
- 
+
   .carousel-container {
     max-width: 90%;
-    
+    margin: 0 auto;
   }
-  .tooltip .tooltip{
-    font-size: 0.4em;
-  }
-.carousel-container h1 {
+
+  .carousel-container h1 {
     font-size: 0.9em;
+    text-align: center;
   }
 
   .sidebar {
@@ -391,12 +394,75 @@ html[data-theme="light"] .carousel-controls .btn-icon:hover {
     display: flex;
     flex-direction: column;
     padding-top: 20px;
-    
-    
   }
-  
+
   .sidebar.collapsed {
-      backdrop-filter: none;
+    backdrop-filter: none;
   }
-  
+}
+
+/* =========================
+   RESPONSIVO PARA TELAS MENORES QUE 380px
+========================= */
+@media (max-width: 380px) {
+  /* Ajuste para os botões e texto */
+  .content-box {
+    display: flex;
+    flex-direction: column; /* Coloca o texto abaixo dos botões */
+    align-items: center; /* Centraliza os itens horizontalmente */
+    text-align: center; /* Centraliza o texto */
+  }
+
+  .content-box .buttons-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os botões quebrem linha, se necessário */
+    justify-content: center; /* Centraliza os botões horizontalmente */
+    gap: 8px; /* Espaçamento entre os botões */
+    margin-bottom: 10px; /* Espaçamento entre os botões e o texto */
+  }
+
+  .content-box button {
+     /* Reduz o tamanho da fonte */
+    background-color: var(--highlight-blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+  }
+
+  .content-box button:hover {
+    background-color: var(--primary-dark, #008c9e);
+  }
+
+  .content-box p {
+    font-size: 0.85rem; /* Reduz o tamanho do texto */
+    line-height: 1.4; /* Ajusta o espaçamento entre linhas */
+    margin-top: 10px; /* Espaçamento entre o texto e os botões */
+  }
+
+  .topbar-right {
+    display: flex;
+    flex-direction: column; /* Empilha os itens inicialmente */
+    align-items: center; /* Centraliza os itens horizontalmente */
+    gap: 50px; /* Espaçamento entre os itens */
+  }
+
+  .topbar-right .btn-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+
+
+ 
+  .topbar-right {
+    flex-direction: row; /* Coloca os botões lado a lado */
+    flex-wrap: wrap; /* Permite que os itens quebrem linha, se necessário */
+    justify-content: center; /* Centraliza os botões horizontalmente */
+  }
 }
