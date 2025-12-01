@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: projeto/script.js/
+Disallow: projeto/grafico.js/
