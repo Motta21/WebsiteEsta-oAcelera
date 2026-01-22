@@ -76,30 +76,38 @@ function atualizarGraficos(dados) {
 
 function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
     const canvas = document.getElementById(idCanvas);
-    if (!canvas) return; // Proteção caso o canvas não exista
+    if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
 
+    // 1. Lógica para detectar se 'valores' é um array simples ou múltiplos datasets
+    const ehMultiplo = Array.isArray(valores) && typeof valores[0] === 'object';
+    
+    // Prepara os datasets
+    const datasetsConfig = ehMultiplo ? valores : [{
+        label: titulo,
+        data: valores,
+        borderColor: cor,
+        backgroundColor: cor ? cor.replace("1)", "0.2)") : "transparent",
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.35
+    }];
+
+    // 2. Se o gráfico já existe, atualiza os dados
     if (chartsGraphs[idCanvas]) {
         chartsGraphs[idCanvas].data.labels = labels;
-        chartsGraphs[idCanvas].data.datasets[0].data = valores;
+        chartsGraphs[idCanvas].data.datasets = datasetsConfig; // Atualiza o array inteiro
         chartsGraphs[idCanvas].update();
         return;
     }
 
+    // 3. Se não existe, cria um novo
     chartsGraphs[idCanvas] = new Chart(ctx, {
         type: "line",
         data: {
             labels: labels,
-            datasets: [{
-                label: titulo,
-                data: valores,
-                borderColor: cor,
-                backgroundColor: cor.replace("1)", "0.2)"),
-                borderWidth: 2,
-                pointRadius: 0,
-                tension: 0.35
-            }]
+            datasets: datasetsConfig // Usa a configuração preparada acima
         },
         options: {
             responsive: true,
