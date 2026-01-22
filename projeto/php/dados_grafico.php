@@ -23,7 +23,9 @@ $sql = "
         Umidade,
         Pressao,
         Pressao_nivel_mar,
-        PTO_Orvalho
+        PTO_Orvalho,
+        Chuva,
+        NV_Bat
     FROM view_estacao
     WHERE Cod_E = :cod_e
       AND DataHora >= (NOW() - INTERVAL $intervalo)

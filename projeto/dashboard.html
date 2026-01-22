@@ -97,6 +97,11 @@
           <div class="metric-value" id="orvalho-atual">-- °C</div>
           <div class="metric-foot"><span id="orvalho-status">—</span></div>
         </div>
+        <div class="card metric" id="card-bateria">
+          <div class="metric-head"><i class="fa-solid fa-bolt"></i><span>Bateria</span></div>
+          <div class="metric-value" id="bateriaValor">-- V</div>
+          <div class="metric-foot"><span id="bateriaValor">—</span></div>
+        </div>
       </div>
     </section>
     <div id="map" style="height: 400px; width: 100%;">
@@ -171,6 +176,7 @@ async function carregarUltimosDados() {
         const press = parseInt(d.Pressao);
         const pressNM = parseInt(d.Pressao_nivel_mar);
         const orvalho = formatNumero(d.PTO_Orvalho);
+        const bateria = formatNumero(d.NV_Bat);
 
         // Preenche valores
         document.getElementById("tempValor").textContent = `${temp} °C`;
@@ -178,6 +184,8 @@ async function carregarUltimosDados() {
         document.getElementById("pressaoValor").textContent = `${press} hPa`;
         document.getElementById("pressaoNMValor").textContent = `${pressNM} hPa`;
         document.getElementById("orvalho-atual").textContent = `${orvalho} °C`;
+        document.getElementById("bateriaValor").textContent = `${bateria} V`;
+
 
         const alertaTemp = gerarAlertaTemperatura(Number(d.Temperatura));
         const alertaUmid = gerarAlertaUmidade(umid);
@@ -191,6 +199,9 @@ async function carregarUltimosDados() {
 
         document.getElementById("alerta-pressao").textContent = alertaPress.msg;
         document.getElementById("alerta-pressao").style.color = alertaPress.cor;
+
+       document.getElementById("alerta-bateria").textContent = alertaPress.msg;
+       document.getElementById("alerta-bateria").style.color = alertaPress.cor;
 
     } catch (e) {
         mostrarErro("Erro ao carregar dados");
