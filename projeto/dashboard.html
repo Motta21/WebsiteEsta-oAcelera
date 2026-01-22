@@ -197,7 +197,7 @@ async function carregarUltimosDados() {
         const alertaTemp = gerarAlertaTemperatura(Number(d.Temperatura));
         const alertaUmid = gerarAlertaUmidade(umid);
         const alertaPress = gerarAlertaPressao(Number(d.Pressao));
-        const alertaBat = gerarAlertaPressao(Number(d.bateria));
+        const alertaBat = gerarAlertaBateria(Number(d.bateria));
 
         document.getElementById("alerta-temp").textContent = alertaTemp.msg;
         document.getElementById("alerta-temp").style.color = alertaTemp.cor;
