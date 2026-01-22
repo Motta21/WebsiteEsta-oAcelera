@@ -111,7 +111,7 @@ if (idCanvas === "graficoTemUmiPto") {
             position: 'right',
             title: { display: true, text: '% Umidade' },
             min: 0, 
-            max: 110, 
+            max: 100, 
             grid: { drawOnChartArea: false }
         }
     };
