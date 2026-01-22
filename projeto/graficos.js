@@ -62,7 +62,7 @@ function atualizarGraficos(dados) {
     criarOuAtualizar("graficoTemUmiPto", labels, [
     { label: "Temp", data: temperatura, borderColor: cores.temperatura, borderWidth: 4, yAxisID: 'y1', tension: 0.4 },
     { label: "Umi", data: umidade, borderColor: cores.umidade, yAxisID: 'y1', tension: 0.4 },
-    { label: "Orvalho", data: orvalho, borderColor: cores.orvalho, borderWidth: 2, yAxisID: 'y', borderDash: [5, 5], tension: 0.4 }
+    { label: "Orvalho", data: orvalho, borderColor: cores.orvalho, borderWidth: 2, yAxisID: 'y', tension: 0.4 }
 ], "Clima");
 
 
