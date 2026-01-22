@@ -59,11 +59,17 @@ function atualizarGraficos(dados) {
     criarOuAtualizar("graficoPressaoNM", labels, pressaoNM, "Pressão Nível Mar (hPa)", cores.pressaoNM);
     criarOuAtualizar("graficoOrvalho", labels, orvalho, "Ponto de Orvalho (°C)", cores.orvalho);
     criarOuAtualizar("graficoBat", labels, bat, "Bateria (V)", cores.bat);
-    criarOuAtualizar("graficoTemUmiPto",labels,[
-    {label: "Temperatura (°C)",data: temperatura,borderColor: cores.temperatura,tension: 0.4},
-    {label: "Umidade (%)",data: umidade,borderColor: cores.umidade,tension: 0.4},
-    {label: "Ponto de Orvalho (°C)",data: orvalho,borderColor: cores.orvalho,tension: 0.4}
-  ],"Temperatura | Umidade | Ponto de Orvalho");
+    criarOuAtualizar(
+    "graficoTemUmiPto", 
+    labels, 
+    [
+        { label: "Temperatura (°C)", data: temperatura, borderColor: cores.temperatura, tension: 0.4 },
+        { label: "Umidade (%)", data: umidade, borderColor: cores.umidade, tension: 0.4 },
+        { label: "Ponto de Orvalho (°C)", data: orvalho, borderColor: cores.orvalho, tension: 0.4 }
+    ], 
+    "Clima Geral" 
+);
+
 
 
 }
