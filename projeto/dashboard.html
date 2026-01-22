@@ -156,6 +156,13 @@ function gerarAlertaPressao(pr) {
     return { msg: "Pressão normal", cor: "green" };
 }
 
+function gerarAlertaBateria(bat) {
+    if (bat < 10) return { msg: "Voltagem Baixa", cor: "orange" };
+    if (pr < 8) return { msg: "Voltagem Extremamente Baixa", cor: "red" };
+    if (pr > 13) return { msg: "Voltagem Acima", cor: "red" };
+    return { msg: "Pressão normal", cor: "green" };
+}
+
 async function carregarUltimosDados() {
     const codE = document.getElementById("estacao").value;
 
@@ -190,6 +197,7 @@ async function carregarUltimosDados() {
         const alertaTemp = gerarAlertaTemperatura(Number(d.Temperatura));
         const alertaUmid = gerarAlertaUmidade(umid);
         const alertaPress = gerarAlertaPressao(Number(d.Pressao));
+        const alertaBat = gerarAlertaPressao(Number(d.bateria));
 
         document.getElementById("alerta-temp").textContent = alertaTemp.msg;
         document.getElementById("alerta-temp").style.color = alertaTemp.cor;
@@ -200,8 +208,8 @@ async function carregarUltimosDados() {
         document.getElementById("alerta-pressao").textContent = alertaPress.msg;
         document.getElementById("alerta-pressao").style.color = alertaPress.cor;
 
-       document.getElementById("alerta-bateria").textContent = alertaPress.msg;
-       document.getElementById("alerta-bateria").style.color = alertaPress.cor;
+       document.getElementById("alerta-bateria").textContent = alertaBat.msg;
+       document.getElementById("alerta-bateria").style.color = alertaBat.cor;
 
     } catch (e) {
         mostrarErro("Erro ao carregar dados");
