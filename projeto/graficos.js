@@ -93,26 +93,28 @@ function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
     };
 
     // SE for o gráfico triplo, adicionamos o eixo secundário na direita
-    if (idCanvas === "graficoTemUmiPto") {
-        escalasConfig = {
-            x: { ticks: { maxTicksLimit: 8 } },
-            y: { // Temperatura e Orvalho (Esquerda)
-                type: 'linear',
-                display: true,
-                position: 'left',
-                title: { display: true, text: '°C' },
-                beginAtZero: false 
-            },
-            y1: { // Umidade (Direita)
-                type: 'linear',
-                display: true,
-                position: 'right',
-                title: { display: true, text: '% Umidade' },
-                beginAtZero: false, 
-                grid: { drawOnChartArea: false }
-            }
-        };
-    }
+if (idCanvas === "graficoTemUmiPto") {
+    escalasConfig = {
+        x: { ticks: { maxTicksLimit: 8 } },
+        y: { // Temperatura e Orvalho (Esquerda)
+            type: 'linear',
+            display: true,
+            position: 'left',
+            title: { display: true, text: 'Temp / Orvalho (°C)' },
+            beginAtZero: false,
+            grace: '10%' 
+        },
+        y1: { // Umidade (Direita)
+            type: 'linear',
+            display: true,
+            position: 'right',
+            title: { display: true, text: '% Umidade' },
+            min: 70, // Teste com 70 ou 80 para ver qual fica mais próximo
+            max: 100,
+            grid: { drawOnChartArea: false }
+        }
+    };
+}
 
     if (chartsGraphs[idCanvas]) {
         chartsGraphs[idCanvas].data.labels = labels;
