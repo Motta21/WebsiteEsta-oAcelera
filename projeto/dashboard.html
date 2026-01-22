@@ -157,8 +157,7 @@ function gerarAlertaPressao(pr) {
 }
 
 function gerarAlertaBateria(bat) {
-    if (bat < 10) return { msg: "Voltagem Baixa", cor: "orange" };
-    if (bat < 8) return { msg: "Voltagem Extremamente Baixa", cor: "red" };
+    if (bat < 9) return { msg: "Voltagem Baixa", cor: "red" };
     if (bat > 13) return { msg: "Voltagem Acima", cor: "red" };
     return { msg: "Bateria normal", cor: "green" };
 }
