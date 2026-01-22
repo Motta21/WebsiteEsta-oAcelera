@@ -71,14 +71,16 @@ function atualizarGraficos(dados) {
 
 function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
     const canvas = document.getElementById(idCanvas);
-    if (!canvas) return;
+    if (!canvas) {
+        console.error("Canvas não encontrado: " + idCanvas);
+        return;
+    }
 
     const ctx = canvas.getContext("2d");
 
-    // 1. Lógica para detectar se 'valores' é um array simples ou múltiplos datasets
+    // Verifica se "valores" é um array de objetos (múltiplos datasets)
     const ehMultiplo = Array.isArray(valores) && typeof valores[0] === 'object';
-    
-    // Prepara os datasets
+
     const datasetsConfig = ehMultiplo ? valores : [{
         label: titulo,
         data: valores,
@@ -89,37 +91,27 @@ function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
         tension: 0.35
     }];
 
-    // 2. Se o gráfico já existe, atualiza os dados
     if (chartsGraphs[idCanvas]) {
         chartsGraphs[idCanvas].data.labels = labels;
-        chartsGraphs[idCanvas].data.datasets = datasetsConfig; // Atualiza o array inteiro
+        chartsGraphs[idCanvas].data.datasets = datasetsConfig; // Atualiza todos os datasets de uma vez
         chartsGraphs[idCanvas].update();
-        return;
-    }
-
-    // 3. Se não existe, cria um novo
-    chartsGraphs[idCanvas] = new Chart(ctx, {
-        type: "line",
-        data: {
-            labels: labels,
-            datasets: datasetsConfig // Usa a configuração preparada acima
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: { mode: "index", intersect: false },
-            scales: {
-                x: {
-                    ticks: {
-                        maxRotation: 0,
-                        minRotation: 0,
-                        autoSkip: true,
-                        maxTicksLimit: 8
-                    }
+    } else {
+        chartsGraphs[idCanvas] = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: datasetsConfig
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: "index", intersect: false },
+                scales: {
+                    x: { ticks: { maxTicksLimit: 8 } }
                 }
             }
-        }
-    });
+        });
+    }
 }
 
 // === EVENT LISTENERS (Aqui embaixo é o lugar certo) ===
