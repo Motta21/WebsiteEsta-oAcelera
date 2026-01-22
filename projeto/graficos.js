@@ -101,6 +101,8 @@ if (idCanvas === "graficoTemUmiPto") {
             display: true,
             position: 'left',
             title: { display: true, text: 'Temp / Orvalho (°C)' },
+            min: 0, 
+            max: 50,
             beginAtZero: false,
             grace: '10%' 
         },
