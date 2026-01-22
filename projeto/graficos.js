@@ -61,7 +61,7 @@ function atualizarGraficos(dados) {
     criarOuAtualizar("graficoBat", labels, bat, "Bateria (V)", cores.bat);
     criarOuAtualizar("graficoTemUmiPto", labels, [
     { label: "Temp", data: temperatura, borderColor: cores.temperatura, yAxisID: 'y', tension: 0.4 },
-    { label: "Umi", data: umidade, borderColor: cores.umidade, yAxisID: 'y', tension: 0.4 },
+    { label: "Umi", data: umidade, borderColor: cores.umidade, tension: 0.4 },
     { label: "Orvalho", data: orvalho, borderColor: cores.orvalho, yAxisID: 'y1', tension: 0.4 }
 ], "Clima");
 
