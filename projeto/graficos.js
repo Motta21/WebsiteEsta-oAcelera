@@ -5,7 +5,8 @@ const cores = {
     umidade: "rgba(54, 162, 235, 1)",         
     pressao: "rgba(255, 206, 86, 1)",         
     pressaoNM: "rgba(153, 102, 255, 1)",      
-    orvalho: "rgba(75, 192, 192, 1)"          
+    orvalho: "rgba(75, 192, 192, 1)",
+    bat: "rgb(238, 217, 25)"          
 };
 
 async function carregarDados(periodo) {
@@ -50,12 +51,21 @@ function atualizarGraficos(dados) {
     const pressao = dados.map(d => parseFloat(d.Pressao));
     const pressaoNM = dados.map(d => parseFloat(d.Pressao_nivel_mar));
     const orvalho = dados.map(d => parseFloat(d.PTO_Orvalho));
+    const bat = dados.map(d => parseFloat(d.NV_Bat));
 
     criarOuAtualizar("graficoTemp", labels, temperatura, "Temperatura (°C)", cores.temperatura);
     criarOuAtualizar("graficoUmidade", labels, umidade, "Umidade (%)", cores.umidade);
     criarOuAtualizar("graficoPressao", labels, pressao, "Pressão (hPa)", cores.pressao);
     criarOuAtualizar("graficoPressaoNM", labels, pressaoNM, "Pressão Nível Mar (hPa)", cores.pressaoNM);
     criarOuAtualizar("graficoOrvalho", labels, orvalho, "Ponto de Orvalho (°C)", cores.orvalho);
+    criarOuAtualizar("graficoBat", labels, bat, "Bateria (V)", cores.bat);
+    criarOuAtualizar("graficoTemUmiPto",labels,[
+    {label: "Temperatura (°C)",data: temperatura,borderColor: cores.temperatura,tension: 0.4},
+    {label: "Umidade (%)",data: umidade,borderColor: cores.umidade,tension: 0.4},
+    {label: "Ponto de Orvalho (°C)",data: orvalho,borderColor: cores.orvalho,tension: 0.4}
+  ],"Temperatura | Umidade | Ponto de Orvalho");
+
+
 }
 
 function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
