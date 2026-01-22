@@ -96,20 +96,20 @@ function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
     if (idCanvas === "graficoTemUmiPto") {
         escalasConfig = {
             x: { ticks: { maxTicksLimit: 8 } },
-            y: { // Temperatura e Orvalho
+            y: { // Temperatura e Orvalho (Esquerda)
                 type: 'linear',
                 display: true,
                 position: 'left',
-                title: { display: true, text: '°C', font: { weight: 'bold' } }
+                title: { display: true, text: '°C' },
+                beginAtZero: false 
             },
-            y1: { // Umidade
+            y1: { // Umidade (Direita)
                 type: 'linear',
                 display: true,
                 position: 'right',
-                min: 0,
-                max: 100,
-                title: { display: true, text: '% Umidade', font: { weight: 'bold' } },
-                grid: { drawOnChartArea: false } // Limpa o visual
+                title: { display: true, text: '% Umidade' },
+                beginAtZero: false, 
+                grid: { drawOnChartArea: false }
             }
         };
     }
