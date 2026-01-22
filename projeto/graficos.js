@@ -60,10 +60,10 @@ function atualizarGraficos(dados) {
     criarOuAtualizar("graficoOrvalho", labels, orvalho, "Ponto de Orvalho (°C)", cores.orvalho);
     criarOuAtualizar("graficoBat", labels, bat, "Bateria (V)", cores.bat);
     criarOuAtualizar("graficoTemUmiPto", labels, [
-    { label: "Temp", data: temperatura, borderColor: cores.temperatura, tension: 0.4 },
-    { label: "Umi", data: umidade, borderColor: cores.umidade, tension: 0.4 },
-    { label: "Orvalho", data: orvalho, borderColor: cores.orvalho, tension: 0.4 }
-], "Título Ignorado");
+    { label: "Temp", data: temperatura, borderColor: cores.temperatura, yAxisID: 'y', tension: 0.4 },
+    { label: "Umi", data: umidade, borderColor: cores.umidade, yAxisID: 'y', tension: 0.4 },
+    { label: "Orvalho", data: orvalho, borderColor: cores.orvalho, yAxisID: 'y1', tension: 0.4 }
+], "Clima");
 
 
 
@@ -71,14 +71,9 @@ function atualizarGraficos(dados) {
 
 function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
     const canvas = document.getElementById(idCanvas);
-    if (!canvas) {
-        console.error("Canvas não encontrado: " + idCanvas);
-        return;
-    }
+    if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-
-    // Verifica se "valores" é um array de objetos (múltiplos datasets)
     const ehMultiplo = Array.isArray(valores) && typeof valores[0] === 'object';
 
     const datasetsConfig = ehMultiplo ? valores : [{
@@ -91,9 +86,39 @@ function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
         tension: 0.35
     }];
 
+    // Configuração básica das escalas
+    let escalasConfig = {
+        x: { ticks: { maxTicksLimit: 8 } },
+        y: { beginAtZero: false } // Eixo padrão (Esquerdo)
+    };
+
+    // SE for o gráfico triplo, adicionamos o eixo secundário na direita
+    if (idCanvas === "graficoTemUmiPto") {
+        escalasConfig = {
+            x: { ticks: { maxTicksLimit: 8 } },
+            y: { // Temperatura e Orvalho
+                type: 'linear',
+                display: true,
+                position: 'left',
+                title: { display: true, text: '°C', font: { weight: 'bold' } }
+            },
+            y1: { // Umidade
+                type: 'linear',
+                display: true,
+                position: 'right',
+                min: 0,
+                max: 100,
+                title: { display: true, text: '% Umidade', font: { weight: 'bold' } },
+                grid: { drawOnChartArea: false } // Limpa o visual
+            }
+        };
+    }
+
     if (chartsGraphs[idCanvas]) {
         chartsGraphs[idCanvas].data.labels = labels;
-        chartsGraphs[idCanvas].data.datasets = datasetsConfig; // Atualiza todos os datasets de uma vez
+        chartsGraphs[idCanvas].data.datasets = datasetsConfig;
+        // Importante: Se mudar as escalas, precisamos atualizar as options também
+        chartsGraphs[idCanvas].options.scales = escalasConfig; 
         chartsGraphs[idCanvas].update();
     } else {
         chartsGraphs[idCanvas] = new Chart(ctx, {
@@ -106,9 +131,7 @@ function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
                 responsive: true,
                 maintainAspectRatio: false,
                 interaction: { mode: "index", intersect: false },
-                scales: {
-                    x: { ticks: { maxTicksLimit: 8 } }
-                }
+                scales: escalasConfig // Usa a configuração definida acima
             }
         });
     }
