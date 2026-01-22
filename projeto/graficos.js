@@ -111,7 +111,7 @@ if (idCanvas === "graficoTemUmiPto") {
             display: true,
             position: 'right',
             title: { display: true, text: '% Umidade' },
-            min: 40, // Teste com 70 ou 80 para ver qual fica mais próximo
+            min: 30, // Teste com 70 ou 80 para ver qual fica mais próximo
             max: 100,
             grid: { drawOnChartArea: false }
         }
