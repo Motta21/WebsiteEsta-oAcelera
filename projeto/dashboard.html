@@ -160,7 +160,7 @@ function gerarAlertaBateria(bat) {
     if (bat < 10) return { msg: "Voltagem Baixa", cor: "orange" };
     if (pr < 8) return { msg: "Voltagem Extremamente Baixa", cor: "red" };
     if (pr > 13) return { msg: "Voltagem Acima", cor: "red" };
-    return { msg: "Pressão normal", cor: "green" };
+    return { msg: "Bateria normal", cor: "green" };
 }
 
 async function carregarUltimosDados() {
