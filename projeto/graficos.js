@@ -13,7 +13,6 @@ async function carregarDados(periodo) {
     try {
         // Pega o valor da estação selecionada no HTML
         const estacaoElement = document.getElementById("estacao");
-        // Se não tiver select de estação na tela, assume 1 para não travar
         const estacao = estacaoElement ? estacaoElement.value : 1; 
 
         // Faz o pedido para o PHP enviando PERIODO e COD_E
@@ -28,7 +27,7 @@ async function carregarDados(periodo) {
         atualizarGraficos(json.dados);
 
     } catch (erro) {
-        console.error(erro); // Ajuda a ver o erro no F12
+        console.error(erro);
         mostrarToast("Falha ao buscar dados!");
     } finally {
         // Esconde o loader se ele existir
@@ -38,14 +37,12 @@ async function carregarDados(periodo) {
 }
 
 function atualizarGraficos(dados) {
-    // Se não vier dados (array vazio), limpa os gráficos ou avisa
     if (dados.length === 0) {
         mostrarToast("Sem dados para este período/estação.");
         return;
     }
 
     const labels = dados.map(d => d.DataHora);
-
     const temperatura = dados.map(d => parseFloat(d.Temperatura));
     const umidade = dados.map(d => parseFloat(d.Umidade));
     const pressao = dados.map(d => parseFloat(d.Pressao));
@@ -53,20 +50,34 @@ function atualizarGraficos(dados) {
     const orvalho = dados.map(d => parseFloat(d.PTO_Orvalho));
     const bat = dados.map(d => parseFloat(d.NV_Bat));
 
+    // --- Gráficos de Linha Padrão ---
     criarOuAtualizar("graficoTemp", labels, temperatura, "Temperatura (°C)", cores.temperatura);
     criarOuAtualizar("graficoUmidade", labels, umidade, "Umidade (%)", cores.umidade);
     criarOuAtualizar("graficoPressao", labels, pressao, "Pressão (hPa)", cores.pressao);
     criarOuAtualizar("graficoPressaoNM", labels, pressaoNM, "Pressão Nível Mar (hPa)", cores.pressaoNM);
     criarOuAtualizar("graficoOrvalho", labels, orvalho, "Ponto de Orvalho (°C)", cores.orvalho);
     criarOuAtualizar("graficoBat", labels, bat, "Bateria (V)", cores.bat);
+    
+    // --- Gráfico Triplo (Clima) ---
     criarOuAtualizar("graficoTemUmiPto", labels, [
-    { label: "Temp", data: temperatura, borderColor: cores.temperatura, yAxisID: 'y', tension: 0.4 }, 
-    { label: "Umi", data: umidade, borderColor: cores.umidade, yAxisID: 'y1', tension: 0.4 },      
-    { label: "Orvalho", data: orvalho, borderColor: cores.orvalho, yAxisID: 'y', tension: 0.4 }    
-], "Clima");
+        { label: "Temp", data: temperatura, borderColor: cores.temperatura, yAxisID: 'y', tension: 0.4 }, 
+        { label: "Umi", data: umidade, borderColor: cores.umidade, yAxisID: 'y1', tension: 0.4 },      
+        { label: "Orvalho", data: orvalho, borderColor: cores.orvalho, yAxisID: 'y', tension: 0.4 }    
+    ], "Clima");
 
+    // --- Lógica do Pluviômetro 
+    
+    // Para 6 horas (considerando registros de 10 em 10 min, coloquei -36 mesma coisa no oto)
+    const dados6h = dados.slice(-36); 
+    const chuva6h = processarDadosChuva(dados6h);
+    const labels6h = dados6h.map(d => d.DataHora.split(' ')[1].substring(0, 5));
+    criarOuAtualizarChuva("graficoChuva6h", labels6h, chuva6h.mmPorPeriodo, chuva6h.acumulado, "Últimas 6h");
 
-
+    // Para 24 horas
+    const dados24h = dados.slice(-144);
+    const chuva24h = processarDadosChuva(dados24h);
+    const labels24h = dados24h.map(d => d.DataHora.split(' ')[1].substring(0, 5));
+    criarOuAtualizarChuva("graficoChuva24h", labels24h, chuva24h.mmPorPeriodo, chuva24h.acumulado, "Últimas 24h");
 }
 
 function criarOuAtualizar(idCanvas, labels, valores, titulo, cor) {
@@ -204,20 +215,6 @@ function criarOuAtualizarChuva(idCanvas, labels, mmPeriodo, acumulado, titulo) {
         });
     }
 }
-
-// Para 6 horas 
-const dados6h = dados.slice(-36); 
-const chuva6h = processarDadosChuva(dados6h);
-const labels6h = dados6h.map(d => d.DataHora.split(' ')[1].substring(0, 5)); // Apenas HH:mm
-
-criarOuAtualizarChuva("graficoChuva6h", labels6h, chuva6h.mmPorPeriodo, chuva6h.acumulado, "Últimas 6h");
-
-// Para 24 horas (ex: 144 registros de 10 min)
-const dados24h = dados.slice(-144);
-const chuva24h = processarDadosChuva(dados24h);
-const labels24h = dados24h.map(d => d.DataHora.split(' ')[1].substring(0, 5));
-
-criarOuAtualizarChuva("graficoChuva24h", labels24h, chuva24h.mmPorPeriodo, chuva24h.acumulado, "Últimas 24h");
 
 
 
