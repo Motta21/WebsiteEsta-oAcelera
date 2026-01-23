@@ -131,7 +131,6 @@ if (idCanvas === "graficoTemUmiPto") {
     if (chartsGraphs[idCanvas]) {
         chartsGraphs[idCanvas].data.labels = labels;
         chartsGraphs[idCanvas].data.datasets = datasetsConfig;
-        // Importante: Se mudar as escalas, precisamos atualizar as options também
         chartsGraphs[idCanvas].options.scales = escalasConfig; 
         chartsGraphs[idCanvas].update();
     } else {
@@ -145,7 +144,7 @@ if (idCanvas === "graficoTemUmiPto") {
                 responsive: true,
                 maintainAspectRatio: false,
                 interaction: { mode: "index", intersect: false },
-                scales: escalasConfig // Usa a configuração definida acima
+                scales: escalasConfig 
             }
         });
     }
@@ -182,7 +181,7 @@ function criarOuAtualizarChuva(idCanvas, labels, mmPeriodo, acumulado, titulo) {
             type: 'line',
             label: 'Acumulada (mm)',
             data: acumulado,
-            borderColor: '#8B0000', // Vermelho escuro para acumulado
+            borderColor: '#e60b0b', // Vermelho escuro para acumulado
             borderWidth: 2,
             pointRadius: 3,
             tension: 0.1,
