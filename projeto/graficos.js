@@ -140,6 +140,87 @@ if (idCanvas === "graficoTemUmiPto") {
     }
 }
 
+
+//PLUVIOMETRO (DADOS DA CHUVAAAAAAA :))
+function processarDadosChuva(dados) {
+    let soma = 0;
+    const mmPorPeriodo = dados.map(d => parseFloat(d.Chuva || 0));
+    const acumulado = mmPorPeriodo.map(valor => {
+        soma += valor;
+        return soma.toFixed(2);
+    });
+    return { mmPorPeriodo, acumulado };
+}
+
+function criarOuAtualizarChuva(idCanvas, labels, mmPeriodo, acumulado, titulo) {
+    const canvas = document.getElementById(idCanvas);
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    const datasetsConfig = [
+        {
+            type: 'bar',
+            label: 'Precipitação (mm)',
+            data: mmPeriodo,
+            backgroundColor: '#4682B4', // Azul aço igual ao CEMADEN
+            borderRadius: 3,
+            order: 2
+        },
+        {
+            type: 'line',
+            label: 'Acumulada (mm)',
+            data: acumulado,
+            borderColor: '#8B0000', // Vermelho escuro para acumulado
+            borderWidth: 2,
+            pointRadius: 3,
+            tension: 0.1,
+            fill: false,
+            order: 1
+        }
+    ];
+
+    if (chartsGraphs[idCanvas]) {
+        chartsGraphs[idCanvas].data.labels = labels;
+        chartsGraphs[idCanvas].data.datasets = datasetsConfig;
+        chartsGraphs[idCanvas].update();
+    } else {
+        chartsGraphs[idCanvas] = new Chart(ctx, {
+            data: { labels: labels, datasets: datasetsConfig },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: true,
+                        title: { display: true, text: 'Milímetros (mm)' }
+                    },
+                    x: { ticks: { maxTicksLimit: 12 } }
+                }
+            }
+        });
+    }
+}
+
+// Para 6 horas 
+const dados6h = dados.slice(-36); 
+const chuva6h = processarDadosChuva(dados6h);
+const labels6h = dados6h.map(d => d.DataHora.split(' ')[1].substring(0, 5)); // Apenas HH:mm
+
+criarOuAtualizarChuva("graficoChuva6h", labels6h, chuva6h.mmPorPeriodo, chuva6h.acumulado, "Últimas 6h");
+
+// Para 24 horas (ex: 144 registros de 10 min)
+const dados24h = dados.slice(-144);
+const chuva24h = processarDadosChuva(dados24h);
+const labels24h = dados24h.map(d => d.DataHora.split(' ')[1].substring(0, 5));
+
+criarOuAtualizarChuva("graficoChuva24h", labels24h, chuva24h.mmPorPeriodo, chuva24h.acumulado, "Últimas 24h");
+
+
+
 // === EVENT LISTENERS (Aqui embaixo é o lugar certo) ===
 
 // Botão de atualizar manual
